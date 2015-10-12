@@ -1,1 +1,3 @@
 StrategyGameStratego
+
+Hallo Welt!
