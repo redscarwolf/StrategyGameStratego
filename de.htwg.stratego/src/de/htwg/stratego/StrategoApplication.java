@@ -6,4 +6,9 @@ public class StrategoApplication {
 
 	}
 
+	public static void testing() {
+		System.out.println("Testing...");
+		System.out.println("Test complete.");
+	}
+	
 }
