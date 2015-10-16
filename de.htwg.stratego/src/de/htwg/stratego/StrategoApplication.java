@@ -11,6 +11,7 @@ public class StrategoApplication {
 	}
 
 	public static void testing() {
+		//Test
 		System.out.println("Testing...");
 		System.out.println("Test complete.");
 	}
