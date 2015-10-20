@@ -7,19 +7,28 @@ import de.htwg.stratego.Cell;
 import junit.framework.TestCase;
 
 public class CellTest extends TestCase {
-	
+
 	private Cell cell;
-	
+
 	@BeforeClass
 	public void setUp() {
-		cell =  new Cell(1, 2);
+		cell = new Cell(1, 2);
 	}
 
 	@Test
-	public void testgetX() {
-		assertTrue(cell.getX()== 1);
+	public void testGetX() {
+		assertTrue(cell.getX() == 1);
+	}
+
+	@Test
+	public void testGetY() {
+		assertTrue(cell.getY() == 2);
 	}
 	
-	
+	@Test
+	public void testEquals() {
+		assertTrue(cell.equals(new Cell(1, 2)));
+		assertFalse(cell.equals(new Cell(1, 3)));
+	}
 
 }
