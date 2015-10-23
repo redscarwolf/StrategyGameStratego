@@ -2,8 +2,6 @@ package de.htwg.stratego.model;
 
 import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese weiter
 import org.junit.Test;
-
-import de.htwg.stratego.model.Cell;
 import junit.framework.TestCase;
 
 public class CellTest extends TestCase {
