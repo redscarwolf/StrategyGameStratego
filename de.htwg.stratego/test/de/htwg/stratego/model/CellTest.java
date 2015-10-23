@@ -28,7 +28,13 @@ public class CellTest extends TestCase {
 	@Test
 	public void testEquals() {
 		assertTrue(cell.equals(new Cell(1, 2)));
-		assertFalse(cell.equals(new Cell(1, 3)));
+		
+		//x and y not Equal
+		assertFalse(cell.equals(new Cell(99, 88)));
+		//x not Equal
+		assertFalse(cell.equals(new Cell(99, 2)));
+		//y not Equal
+		assertFalse(cell.equals(new Cell(1, 88)));
 	}
 
 }
