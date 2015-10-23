@@ -28,9 +28,7 @@ public class FieldTest extends TestCase {
 	
 	@Test
 	public void testGetCell() {
-//		assertEquals(field.getCell(1, 1), new Cell(1,1));
-		assertTrue(field.getCell(1, 1).equals(new Cell(1, 1)));
-		
+		assertEquals(field.getCell(1, 1), new Cell(1,1));
 	}
 	
 	@Test

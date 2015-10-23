@@ -10,9 +10,11 @@ public class Field {
 	public Field(int width, int height) {
 		this.width = width;
 		this.height = height;
-		
-		cells = new Cell[width] [height];
-		
+
+		// field initializing
+		cells = new Cell[width][height];
+
+		// each cell initialized
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				cells[x][y] = new Cell(x, y);
@@ -31,5 +33,5 @@ public class Field {
 	public Cell getCell(int x, int y) {
 		return cells[x][y];
 	}
-	
+
 }
