@@ -7,10 +7,12 @@ import junit.framework.TestCase;
 public class CellTest extends TestCase {
 
 	private Cell cell;
-
+	private Character flag;
+	
 	@BeforeClass
 	public void setUp() {
 		cell = new Cell(1, 2);
+		flag = new Flag();
 	}
 
 	@Test
@@ -21,6 +23,12 @@ public class CellTest extends TestCase {
 	@Test
 	public void testGetY() {
 		assertEquals(2 , cell.getY());
+	}
+
+	@Test
+	public void testSetGetCharacter() {
+		cell.setCharacter(flag);
+		assertEquals(flag,cell.getCharacter());
 	}
 	
 	@Test
