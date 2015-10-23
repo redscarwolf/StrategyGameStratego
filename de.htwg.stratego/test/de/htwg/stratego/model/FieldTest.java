@@ -18,12 +18,12 @@ public class FieldTest extends TestCase {
 	
 	@Test
 	public void testGetWidth() {
-		assertTrue(field.getWidth() == 3);
+		assertEquals(3 , field.getWidth() );
 	}
 	
 	@Test
 	public void testGetHeight() {
-		assertTrue(field.getHeight() == 2);
+		assertEquals(2,field.getHeight());
 	}
 	
 	@Test
@@ -38,9 +38,9 @@ public class FieldTest extends TestCase {
 		for (int y = 0; y < field.getHeight(); y++) {
 			for (int x = 0; x < field.getWidth(); x++) {
 				Cell cell = field.getCell(x, y);
-				assertTrue(cell != null);
-				assertTrue(cell.getX() == x);
-				assertTrue(cell.getY() == y);
+				assertNotNull(cell);
+				assertEquals(x, cell.getX());
+				assertEquals(y, cell.getY());
 			}
 		}
 	}

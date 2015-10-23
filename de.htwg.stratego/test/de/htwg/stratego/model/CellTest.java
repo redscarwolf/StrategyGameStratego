@@ -17,13 +17,12 @@ public class CellTest extends TestCase {
 
 	@Test
 	public void testGetX() {
-//		assertTrue(cell.getX() == 1);
 		assertEquals(1,cell.getX());
 	}
 
 	@Test
 	public void testGetY() {
-		assertTrue(cell.getY() == 2);
+		assertEquals(2 , cell.getY());
 	}
 	
 	@Test
