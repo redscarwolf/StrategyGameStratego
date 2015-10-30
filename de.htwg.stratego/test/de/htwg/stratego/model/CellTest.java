@@ -12,7 +12,7 @@ public class CellTest extends TestCase {
 	@BeforeClass
 	public void setUp() {
 		cell = new Cell(1, 2);
-		flag = new Flag();
+		flag = new Flag(1);
 	}
 
 	@Test

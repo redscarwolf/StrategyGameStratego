@@ -8,11 +8,19 @@ public class CharacterTest extends TestCase{
 	
 	private Character flag;
 	private Character sergeant;
+	private int player;
 	
 	@BeforeClass
 	public void setUp() {
-		flag = new Flag();
-		sergeant = new Sergeant();
+		player = 1;
+		flag = new Flag(player);
+		sergeant = new Sergeant(player);
+		
+	}
+	
+	@Test
+	public void testGetPlayer() {
+		assertEquals(1, flag.getPlayer());
 	}
 	
 	@Test

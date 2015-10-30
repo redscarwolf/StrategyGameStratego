@@ -7,5 +7,5 @@ public interface Character {
 	
 	public int getRang();
 	public boolean isMoveable();
-	
+	public int getPlayer();
 }

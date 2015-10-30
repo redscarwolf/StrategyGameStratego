@@ -2,7 +2,7 @@ package de.htwg.stratego.model;
 
 public class Sergeant extends AbstractCharacter {
 
-	public Sergeant() {
-		super(SERGEANT_RANG, true);
+	public Sergeant(int player) {
+		super(SERGEANT_RANG, true, player);
 	}
 }
