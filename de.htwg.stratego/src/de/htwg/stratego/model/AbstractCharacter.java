@@ -24,4 +24,9 @@ public abstract class AbstractCharacter implements Character {
 		return moveable;
 	}
 	
+	@Override
+	public String toString() {
+		return "" + rang;
+	}
+	
 }

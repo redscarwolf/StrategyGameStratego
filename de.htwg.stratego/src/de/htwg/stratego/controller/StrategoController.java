@@ -5,8 +5,9 @@ import de.htwg.stratego.model.Character;
 import de.htwg.stratego.model.Field;
 import de.htwg.stratego.model.Flag;
 import de.htwg.stratego.model.Sergeant;
+import de.htwg.stratego.util.observer.Observable;
 
-public class StrategoController {
+public class StrategoController extends Observable {
 	private GameStatus status = GameStatus.WELCOME;
 	private Field field;
 	
@@ -28,14 +29,16 @@ public class StrategoController {
 			int toY) {
 		//TODO: check Field 
 		Cell fromCell = field.getCell(fromX, fromY);
-		Cell toCell = field.getCell(fromX, fromY);
+		Cell toCell = field.getCell(toX, toY);
+		
+		
 		Character fromCharacter = fromCell.getCharacter();
 		Character toCharacter = toCell.getCharacter();
 		
 		//TODO: character != null ; isMove ; character zu spieler passt
 		
 		if (toCharacter == null) {
-			fromCell = null;
+			fromCell.setCharacter(null);
 			toCell.setCharacter(fromCharacter);
 		} else {
 			
@@ -43,5 +46,15 @@ public class StrategoController {
 		
 	}
 	
+	public Character fight(Character c1, Character c2) {
+		
+		
+		
+		return null;
+	}
+	
+	public String getFieldString() {
+		return field.toString();
+	}
 	
 }
