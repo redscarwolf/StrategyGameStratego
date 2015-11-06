@@ -41,8 +41,8 @@ jar {
 task pom << {
     pom {
         project {
-        	groupId 'de.htwg'
-  			artifactId 'de.htwg.stratego'
+        	groupId 'de.htwg.se'
+  			artifactId 'StrategoApp'
             version '2.0'
         }
     }.withXml {
@@ -54,8 +54,8 @@ task pom << {
     
 sonarqube {
     properties {
-    property "sonar.projectName", "de.htwg.stratego"
-    property "sonar.projectKey", "de.htwg.stratego"
+    property "sonar.projectName", "de.htwg.stratego.StrategoApp"
+    property "sonar.projectKey", "de.htwg.stratego.StrategoApp"
     property "sonar.projectVersion", "2.0"
     property "sonar.binaries", "build/classes"
     property "sonar.java.coveragePlugin", "jacoco"
