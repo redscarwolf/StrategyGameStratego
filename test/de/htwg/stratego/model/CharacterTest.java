@@ -38,8 +38,8 @@ public class CharacterTest extends TestCase{
 		assertTrue(sergeant.isMoveable());
 	}
 	
-	@Test
-	public void testToString() {
-		assertEquals(Integer.toString(Character.FLAG_RANG), flag.toString());
-	}
+//	@Test
+//	public void testToString() {
+//		assertEquals(Integer.toString(Character.FLAG_RANG), flag.toString());
+//	}
 }
