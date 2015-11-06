@@ -15,6 +15,14 @@ public class StrategoController extends Observable {
 		setField(width,height);
 	}
 	
+	public GameStatus getStatus() {
+		return status;
+	}
+	
+	public Field getField() {
+		return field;
+	}
+	
 	public void setField(int width, int height) {
 		this.field = new Field(width,height);
 		//TODO: abfragen von illegalen größen -1 etc.S
