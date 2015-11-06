@@ -68,14 +68,14 @@ public class FieldTest extends TestCase {
 	}
 	
 	@Test
-	public void testToString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("+--+--+--+\n");
-		sb.append("|#4|  |  |\n");
-		sb.append("+--+--+--+\n");
-		sb.append("|  |  |  |\n");
-		sb.append("+--+--+--+\n");
-		assertEquals(sb.toString(), field.toString());
+	public void testEquals() {
+		assertTrue(field.equals(new Field(3, 2)));
+		//width and height not Equal
+		assertFalse(field.equals(new Field(99, 88)));
+		//width not Equal
+		assertFalse(field.equals(new Field(99, 2)));
+		//height not Equal
+		assertFalse(field.equals(new Field(1, 88)));
 	}
 	
 }

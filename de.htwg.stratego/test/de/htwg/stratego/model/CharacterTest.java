@@ -37,4 +37,9 @@ public class CharacterTest extends TestCase{
 		//is moveable
 		assertTrue(sergeant.isMoveable());
 	}
+	
+	@Test
+	public void testToString() {
+		assertEquals(Integer.toString(Character.FLAG_RANG), flag.toString());
+	}
 }

@@ -38,6 +38,15 @@ public class Field {
 	}
 	
 	@Override
+	public boolean equals(Object o) {
+		Field field = (Field) o;
+		if (width == field.getWidth() && height == field.getHeight()) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
 	public String toString() {
 		StringBuilder lineSb = new StringBuilder("+");
 		StringBuilder mainSb = new StringBuilder();
