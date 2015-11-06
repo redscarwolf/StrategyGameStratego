@@ -26,8 +26,8 @@ public class StrategoControllerTest extends TestCase {
 		assertEquals(field, controller.getField());
 	}
 	
-	@Test
-	public void testFillField() {
-		//TODO:
-	}
+//	@Test
+//	public void testFillField() {
+//		//TODO:
+//	}
 }

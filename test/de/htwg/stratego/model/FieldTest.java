@@ -35,25 +35,25 @@ public class FieldTest extends TestCase {
 		assertEquals(field.getCell(1, 1), new Cell(1,1));	
 	}
 	
-	@Test(expected = IndexOutOfBoundsException.class)
-	public void testGetCellIndexOutOfBounds1() {
-		field.getCell(-5, -5);
-	}
-	
-	@Test(expected = IndexOutOfBoundsException.class)
-	public void testGetCellIndexOutOfBounds2() {
-		field.getCell(5, 5);
-	}
-	
-	@Test(expected = IndexOutOfBoundsException.class)
-	public void testGetCellIndexOutOfBounds3() {
-		field.getCell(2, 5);
-	}
-	
-	@Test(expected = IndexOutOfBoundsException.class)
-	public void testGetCellIndexOutOfBounds4() {
-		field.getCell(2, -1);
-	}
+//	@Test(expected = IndexOutOfBoundsException.class)
+//	public void testGetCellIndexOutOfBounds1() {
+//		field.getCell(-5, -5);
+//	}
+//	
+//	@Test(expected = IndexOutOfBoundsException.class)
+//	public void testGetCellIndexOutOfBounds2() {
+//		field.getCell(5, 5);
+//	}
+//	
+//	@Test(expected = IndexOutOfBoundsException.class)
+//	public void testGetCellIndexOutOfBounds3() {
+//		field.getCell(2, 5);
+//	}
+//	
+//	@Test(expected = IndexOutOfBoundsException.class)
+//	public void testGetCellIndexOutOfBounds4() {
+//		field.getCell(2, -1);
+//	}
 	
 	@Test
 	public void testCells() {
