@@ -10,10 +10,14 @@ import junit.framework.TestCase;
 public class FieldTest extends TestCase {
 
 	private Field field;
+	private Character character;
 	
 	@BeforeClass
 	public void setUp() {
 		field = new Field(3, 2);
+		character = new Sergeant(0);
+		
+		field.getCell(0, 0).setCharacter(character);
 	}
 	
 	@Test
@@ -28,7 +32,27 @@ public class FieldTest extends TestCase {
 	
 	@Test
 	public void testGetCell() {
-		assertEquals(field.getCell(1, 1), new Cell(1,1));
+		assertEquals(field.getCell(1, 1), new Cell(1,1));	
+	}
+	
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testGetCellIndexOutOfBounds1() {
+		field.getCell(-5, -5);
+	}
+	
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testGetCellIndexOutOfBounds2() {
+		field.getCell(5, 5);
+	}
+	
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testGetCellIndexOutOfBounds3() {
+		field.getCell(2, 5);
+	}
+	
+	@Test(expected = IndexOutOfBoundsException.class)
+	public void testGetCellIndexOutOfBounds4() {
+		field.getCell(2, -1);
 	}
 	
 	@Test
@@ -41,6 +65,17 @@ public class FieldTest extends TestCase {
 				assertEquals(y, cell.getY());
 			}
 		}
+	}
+	
+	@Test
+	public void testToString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("+--+--+--+\n");
+		sb.append("|#4|  |  |\n");
+		sb.append("+--+--+--+\n");
+		sb.append("|  |  |  |\n");
+		sb.append("+--+--+--+\n");
+		assertEquals(sb.toString(), field.toString());
 	}
 	
 }

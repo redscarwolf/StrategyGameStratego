@@ -32,7 +32,7 @@ public class Field {
 
 	public Cell getCell(int x, int y) {
 		if (x < 0 || x > width - 1 || y < 0 || y > height - 1) {
-			throw new IllegalArgumentException();
+			throw new IndexOutOfBoundsException();
 		}
 		return cells[x][y];
 	}
@@ -43,7 +43,7 @@ public class Field {
 		StringBuilder mainSb = new StringBuilder();
 		
 		for (int i = 0; i < width; i++) {
-			lineSb.append("-+");
+			lineSb.append("--+");
 		}
 		lineSb.append("\n");
 		String lineString = lineSb.toString();
@@ -52,7 +52,7 @@ public class Field {
 			mainSb.append(lineString);
 			for (int i = 0; i < width; i++) {
 				if (cells[i][j].getCharacter() == null) {
-					mainSb.append("| ");
+					mainSb.append("|  ");
 				} else {
 					mainSb.append("|" + cells[i][j].getCharacter());
 				}

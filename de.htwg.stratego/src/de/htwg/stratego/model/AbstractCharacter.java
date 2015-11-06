@@ -26,7 +26,20 @@ public abstract class AbstractCharacter implements Character {
 	
 	@Override
 	public String toString() {
-		return "" + rang;
+		String playerString;
+		switch (player) {
+			case 0:
+				playerString = "#";
+				break;
+			case 1:
+				playerString = "!";
+				break;
+			default:
+				playerString = Integer.toString(player);
+				break;
+		}
+		
+		return playerString + rang;
 	}
 	
 }
