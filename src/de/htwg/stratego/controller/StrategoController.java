@@ -54,15 +54,30 @@ public class StrategoController extends Observable {
 			toCell.setCharacter(fromCharacter);
 		} else {
 			// if Cell is not empty fight with toCharacter
-			//TODO call: fight(fromCharacter, toCharacter);
+			fight(fromCell, toCell);
 		}
 		notifyObservers();
 	}
 	
-	public Character fight(Character c1, Character c2) {
+	private void fight(Cell c1, Cell c2) {
+		//TODO gültige Zellen überprüfen
+		//TODO sind auf beiden Zellen Characters
+		// get Character rank
+		int r1 = c1.getCharacter().getRang();
+		int r2 = c2.getCharacter().getRang();
 		
-		
-		return null;
+		if (r1 > r2) {
+			//success
+			remove(c2.getX(),c2.getY());
+		} if (r1 < r2) {
+			// lost
+			remove(c1.getX(),c1.getY());
+		} else {
+			// equal both lose
+			remove(c1.getX(),c1.getY());
+			remove(c2.getX(),c2.getY());
+			
+		}
 	}
 	
 	public String getFieldString() {
