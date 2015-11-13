@@ -52,6 +52,7 @@ public class StrategoController extends Observable {
 			
 		}
 		
+		notifyObservers();
 	}
 	
 	public Character fight(Character c1, Character c2) {
