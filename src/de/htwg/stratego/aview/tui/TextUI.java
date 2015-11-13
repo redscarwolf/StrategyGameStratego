@@ -44,7 +44,7 @@ public class TextUI implements IObserver {
 					Integer.valueOf(inputStrings[3]));
 			break;
 		case "r":
-			sc.remove(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]));
+			sc.removeNotify(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]));
 			break;
 		case "m":
 			sc.moveChar(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]),

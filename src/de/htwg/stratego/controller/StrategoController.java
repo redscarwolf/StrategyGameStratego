@@ -62,8 +62,8 @@ public class StrategoController extends Observable {
 	}
 	
 	public void fillField() {
-		field.getCell(0, 0).setCharacter(new Flag(1));
-		field.getCell(2, 0).setCharacter(new Sergeant(1));
+		add(1, 1, 0);
+		add(1, 2, 4);
 	}
 	
 	public void moveChar(int fromX, int fromY, int toX,
@@ -89,6 +89,7 @@ public class StrategoController extends Observable {
 			// if Cell is not empty fight with toCharacter
 			fight(fromCell, toCell);
 		}
+		System.out.println("ende von move");
 		notifyObservers();
 	}
 	
@@ -102,7 +103,7 @@ public class StrategoController extends Observable {
 		if (r1 > r2) {
 			//success
 			remove(c2.getX(),c2.getY());
-		} if (r1 < r2) {
+		} else if (r1 < r2) {
 			// lost
 			remove(c1.getX(),c1.getY());
 		} else {
@@ -137,7 +138,12 @@ public class StrategoController extends Observable {
 		notifyObservers();
 	}
 	
-	public Character remove(int x, int y) {
+	public void removeNotify(int x, int y) {
+		remove(x, y);
+		notifyObservers();
+	}
+	
+	private Character remove(int x, int y) {
 		List<Character> characterList = characterListPlayer1;
 		Character c = field.getCell(x, y).getCharacter();
 		
@@ -146,7 +152,6 @@ public class StrategoController extends Observable {
 			characterList.add(c);
 		}
 		
-		notifyObservers();
 		return c;
 	}
 	
