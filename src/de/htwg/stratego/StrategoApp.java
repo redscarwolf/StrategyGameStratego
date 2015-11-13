@@ -13,6 +13,7 @@ public final class StrategoApp {
 	
 	public static void main(String[] args) {
 		
+		
 		sc = new StrategoController(3, 3);
 		sc.fillField();
 		sc.moveChar(2, 0, 0, 0);

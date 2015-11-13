@@ -12,8 +12,11 @@ public class StrategoControllerTest extends TestCase {
 	
 	@BeforeClass
 	public void setUp() {
-		controller = new StrategoController(2,3);
-		field = new Field(2,3);
+		controller = new StrategoController(3,4);
+		field = new Field(3,4);
+		//fill with Chars
+//		field.getCell(0, 0).setCharacter(new Flag(1));
+//		field.getCell(2, 0).setCharacter(new Sergeant(1));
 	}
 	
 	@Test
@@ -26,8 +29,13 @@ public class StrategoControllerTest extends TestCase {
 		assertEquals(field, controller.getField());
 	}
 	
-//	@Test
-//	public void testFillField() {
-//		//TODO:
-//	}
+	@Test
+	public void testFillField() {
+		controller.fillField();
+		//Rang gleichheit
+		assertEquals(0,controller.getField().getCell(0,0).getCharacter().getRang());
+		//Spieler gleichheit
+//		assertEquals(0, field.getCell(0,0).getCharacter().getPlayer());
+		
+	}
 }
