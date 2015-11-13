@@ -24,7 +24,7 @@ public final class StrategoApp {
 		boolean continu = true;
 		scanner = new Scanner(System.in);
 		while (continu) {
-			continu = tui.processInputLine(scanner.next());
+			continu = tui.processInputLine(scanner.nextLine());
 		}
 	}
 	
