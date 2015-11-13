@@ -28,10 +28,10 @@ public abstract class AbstractCharacter implements Character {
 	public String toString() {
 		String playerString;
 		switch (player) {
-			case 0:
+			case PLAYER_ONE:
 				playerString = "#";
 				break;
-			case 1:
+			case PLAYER_TWO:
 				playerString = "!";
 				break;
 			default:

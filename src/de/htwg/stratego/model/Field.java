@@ -31,9 +31,9 @@ public class Field {
 	}
 
 	public Cell getCell(int x, int y) {
-		if (x < 0 || x > width - 1 || y < 0 || y > height - 1) {
-			throw new IndexOutOfBoundsException();
-		}
+//		if (x < 0 || x > width - 1 || y < 0 || y > height - 1) {
+//			throw new IndexOutOfBoundsException();
+//		}
 		return cells[x][y];
 	}
 	
