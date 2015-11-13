@@ -32,10 +32,16 @@ public class StrategoControllerTest extends TestCase {
 	@Test
 	public void testFillField() {
 		controller.fillField();
-		//Rang gleichheit
+		//Rang gleichheit und Spieler gleich
 		assertEquals(0,controller.getField().getCell(0,0).getCharacter().getRang());
-		//Spieler gleichheit
-//		assertEquals(0, field.getCell(0,0).getCharacter().getPlayer());
-		
+		assertEquals(1, controller.getField().getCell(0,0).getCharacter().getPlayer());
+		//Rang gleichheit und Spieler gleich
+		assertEquals(4,controller.getField().getCell(2,0).getCharacter().getRang());
+		assertEquals(1, controller.getField().getCell(2,0).getCharacter().getPlayer());		
+	}
+	
+	@Test
+	public void testGetFieldString() {
+		assertEquals(field.toString(),controller.getFieldString());
 	}
 }
