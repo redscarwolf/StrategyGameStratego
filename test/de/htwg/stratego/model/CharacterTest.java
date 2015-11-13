@@ -8,25 +8,24 @@ public class CharacterTest extends TestCase{
 	
 	private Character flag;
 	private Character sergeant;
-	private int player;
+	private Character sergeant2;
 	
 	@BeforeClass
 	public void setUp() {
-		player = 1;
-		flag = new Flag(player);
-		sergeant = new Sergeant(player);
-		
+		flag = new Flag(Character.PLAYER_ONE);
+		sergeant = new Sergeant(Character.PLAYER_TWO);
+		sergeant2 = new Sergeant(0);
 	}
 	
 	@Test
 	public void testGetPlayer() {
-		assertEquals(1, flag.getPlayer());
+		assertEquals(Character.PLAYER_ONE, flag.getPlayer());
 	}
 	
 	@Test
 	public void testGetRang() {
 		assertEquals(Character.FLAG_RANG, flag.getRang());
-		assertEquals(Character.SERGEANT_RANG,sergeant.getRang());
+		assertEquals(Character.SERGEANT_RANG, sergeant.getRang());
 	}
 	
 	@Test
@@ -38,8 +37,16 @@ public class CharacterTest extends TestCase{
 		assertTrue(sergeant.isMoveable());
 	}
 	
-//	@Test
-//	public void testToString() {
-//		assertEquals(Integer.toString(Character.FLAG_RANG), flag.toString());
-//	}
+	@Test
+	public void testToString() {
+		String charString = "#" + Character.FLAG_RANG;
+		assertEquals(charString, flag.toString());
+		
+		charString = "!" + Character.SERGEANT_RANG;
+		assertEquals(charString, sergeant.toString());
+		
+		charString = "0" + Character.SERGEANT_RANG;
+		assertEquals(charString, sergeant2.toString());
+	}
+
 }
