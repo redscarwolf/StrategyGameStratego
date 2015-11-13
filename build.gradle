@@ -40,8 +40,8 @@ jar {
     
 sonarqube {
     properties {
-    property "sonar.projectName", "de.htwg.stratego.StrategoApp"
-    property "sonar.projectKey", "de.htwg.stratego.StrategoApp"
+    property "sonar.projectName", "de.htwg.stratego"
+    property "sonar.projectKey", "de.htwg.stratego"
     property "sonar.projectVersion", "2.0"
     property "sonar.binaries", "build/classes"
     property "sonar.java.coveragePlugin", "jacoco"
