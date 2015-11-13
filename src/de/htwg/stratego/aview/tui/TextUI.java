@@ -2,10 +2,10 @@ package de.htwg.stratego.aview.tui;
 
 import java.util.regex.Pattern;
 
-import de.htwg.stratego.controller.GameStatus;
 import de.htwg.stratego.controller.StrategoController;
 import de.htwg.stratego.util.observer.Event;
 import de.htwg.stratego.util.observer.IObserver;
+import de.htwg.stratego.model.Character;;
 
 public class TextUI implements IObserver {
 
@@ -29,7 +29,7 @@ public class TextUI implements IObserver {
 			System.out.println("Illegal command!");
 			return continu;
 		}
-		
+
 		String[] inputStrings = input.split(" ");
 
 		switch (inputStrings[0]) {
@@ -40,8 +40,11 @@ public class TextUI implements IObserver {
 			printHelp();
 			break;
 		case "a":
+			sc.add(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]),
+					Integer.valueOf(inputStrings[3]));
 			break;
 		case "r":
+			sc.remove(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]));
 			break;
 		case "m":
 			sc.moveChar(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]),
@@ -68,7 +71,9 @@ public class TextUI implements IObserver {
 
 	public void printTUI() {
 		System.out.println(StatusMessage.textMap.get(sc.getStatus()));
-		System.out.println(sc.getFieldString());
+		System.out.print(sc.getFieldString());
+		System.out.println("Characters Player1: " + sc.toStringCharacterList(Character.PLAYER_ONE));
+		System.out.println("Characters Player2: " + sc.toStringCharacterList(Character.PLAYER_TWO));
 		System.out.print("Command (Type \"h\" for help): ");
 	}
 

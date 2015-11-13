@@ -1,5 +1,8 @@
 package de.htwg.stratego.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.htwg.stratego.model.Cell;
 import de.htwg.stratego.model.Character;
 import de.htwg.stratego.model.Field;
@@ -11,8 +14,38 @@ public class StrategoController extends Observable {
 	private GameStatus status = GameStatus.WELCOME;
 	private Field field;
 	
+	private List<Character> characterListPlayer1 = new ArrayList<>();
+	private List<Character> characterListPlayer2 = new ArrayList<>();
+	
 	public StrategoController(int width, int height) {
-		setField(width,height);
+		setField(width, height);
+		initCharacterLists();
+	}
+	
+	private void initCharacterLists() {
+		for (int i = 0; i < 5; i++) {
+			characterListPlayer1.add(new Sergeant(Character.PLAYER_ONE));
+			characterListPlayer2.add(new Sergeant(Character.PLAYER_TWO));
+		}
+		characterListPlayer1.add(new Flag(Character.PLAYER_ONE));
+		characterListPlayer2.add(new Flag(Character.PLAYER_TWO));
+	}
+	
+	public String toStringCharacterList(int player) {
+		List<Character> characterList = null;
+		if (player == Character.PLAYER_ONE) {
+			characterList = characterListPlayer1;
+		} else if (player == Character.PLAYER_TWO) {
+			characterList = characterListPlayer2;
+		} else {
+			return  "?";
+		}
+		
+		StringBuilder sb = new StringBuilder("|");
+		for (Character c : characterList) {
+			sb.append(c.getRang() + "|");
+		}
+		return sb.toString();
 	}
 	
 	public GameStatus getStatus() {
@@ -60,6 +93,43 @@ public class StrategoController extends Observable {
 		
 		
 		return null;
+	}
+	
+	public void add(int x, int y, int rank) {
+		List<Character> characterList = characterListPlayer1;
+//		if (player == Character.PLAYER_ONE) {
+//			characterList = characterListPlayer1;
+//		} else if (player == Character.PLAYER_TWO) {
+//		}
+		
+		Character character = null;
+		for (Character c: characterList) {
+			if (c.getRang() == rank) {
+				character = c;
+			}
+		}
+		
+		if (character == null) {
+			return;
+		}
+		
+		characterList.remove(character);
+		field.getCell(x, y).setCharacter(character);
+		
+		notifyObservers();
+	}
+	
+	public Character remove(int x, int y) {
+		List<Character> characterList = characterListPlayer1;
+		Character c = field.getCell(x, y).getCharacter();
+		
+		field.getCell(x, y).setCharacter(null);
+		if (c != null) {
+			characterList.add(c);
+		}
+		
+		notifyObservers();
+		return c;
 	}
 	
 	public String getFieldString() {
