@@ -15,7 +15,7 @@ public class FieldTest extends TestCase {
 	@BeforeClass
 	public void setUp() {
 		field = new Field(3, 2);
-		character = new Sergeant(0);
+		character = new Sergeant(Character.PLAYER_ONE);
 		
 		field.getCell(0, 0).setCharacter(character);
 	}
