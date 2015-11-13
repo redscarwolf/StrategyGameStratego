@@ -10,7 +10,7 @@ public enum GameStatus {
     ILLEGAL_ARGUMENT,
     CREATE,
     RESET,
-    PLAYER_1,
-    PLAYER_2
+    PLAYER_ONE,
+    PLAYER_TWO
     
 }

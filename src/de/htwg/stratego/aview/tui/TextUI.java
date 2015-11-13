@@ -20,11 +20,17 @@ public class TextUI implements IObserver {
 	}
 	
 	public boolean processInputLine(String input) {
-		if (input.equals("q")) {
-			return false;
+		boolean continu = true;
+		
+		switch(input) {
+		case "q":
+			continu = false;
+			break;			
+		default:
+			System.out.println("Illegal command!");
 		}
 		
-		return true;
+		return continu;
 	}
 	
 	public void printTUI() {
