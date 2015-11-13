@@ -17,6 +17,9 @@ public class StrategoController extends Observable {
 	private List<Character> characterListPlayer1 = new ArrayList<>();
 	private List<Character> characterListPlayer2 = new ArrayList<>();
 	
+	private enum PlayerStatus {PLAYER_ONE_START, PLAYER_TWO_START, PLAYER_ONE_TURN, PLAYER_TWO_TURN};
+	private PlayerStatus playerStatus = PlayerStatus.PLAYER_ONE_START;
+	
 	public StrategoController(int width, int height) {
 		setField(width, height);
 		initCharacterLists();
@@ -48,8 +51,38 @@ public class StrategoController extends Observable {
 		return sb.toString();
 	}
 	
+	public void changePlayerSetup() {
+		if (playerStatus == PlayerStatus.PLAYER_ONE_START) {
+			playerStatus = PlayerStatus.PLAYER_TWO_START;
+		} else if (playerStatus== PlayerStatus.PLAYER_TWO_START) {
+			playerStatus = PlayerStatus.PLAYER_ONE_TURN;
+		}
+		notifyObservers();
+	}
+	
+	public void changePlayerTurn() {
+		if (playerStatus == PlayerStatus.PLAYER_ONE_TURN) {
+			playerStatus = PlayerStatus.PLAYER_TWO_TURN;
+		} else if (playerStatus == PlayerStatus.PLAYER_TWO_TURN) {
+			playerStatus = PlayerStatus.PLAYER_ONE_TURN;
+		}
+	}
+	
 	public GameStatus getStatus() {
 		return status;
+	}
+	
+	public String toStringPlayerStatus() {
+		if (playerStatus == PlayerStatus.PLAYER_ONE_START) {
+			return "Set your characters, player 1!";
+		} else if (playerStatus == PlayerStatus.PLAYER_TWO_START) {
+			return "Set your characters, player 2!";
+		} else if (playerStatus == PlayerStatus.PLAYER_ONE_TURN) {
+			return "It's your turn, player 1!";
+		} else if (playerStatus == PlayerStatus.PLAYER_TWO_TURN) {
+			return "It's your turn, player 2!";
+		}
+		return null;
 	}
 	
 	public Field getField() {
@@ -90,6 +123,8 @@ public class StrategoController extends Observable {
 			fight(fromCell, toCell);
 		}
 		System.out.println("ende von move");
+		
+		changePlayerTurn();
 		notifyObservers();
 	}
 	
@@ -115,11 +150,16 @@ public class StrategoController extends Observable {
 	}
 	
 	public void add(int x, int y, int rank) {
-		List<Character> characterList = characterListPlayer1;
-//		if (player == Character.PLAYER_ONE) {
-//			characterList = characterListPlayer1;
-//		} else if (player == Character.PLAYER_TWO) {
-//		}
+		List<Character> characterList = null;
+		
+		if (playerStatus == PlayerStatus.PLAYER_ONE_START) {
+			characterList = characterListPlayer1;
+		} else if (playerStatus == PlayerStatus.PLAYER_TWO_START) {
+			characterList = characterListPlayer2;
+		} else {
+			//TODO
+			return;
+		}
 		
 		Character character = null;
 		for (Character c: characterList) {
@@ -144,7 +184,17 @@ public class StrategoController extends Observable {
 	}
 	
 	private Character remove(int x, int y) {
-		List<Character> characterList = characterListPlayer1;
+		List<Character> characterList = null;
+		
+		if (playerStatus == PlayerStatus.PLAYER_ONE_START) {
+			characterList = characterListPlayer1;
+		} else if (playerStatus == PlayerStatus.PLAYER_TWO_START) {
+			characterList = characterListPlayer2;
+		} else {
+			//TODO
+			return null;
+		}
+		
 		Character c = field.getCell(x, y).getCharacter();
 		
 		field.getCell(x, y).setCharacter(null);
