@@ -35,28 +35,31 @@ public class StrategoController extends Observable {
 	
 	public void moveChar(int fromX, int fromY, int toX,
 			int toY) {
-		//TODO: check Field 
+		//TODO: check is move inside of Field 
+		//get Cells and get Characters
 		Cell fromCell = field.getCell(fromX, fromY);
 		Cell toCell = field.getCell(toX, toY);
-		
-		
 		Character fromCharacter = fromCell.getCharacter();
 		Character toCharacter = toCell.getCharacter();
 		
-		//TODO: character != null ; isMove ; character zu spieler passt
+		//Conditions of fromCharacter
+		//TODO: is selected character != null ;
+		//TODO: is Char moveable 
+		//TODO: is character a char of the player
 		
+		//Conditions of toCharacter
 		if (toCharacter == null) {
+			// if Cell is empty move Character to new position
 			fromCell.setCharacter(null);
 			toCell.setCharacter(fromCharacter);
 		} else {
-			
+			// if Cell is not empty fight with toCharacter
+			//TODO call: fight(fromCharacter, toCharacter);
 		}
-		
 		notifyObservers();
 	}
 	
 	public Character fight(Character c1, Character c2) {
-		
 		
 		
 		return null;
