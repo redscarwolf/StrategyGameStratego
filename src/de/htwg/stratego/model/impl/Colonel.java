@@ -1,11 +1,11 @@
 package de.htwg.stratego.model.impl;
 
-import de.htwg.stratego.model.Character;
+import de.htwg.stratego.model.Rank;
 
 public class Colonel extends AbstractCharacter {
 
 	public Colonel(int player) {
-		super(Character.COLONEL_RANK, true, player);
+		super(Rank.COLONEL, true, player);
 	}
 
 }

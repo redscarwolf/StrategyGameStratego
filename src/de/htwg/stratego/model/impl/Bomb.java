@@ -1,11 +1,11 @@
 package de.htwg.stratego.model.impl;
 
-import de.htwg.stratego.model.Character;
+import de.htwg.stratego.model.Rank;
 
 public class Bomb extends AbstractCharacter {
 
 	public Bomb(int player) {
-		super(Character.BOMB_RANK, false, player);
+		super(Rank.BOMB, false, player);
 	}
 
 }

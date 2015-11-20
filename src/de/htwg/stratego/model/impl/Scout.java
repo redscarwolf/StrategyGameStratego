@@ -1,11 +1,11 @@
 package de.htwg.stratego.model.impl;
 
-import de.htwg.stratego.model.Character;
+import de.htwg.stratego.model.Rank;
 
 public class Scout extends AbstractCharacter {
 
 	public Scout(int player) {
-		super(Character.SCOUT_RANK, true, player);
+		super(Rank.SCOUT, true, player);
 	}
 
 }

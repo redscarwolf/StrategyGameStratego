@@ -1,11 +1,11 @@
 package de.htwg.stratego.model.impl;
 
-import de.htwg.stratego.model.Character;
+import de.htwg.stratego.model.Rank;
 
 public class General extends AbstractCharacter {
 
 	public General(int player) {
-		super(Character.GENERAL_RANK, true, player);
+		super(Rank.GENERAL, true, player);
 	}
 
 }
