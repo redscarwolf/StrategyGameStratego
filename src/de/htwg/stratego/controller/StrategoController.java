@@ -279,6 +279,7 @@ public class StrategoController extends Observable {
 		if (r1 > r2) {
 			//success
 			remove(c2.getX(),c2.getY());
+			// TODO bewege Char auf toX toY Celle
 		} else if (r1 < r2) {
 			// lost
 			remove(c1.getX(),c1.getY());
