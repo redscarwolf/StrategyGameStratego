@@ -24,8 +24,8 @@ public class CharacterTest extends TestCase{
 	
 	@Test
 	public void testGetRang() {
-		assertEquals(Character.FLAG_RANG, flag.getRang());
-		assertEquals(Character.SERGEANT_RANG, sergeant.getRang());
+		assertEquals(Character.FLAG_RANK, flag.getRank());
+		assertEquals(Character.SERGEANT_RANK, sergeant.getRank());
 	}
 	
 	@Test
@@ -39,13 +39,13 @@ public class CharacterTest extends TestCase{
 	
 	@Test
 	public void testToString() {
-		String charString = "#" + Character.FLAG_RANG;
+		String charString = "#" + Character.FLAG_RANK;
 		assertEquals(charString, flag.toString());
 		
-		charString = "!" + Character.SERGEANT_RANG;
+		charString = "!" + Character.SERGEANT_RANK;
 		assertEquals(charString, sergeant.toString());
 		
-		charString = "0" + Character.SERGEANT_RANG;
+		charString = "0" + Character.SERGEANT_RANK;
 		assertEquals(charString, sergeant2.toString());
 	}
 

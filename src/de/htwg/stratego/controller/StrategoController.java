@@ -46,7 +46,7 @@ public class StrategoController extends Observable {
 		
 		StringBuilder sb = new StringBuilder("|");
 		for (Character c : characterList) {
-			sb.append(c.getRang() + "|");
+			sb.append(c.getRank() + "|");
 		}
 		return sb.toString();
 	}
@@ -132,8 +132,8 @@ public class StrategoController extends Observable {
 		//TODO gültige Zellen überprüfen
 		//TODO sind auf beiden Zellen Characters
 		// get Character rank
-		int r1 = c1.getCharacter().getRang();
-		int r2 = c2.getCharacter().getRang();
+		int r1 = c1.getCharacter().getRank();
+		int r2 = c2.getCharacter().getRank();
 		
 		if (r1 > r2) {
 			//success
@@ -163,7 +163,7 @@ public class StrategoController extends Observable {
 		
 		Character character = null;
 		for (Character c: characterList) {
-			if (c.getRang() == rank) {
+			if (c.getRank() == rank) {
 				character = c;
 			}
 		}

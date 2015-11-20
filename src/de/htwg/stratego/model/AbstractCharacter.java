@@ -16,7 +16,7 @@ public abstract class AbstractCharacter implements Character {
 		return player;
 	}
 	
-	public int getRang() {
+	public int getRank() {
 		return rang;
 	}
 	
