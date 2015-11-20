@@ -6,8 +6,18 @@ import java.util.List;
 import de.htwg.stratego.model.Cell;
 import de.htwg.stratego.model.Character;
 import de.htwg.stratego.model.Field;
+import de.htwg.stratego.model.impl.Bomb;
+import de.htwg.stratego.model.impl.Captain;
+import de.htwg.stratego.model.impl.Colonel;
 import de.htwg.stratego.model.impl.Flag;
+import de.htwg.stratego.model.impl.General;
+import de.htwg.stratego.model.impl.Lieutenant;
+import de.htwg.stratego.model.impl.Major;
+import de.htwg.stratego.model.impl.Marshal;
+import de.htwg.stratego.model.impl.Miner;
+import de.htwg.stratego.model.impl.Scout;
 import de.htwg.stratego.model.impl.Sergeant;
+import de.htwg.stratego.model.impl.Spy;
 import de.htwg.stratego.util.observer.Observable;
 
 public class StrategoController extends Observable {
@@ -20,9 +30,18 @@ public class StrategoController extends Observable {
 	private enum PlayerStatus {PLAYER_ONE_START, PLAYER_TWO_START, PLAYER_ONE_TURN, PLAYER_TWO_TURN};
 	private PlayerStatus playerStatus = PlayerStatus.PLAYER_ONE_START;
 	
-	private static final int NUMBER_OF_SERGEANT = 8;
+	private static final int NUMBER_OF_BOMB = 6;
+	private static final int NUMBER_OF_MARSHALL = 1;
+	private static final int NUMBER_OF_GENERAL = 1;
+	private static final int NUMBER_OF_COLONEL = 2;
+	private static final int NUMBER_OF_MAJOR = 3;
+	private static final int NUMBER_OF_CAPTAIN = 4;
+	private static final int NUMBER_OF_LIEUTENANT = 4;
+	private static final int NUMBER_OF_SERGEANT = 4;
+	private static final int NUMBER_OF_MINER = 5;
+	private static final int NUMBER_OF_SCOUT = 8;
+	private static final int NUMBER_OF_SPY = 1;
 	private static final int NUMBER_OF_FLAG = 1;
-	
 	
 	public StrategoController(int width, int height) {
 		setField(width, height);
@@ -30,30 +49,58 @@ public class StrategoController extends Observable {
 	}
 	
 	private void initCharacterLists() {
+		// create Lists
 		characterListPlayer1 = new ArrayList<>();
 		characterListPlayer2 = new ArrayList<>();
-		// create Sergeant
-//		addNumberOfChar(characterListPlayer1,
-//						new Sergeant(Character.PLAYER_ONE),
-//						numberOfSergeant);
-//		addNumberOfChar(characterListPlayer2,
-//				new Sergeant(Character.PLAYER_TWO),
-//				numberOfSergeant);
+		
+		// fill Lists with Chars
+		addToCharList(new Bomb(Character.PLAYER_ONE),
+				new Bomb(Character.PLAYER_TWO),
+				NUMBER_OF_FLAG);
+		
+		addToCharList(new Marshal(Character.PLAYER_ONE),
+				new Marshal(Character.PLAYER_TWO),
+				NUMBER_OF_MARSHALL);
+		
+		addToCharList(new General(Character.PLAYER_ONE),
+				new General(Character.PLAYER_TWO),
+				NUMBER_OF_GENERAL);
+
+		addToCharList(new Colonel(Character.PLAYER_ONE),
+				new Colonel(Character.PLAYER_TWO),
+				NUMBER_OF_COLONEL);
+
+		addToCharList(new Major(Character.PLAYER_ONE),
+				new Major(Character.PLAYER_TWO),
+				NUMBER_OF_MAJOR);
+
+		addToCharList(new Captain(Character.PLAYER_ONE),
+				new Captain(Character.PLAYER_TWO),
+				NUMBER_OF_CAPTAIN);
+
+		addToCharList(new Lieutenant(Character.PLAYER_ONE),
+				new Lieutenant(Character.PLAYER_TWO),
+				NUMBER_OF_LIEUTENANT);
 		
 		addToCharList(new Sergeant(Character.PLAYER_ONE),
 					  new Sergeant(Character.PLAYER_TWO),
 					  NUMBER_OF_SERGEANT);
+
+		addToCharList(new Miner(Character.PLAYER_ONE),
+				new Miner(Character.PLAYER_TWO),
+				NUMBER_OF_MINER);
+
+		addToCharList(new Scout(Character.PLAYER_ONE),
+				new Scout(Character.PLAYER_TWO),
+				NUMBER_OF_SCOUT);
+
+		addToCharList(new Spy(Character.PLAYER_ONE),
+				new Spy(Character.PLAYER_TWO),
+				NUMBER_OF_SPY);
 		
 		addToCharList(new Flag(Character.PLAYER_ONE),
 				  new Flag(Character.PLAYER_TWO),
 				  NUMBER_OF_FLAG);
-		
-		// OLD--------
-//		for (int i = 0; i < numberOfSergeant; i++) {
-//			characterListPlayer1.add(new Sergeant(Character.PLAYER_ONE));
-//		}
-//		// create Flag
-//		characterListPlayer1.add(new Flag(Character.PLAYER_ONE));
 	}
 	
 	private void addToCharList(Character ch1, Character ch2, int number){
