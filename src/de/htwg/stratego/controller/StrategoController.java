@@ -24,6 +24,9 @@ public class StrategoController extends Observable {
 	private GameStatus status = GameStatus.WELCOME;
 	private Field field;
 	
+	private static final int WIDTH_FIELD = 10;
+	private static final int HEIGHT_FIELD = 10;
+	
 	private List<Character> characterListPlayer1;
 	private List<Character> characterListPlayer2;
 	
@@ -43,8 +46,8 @@ public class StrategoController extends Observable {
 	private static final int NUMBER_OF_SPY = 1;
 	private static final int NUMBER_OF_FLAG = 1;
 	
-	public StrategoController(int width, int height) {
-		setField(width, height);
+	public StrategoController() {
+		setField(WIDTH_FIELD, HEIGHT_FIELD);
 		initCharacterLists();
 	}
 	
@@ -56,7 +59,7 @@ public class StrategoController extends Observable {
 		// fill Lists with Chars
 		addToCharList(new Bomb(Character.PLAYER_ONE),
 				new Bomb(Character.PLAYER_TWO),
-				NUMBER_OF_FLAG);
+				NUMBER_OF_BOMB);
 		
 		addToCharList(new Marshal(Character.PLAYER_ONE),
 				new Marshal(Character.PLAYER_TWO),
@@ -183,8 +186,20 @@ public class StrategoController extends Observable {
 	}
 	
 	public void fillField() {
-		add(1, 1, 0);
-		add(1, 2, 4);
+		// fill Player1 left to right, up to middle
+		for (int x = 0; x < field.getWidth(); x++) {
+			for (int y = 0; y < 4; y++) {		
+				field.getCell(x, y).setCharacter(characterListPlayer1.get(0));
+				characterListPlayer1.remove(0);
+			}
+		}
+		// fill Player2 right to left, bottom to middle
+		for (int x = field.getWidth() - 1; x > -1; x--) {
+			for (int y = field.getHeight() - 1; y > field.getHeight() - 5; y--) {		
+				field.getCell(x, y).setCharacter(characterListPlayer2.get(0));
+				characterListPlayer2.remove(0);
+			}
+		}
 	}
 	
 	public void moveChar(int fromX, int fromY, int toX,
@@ -287,6 +302,7 @@ public class StrategoController extends Observable {
 			return;
 		}
 		
+		// looking for char-rank in charList
 		Character character = null;
 		for (Character c: characterList) {
 			if (c.getRank() == rank) {
@@ -295,14 +311,17 @@ public class StrategoController extends Observable {
 		}
 		
 		if (character == null) {
+			// didn't found char-rank 
 			return;
 		}
 		
 		Cell cell = field.getCell(x, y);
 		if (cell.getCharacter() != null) {
+			// field already has a char
 			return;
 		}
 		
+		// take char from list and add to field
 		characterList.remove(character);
 		cell.setCharacter(character);
 		

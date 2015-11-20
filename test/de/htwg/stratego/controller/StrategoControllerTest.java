@@ -12,8 +12,8 @@ public class StrategoControllerTest extends TestCase {
 	
 	@BeforeClass
 	public void setUp() {
-		controller = new StrategoController(3,4);
-		field = new Field(3,4);
+		controller = new StrategoController();
+		field = new Field(10,10);
 		//fill with Chars
 //		field.getCell(0, 0).setCharacter(new Flag(1));
 //		field.getCell(2, 0).setCharacter(new Sergeant(1));
