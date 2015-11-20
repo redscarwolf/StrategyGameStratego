@@ -110,8 +110,41 @@ public class StrategoController extends Observable {
 		
 		//Conditions of fromCharacter
 		//TODO: is selected character != null ;
+		if (fromCharacter == null) {
+			notifyObservers();
+			return;
+		}
+		
 		//TODO: is Char moveable 
+		if (!fromCharacter.isMoveable()) {
+			notifyObservers();
+			return;
+		}
+		
 		//TODO: is character a char of the player
+		if (fromCharacter.getPlayer() == Character.PLAYER_ONE) {
+			if (!(playerStatus == PlayerStatus.PLAYER_ONE_TURN)) {
+				notifyObservers();
+				return;
+			}
+		} else if (fromCharacter.getPlayer() == Character.PLAYER_TWO) {
+			if (!(playerStatus == PlayerStatus.PLAYER_TWO_TURN)) {
+				notifyObservers();
+				return;
+			}
+		} else {
+			notifyObservers();
+			return;
+		}
+		
+		// correct range of move
+		int dx = Math.abs(fromX - toX);
+		int dy = Math.abs(fromY - toY);
+		if (dx > 1 || dy > 1 || dx == dy) {
+			//TODO
+			notifyObservers();
+			return;
+		}
 		
 		//Conditions of toCharacter
 		if (toCharacter == null) {
@@ -120,6 +153,11 @@ public class StrategoController extends Observable {
 			toCell.setCharacter(fromCharacter);
 		} else {
 			// if Cell is not empty fight with toCharacter
+			// only if toCharacter.getPlayer() is not equal to fromCharacter.getPlayer() 
+			if (toCharacter.getPlayer() == fromCharacter.getPlayer()) {
+				notifyObservers();
+				return;
+			}
 			fight(fromCell, toCell);
 		}
 		System.out.println("ende von move");
@@ -172,8 +210,13 @@ public class StrategoController extends Observable {
 			return;
 		}
 		
+		Cell cell = field.getCell(x, y);
+		if (cell.getCharacter() != null) {
+			return;
+		}
+		
 		characterList.remove(character);
-		field.getCell(x, y).setCharacter(character);
+		cell.setCharacter(character);
 		
 		notifyObservers();
 	}
@@ -186,16 +229,24 @@ public class StrategoController extends Observable {
 	private Character remove(int x, int y) {
 		List<Character> characterList = null;
 		
-		if (playerStatus == PlayerStatus.PLAYER_ONE_START) {
-			characterList = characterListPlayer1;
-		} else if (playerStatus == PlayerStatus.PLAYER_TWO_START) {
-			characterList = characterListPlayer2;
-		} else {
-			//TODO
-			return null;
-		}
+//		if (playerStatus == PlayerStatus.PLAYER_ONE_START ||
+//				playerStatus == PlayerStatus.PLAYER_ONE_TURN) {
+//			characterList = characterListPlayer1;
+//		} else if (playerStatus == PlayerStatus.PLAYER_TWO_START ||
+//				playerStatus == PlayerStatus.PLAYER_TWO_TURN) {
+//			characterList = characterListPlayer2;
+//		} else {
+//			//TODO
+//			return null;
+//		}
 		
 		Character c = field.getCell(x, y).getCharacter();
+		
+		if (c.getPlayer() == Character.PLAYER_ONE) {
+			characterList = characterListPlayer1;
+		} else if (c.getPlayer() == Character.PLAYER_TWO) {
+			characterList = characterListPlayer2;
+		}
 		
 		field.getCell(x, y).setCharacter(null);
 		if (c != null) {
