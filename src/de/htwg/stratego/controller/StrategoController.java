@@ -6,8 +6,8 @@ import java.util.List;
 import de.htwg.stratego.model.Cell;
 import de.htwg.stratego.model.Character;
 import de.htwg.stratego.model.Field;
-import de.htwg.stratego.model.Flag;
-import de.htwg.stratego.model.Sergeant;
+import de.htwg.stratego.model.impl.Flag;
+import de.htwg.stratego.model.impl.Sergeant;
 import de.htwg.stratego.util.observer.Observable;
 
 public class StrategoController extends Observable {

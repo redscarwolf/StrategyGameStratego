@@ -1,4 +1,4 @@
-package de.htwg.stratego.model;
+package de.htwg.stratego.model.impl;
 
 public class Sergeant extends AbstractCharacter {
 

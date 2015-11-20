@@ -2,6 +2,9 @@ package de.htwg.stratego.model;
 
 import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese weiter
 import org.junit.Test;
+
+import de.htwg.stratego.model.impl.Flag;
+import de.htwg.stratego.model.impl.Sergeant;
 import junit.framework.TestCase;
 
 public class CharacterTest extends TestCase{

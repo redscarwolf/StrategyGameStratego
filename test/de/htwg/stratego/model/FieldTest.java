@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import de.htwg.stratego.model.Cell;
 import de.htwg.stratego.model.Field;
+import de.htwg.stratego.model.impl.Sergeant;
 import junit.framework.TestCase;
 
 public class FieldTest extends TestCase {

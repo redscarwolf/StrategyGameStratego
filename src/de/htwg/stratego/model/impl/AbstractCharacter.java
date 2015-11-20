@@ -1,4 +1,6 @@
-package de.htwg.stratego.model;
+package de.htwg.stratego.model.impl;
+
+import de.htwg.stratego.model.Character;
 
 public abstract class AbstractCharacter implements Character {
 
