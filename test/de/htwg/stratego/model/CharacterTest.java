@@ -3,8 +3,7 @@ package de.htwg.stratego.model;
 import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese weiter
 import org.junit.Test;
 
-import de.htwg.stratego.model.impl.Flag;
-import de.htwg.stratego.model.impl.Sergeant;
+import de.htwg.stratego.model.impl.*;
 import junit.framework.TestCase;
 
 public class CharacterTest extends TestCase{
@@ -18,6 +17,17 @@ public class CharacterTest extends TestCase{
 		flag = new Flag(Character.PLAYER_ONE);
 		sergeant = new Sergeant(Character.PLAYER_TWO);
 		sergeant2 = new Sergeant(0);
+
+		new Spy(Character.PLAYER_ONE);
+		new Scout(Character.PLAYER_ONE);
+		new Miner(Character.PLAYER_ONE);
+		new Lieutenant(Character.PLAYER_ONE);
+		new Captain(Character.PLAYER_ONE);
+		new Major(Character.PLAYER_ONE);
+		new Colonel(Character.PLAYER_ONE);
+		new General(Character.PLAYER_ONE);
+		new Marshal(Character.PLAYER_ONE);
+		new Bomb(Character.PLAYER_ONE);
 	}
 	
 	@Test
