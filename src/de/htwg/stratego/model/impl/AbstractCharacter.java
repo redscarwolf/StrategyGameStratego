@@ -14,14 +14,17 @@ public abstract class AbstractCharacter implements Character {
 		this.player = player;
 	}
 	
+	@Override
 	public int getPlayer() {
 		return player;
 	}
 	
+	@Override
 	public int getRank() {
 		return rang;
 	}
 	
+	@Override
 	public boolean isMoveable() {
 		return moveable;
 	}
