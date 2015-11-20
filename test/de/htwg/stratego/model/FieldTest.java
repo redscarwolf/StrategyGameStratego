@@ -11,14 +11,17 @@ import junit.framework.TestCase;
 public class FieldTest extends TestCase {
 
 	private Field field;
-	private Character character;
+	private Character character1;
+	private Character character2;
 	
 	@BeforeClass
 	public void setUp() {
 		field = new Field(3, 2);
-		character = new Sergeant(Character.PLAYER_ONE);
+		character1 = new Sergeant(Character.PLAYER_ONE);
+		character2 = new Sergeant(Character.PLAYER_TWO);
 		
-		field.getCell(0, 0).setCharacter(character);
+		field.getCell(0, 0).setCharacter(character1);
+		field.getCell(1, 1).setCharacter(character2);
 	}
 	
 	@Test
@@ -71,12 +74,25 @@ public class FieldTest extends TestCase {
 	@Test
 	public void testToString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("+--+--+--+\n");
-		sb.append("|#4|  |  |\n");
-		sb.append("+--+--+--+\n");
-		sb.append("|  |  |  |\n");
-		sb.append("+--+--+--+\n");
+		sb.append("   0  1  2 \n");
+		sb.append("  +--+--+--+\n");
+		sb.append("0 |#4|  |  |\n");
+		sb.append("  +--+--+--+\n");
+		sb.append("1 |  |!4|  |\n");
+		sb.append("  +--+--+--+\n");
 		assertEquals(sb.toString(), field.toString());
+	}
+	
+	@Test
+	public void testGetFieldString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("   0  1  2 \n");
+		sb.append("  +--+--+--+\n");
+		sb.append("0 |XX|  |  |\n");
+		sb.append("  +--+--+--+\n");
+		sb.append("1 |  |!4|  |\n");
+		sb.append("  +--+--+--+\n");
+		assertEquals(sb.toString(), field.getFieldString(Character.PLAYER_TWO));
 	}
 	
 	@Test

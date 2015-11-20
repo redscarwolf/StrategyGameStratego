@@ -364,7 +364,15 @@ public class StrategoController extends Observable {
 	}
 	
 	public String getFieldString() {
-		return field.toString();
+		if (playerStatus == PlayerStatus.PLAYER_ONE_TURN ||
+				playerStatus == PlayerStatus.PLAYER_ONE_START) {
+			return field.getFieldString(Character.PLAYER_ONE);
+		} else if (playerStatus == PlayerStatus.PLAYER_TWO_TURN ||
+				playerStatus == PlayerStatus.PLAYER_TWO_START) {
+			return field.getFieldString(Character.PLAYER_TWO);
+		} else {
+			return field.toString();
+		}
 	}
-	
+
 }
