@@ -337,17 +337,6 @@ public class StrategoController extends Observable {
 	private Character remove(int x, int y) {
 		List<Character> characterList = null;
 		
-//		if (playerStatus == PlayerStatus.PLAYER_ONE_START ||
-//				playerStatus == PlayerStatus.PLAYER_ONE_TURN) {
-//			characterList = characterListPlayer1;
-//		} else if (playerStatus == PlayerStatus.PLAYER_TWO_START ||
-//				playerStatus == PlayerStatus.PLAYER_TWO_TURN) {
-//			characterList = characterListPlayer2;
-//		} else {
-//			//TODO
-//			return null;
-//		}
-		
 		Character c = field.getCell(x, y).getCharacter();
 		
 		if (c.getPlayer() == Character.PLAYER_ONE) {
