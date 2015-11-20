@@ -6,13 +6,26 @@ import java.util.List;
 import de.htwg.stratego.model.Cell;
 import de.htwg.stratego.model.Character;
 import de.htwg.stratego.model.Field;
+import de.htwg.stratego.model.impl.Bomb;
+import de.htwg.stratego.model.impl.Captain;
+import de.htwg.stratego.model.impl.Colonel;
 import de.htwg.stratego.model.impl.Flag;
+import de.htwg.stratego.model.impl.General;
+import de.htwg.stratego.model.impl.Lieutenant;
+import de.htwg.stratego.model.impl.Major;
+import de.htwg.stratego.model.impl.Marshal;
+import de.htwg.stratego.model.impl.Miner;
+import de.htwg.stratego.model.impl.Scout;
 import de.htwg.stratego.model.impl.Sergeant;
+import de.htwg.stratego.model.impl.Spy;
 import de.htwg.stratego.util.observer.Observable;
 
 public class StrategoController extends Observable {
 	private GameStatus status = GameStatus.WELCOME;
 	private Field field;
+	
+	private static final int WIDTH_FIELD = 10;
+	private static final int HEIGHT_FIELD = 10;
 	
 	private List<Character> characterListPlayer1;
 	private List<Character> characterListPlayer2;
@@ -20,40 +33,77 @@ public class StrategoController extends Observable {
 	private enum PlayerStatus {PLAYER_ONE_START, PLAYER_TWO_START, PLAYER_ONE_TURN, PLAYER_TWO_TURN};
 	private PlayerStatus playerStatus = PlayerStatus.PLAYER_ONE_START;
 	
-	private static final int NUMBER_OF_SERGEANT = 8;
+	private static final int NUMBER_OF_BOMB = 6;
+	private static final int NUMBER_OF_MARSHALL = 1;
+	private static final int NUMBER_OF_GENERAL = 1;
+	private static final int NUMBER_OF_COLONEL = 2;
+	private static final int NUMBER_OF_MAJOR = 3;
+	private static final int NUMBER_OF_CAPTAIN = 4;
+	private static final int NUMBER_OF_LIEUTENANT = 4;
+	private static final int NUMBER_OF_SERGEANT = 4;
+	private static final int NUMBER_OF_MINER = 5;
+	private static final int NUMBER_OF_SCOUT = 8;
+	private static final int NUMBER_OF_SPY = 1;
 	private static final int NUMBER_OF_FLAG = 1;
 	
-	
-	public StrategoController(int width, int height) {
-		setField(width, height);
+	public StrategoController() {
+		setField(WIDTH_FIELD, HEIGHT_FIELD);
 		initCharacterLists();
 	}
 	
 	private void initCharacterLists() {
+		// create Lists
 		characterListPlayer1 = new ArrayList<>();
 		characterListPlayer2 = new ArrayList<>();
-		// create Sergeant
-//		addNumberOfChar(characterListPlayer1,
-//						new Sergeant(Character.PLAYER_ONE),
-//						numberOfSergeant);
-//		addNumberOfChar(characterListPlayer2,
-//				new Sergeant(Character.PLAYER_TWO),
-//				numberOfSergeant);
+		
+		// fill Lists with Chars
+		addToCharList(new Bomb(Character.PLAYER_ONE),
+				new Bomb(Character.PLAYER_TWO),
+				NUMBER_OF_BOMB);
+		
+		addToCharList(new Marshal(Character.PLAYER_ONE),
+				new Marshal(Character.PLAYER_TWO),
+				NUMBER_OF_MARSHALL);
+		
+		addToCharList(new General(Character.PLAYER_ONE),
+				new General(Character.PLAYER_TWO),
+				NUMBER_OF_GENERAL);
+
+		addToCharList(new Colonel(Character.PLAYER_ONE),
+				new Colonel(Character.PLAYER_TWO),
+				NUMBER_OF_COLONEL);
+
+		addToCharList(new Major(Character.PLAYER_ONE),
+				new Major(Character.PLAYER_TWO),
+				NUMBER_OF_MAJOR);
+
+		addToCharList(new Captain(Character.PLAYER_ONE),
+				new Captain(Character.PLAYER_TWO),
+				NUMBER_OF_CAPTAIN);
+
+		addToCharList(new Lieutenant(Character.PLAYER_ONE),
+				new Lieutenant(Character.PLAYER_TWO),
+				NUMBER_OF_LIEUTENANT);
 		
 		addToCharList(new Sergeant(Character.PLAYER_ONE),
 					  new Sergeant(Character.PLAYER_TWO),
 					  NUMBER_OF_SERGEANT);
+
+		addToCharList(new Miner(Character.PLAYER_ONE),
+				new Miner(Character.PLAYER_TWO),
+				NUMBER_OF_MINER);
+
+		addToCharList(new Scout(Character.PLAYER_ONE),
+				new Scout(Character.PLAYER_TWO),
+				NUMBER_OF_SCOUT);
+
+		addToCharList(new Spy(Character.PLAYER_ONE),
+				new Spy(Character.PLAYER_TWO),
+				NUMBER_OF_SPY);
 		
 		addToCharList(new Flag(Character.PLAYER_ONE),
 				  new Flag(Character.PLAYER_TWO),
 				  NUMBER_OF_FLAG);
-		
-		// OLD--------
-//		for (int i = 0; i < numberOfSergeant; i++) {
-//			characterListPlayer1.add(new Sergeant(Character.PLAYER_ONE));
-//		}
-//		// create Flag
-//		characterListPlayer1.add(new Flag(Character.PLAYER_ONE));
 	}
 	
 	private void addToCharList(Character ch1, Character ch2, int number){
@@ -136,8 +186,20 @@ public class StrategoController extends Observable {
 	}
 	
 	public void fillField() {
-		add(1, 1, 0);
-		add(1, 2, 4);
+		// fill Player1 left to right, up to middle
+		for (int x = 0; x < field.getWidth(); x++) {
+			for (int y = 0; y < 4; y++) {		
+				field.getCell(x, y).setCharacter(characterListPlayer1.get(0));
+				characterListPlayer1.remove(0);
+			}
+		}
+		// fill Player2 right to left, bottom to middle
+		for (int x = field.getWidth() - 1; x > -1; x--) {
+			for (int y = field.getHeight() - 1; y > field.getHeight() - 5; y--) {		
+				field.getCell(x, y).setCharacter(characterListPlayer2.get(0));
+				characterListPlayer2.remove(0);
+			}
+		}
 	}
 	
 	public void moveChar(int fromX, int fromY, int toX,
@@ -240,6 +302,7 @@ public class StrategoController extends Observable {
 			return;
 		}
 		
+		// looking for char-rank in charList
 		Character character = null;
 		for (Character c: characterList) {
 			if (c.getRank() == rank) {
@@ -248,14 +311,17 @@ public class StrategoController extends Observable {
 		}
 		
 		if (character == null) {
+			// didn't found char-rank 
 			return;
 		}
 		
 		Cell cell = field.getCell(x, y);
 		if (cell.getCharacter() != null) {
+			// field already has a char
 			return;
 		}
 		
+		// take char from list and add to field
 		characterList.remove(character);
 		cell.setCharacter(character);
 		
