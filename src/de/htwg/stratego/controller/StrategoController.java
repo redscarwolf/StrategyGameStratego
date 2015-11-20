@@ -14,11 +14,15 @@ public class StrategoController extends Observable {
 	private GameStatus status = GameStatus.WELCOME;
 	private Field field;
 	
-	private List<Character> characterListPlayer1 = new ArrayList<>();
-	private List<Character> characterListPlayer2 = new ArrayList<>();
+	private List<Character> characterListPlayer1;
+	private List<Character> characterListPlayer2;
 	
 	private enum PlayerStatus {PLAYER_ONE_START, PLAYER_TWO_START, PLAYER_ONE_TURN, PLAYER_TWO_TURN};
 	private PlayerStatus playerStatus = PlayerStatus.PLAYER_ONE_START;
+	
+	private static final int NUMBER_OF_SERGEANT = 8;
+	private static final int NUMBER_OF_FLAG = 1;
+	
 	
 	public StrategoController(int width, int height) {
 		setField(width, height);
@@ -26,13 +30,50 @@ public class StrategoController extends Observable {
 	}
 	
 	private void initCharacterLists() {
-		for (int i = 0; i < 5; i++) {
-			characterListPlayer1.add(new Sergeant(Character.PLAYER_ONE));
-			characterListPlayer2.add(new Sergeant(Character.PLAYER_TWO));
-		}
-		characterListPlayer1.add(new Flag(Character.PLAYER_ONE));
-		characterListPlayer2.add(new Flag(Character.PLAYER_TWO));
+		characterListPlayer1 = new ArrayList<>();
+		characterListPlayer2 = new ArrayList<>();
+		// create Sergeant
+//		addNumberOfChar(characterListPlayer1,
+//						new Sergeant(Character.PLAYER_ONE),
+//						numberOfSergeant);
+//		addNumberOfChar(characterListPlayer2,
+//				new Sergeant(Character.PLAYER_TWO),
+//				numberOfSergeant);
+		
+		addToCharList(new Sergeant(Character.PLAYER_ONE),
+					  new Sergeant(Character.PLAYER_TWO),
+					  NUMBER_OF_SERGEANT);
+		
+		addToCharList(new Flag(Character.PLAYER_ONE),
+				  new Flag(Character.PLAYER_TWO),
+				  NUMBER_OF_FLAG);
+		
+		// OLD--------
+//		for (int i = 0; i < numberOfSergeant; i++) {
+//			characterListPlayer1.add(new Sergeant(Character.PLAYER_ONE));
+//		}
+//		// create Flag
+//		characterListPlayer1.add(new Flag(Character.PLAYER_ONE));
 	}
+	
+	private void addToCharList(Character ch1, Character ch2, int number){
+	
+		addNumberOfChar(characterListPlayer1,
+				ch1,
+				number);
+		addNumberOfChar(characterListPlayer2,
+			ch2,
+			number);
+	}
+	
+	private void addNumberOfChar(List<Character> charlist,
+								 Character ch,
+								 int number) {
+		for (int i = 0; i < number; i++) {
+			charlist.add(ch);
+		}
+	}
+	
 	
 	public String toStringCharacterList(int player) {
 		List<Character> characterList = null;
