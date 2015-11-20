@@ -52,13 +52,13 @@ public class CharacterTest extends TestCase{
 	
 	@Test
 	public void testToString() {
-		String charString = "#" + Rank.FLAG;
+		String charString = "# " + Rank.FLAG;
 		assertEquals(charString, flag.toString());
 		
-		charString = "!" + Rank.SERGEANT;
+		charString = "! " + Rank.SERGEANT;
 		assertEquals(charString, sergeant.toString());
 		
-		charString = "0" + Rank.SERGEANT;
+		charString = "0 " + Rank.SERGEANT;
 		assertEquals(charString, sergeant2.toString());
 	}
 

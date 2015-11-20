@@ -4,12 +4,12 @@ import de.htwg.stratego.model.Character;
 
 public abstract class AbstractCharacter implements Character {
 
-	protected int rang;
+	protected int rank;
 	protected boolean moveable;
 	protected int player;
 	
-	public AbstractCharacter(int rang, boolean moveable, int player) {
-		this.rang = rang;
+	public AbstractCharacter(int rank, boolean moveable, int player) {
+		this.rank = rank;
 		this.moveable = moveable;
 		this.player = player;
 	}
@@ -21,7 +21,7 @@ public abstract class AbstractCharacter implements Character {
 	
 	@Override
 	public int getRank() {
-		return rang;
+		return rank;
 	}
 	
 	@Override
@@ -44,7 +44,7 @@ public abstract class AbstractCharacter implements Character {
 				break;
 		}
 		
-		return playerString + rang;
+		return String.format("%s%2s", playerString, Integer.toString(rank));
 	}
 	
 }

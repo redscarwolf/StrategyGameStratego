@@ -48,42 +48,21 @@ public class Field {
 	
 	@Override
 	public String toString() {
-		StringBuilder lineSb = new StringBuilder("  +");
-		StringBuilder mainSb = new StringBuilder("  ");		
-
-		for (int i = 0; i < width; i++) {
-			mainSb.append(" " + i + " ");
-			lineSb.append("--+");
-		}
-		lineSb.append("\n");
-		mainSb.append("\n");
-		String lineString = lineSb.toString();
-		
-		for (int j = 0; j < height; j++) {
-			mainSb.append(lineString);
-			mainSb.append(j + " ");
-			for (int i = 0; i < width; i++) {
-				Character c = cells[i][j].getCharacter();
-				if (c == null) {
-					mainSb.append("|  ");
-				} else {
-					mainSb.append("|" + c);
-				}
-			}
-			mainSb.append("|\n");
-		}
-		mainSb.append(lineString);
-		
-		return mainSb.toString();
+		return getFieldString(-1);
 	}
 
+	/**
+	 * If player = -1 all characters are printed.
+	 * @param player
+	 * @return
+	 */
 	public String getFieldString(int player) {
 		StringBuilder lineSb = new StringBuilder("  +");
-		StringBuilder mainSb = new StringBuilder("  ");		
+		StringBuilder mainSb = new StringBuilder("   ");		
 
 		for (int i = 0; i < width; i++) {
-			mainSb.append(" " + i + " ");
-			lineSb.append("--+");
+			mainSb.append(" " + i + "  ");
+			lineSb.append("---+");
 		}
 		lineSb.append("\n");
 		mainSb.append("\n");
@@ -95,12 +74,12 @@ public class Field {
 			for (int i = 0; i < width; i++) {
 				Character c = cells[i][j].getCharacter();
 				if (c == null) {
-					mainSb.append("|  ");
+					mainSb.append("|   ");
 				} else {
-					if (c.getPlayer() == player) {
+					if (c.getPlayer() == player || player <= -1) {
 						mainSb.append("|" + c);
 					} else {
-						mainSb.append("|XX");
+						mainSb.append("| X ");
 					}
 				}
 			}
