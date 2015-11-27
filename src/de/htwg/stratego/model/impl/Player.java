@@ -11,6 +11,23 @@ public class Player {
 	private List<Character> characterList;
 	private String symbol;
 	
+	private static final int NUMBER_OF_BOMB = 6;
+	private static final int NUMBER_OF_MARSHAL = 1;
+	private static final int NUMBER_OF_GENERAL = 1;
+	private static final int NUMBER_OF_COLONEL = 2;
+	private static final int NUMBER_OF_MAJOR = 3;
+	private static final int NUMBER_OF_CAPTAIN = 4;
+	private static final int NUMBER_OF_LIEUTENANT = 4;
+	private static final int NUMBER_OF_SERGEANT = 4;
+	private static final int NUMBER_OF_MINER = 5;
+	private static final int NUMBER_OF_SCOUT = 8;
+	private static final int NUMBER_OF_SPY = 1;
+	private static final int NUMBER_OF_FLAG = 1;
+	
+	public Player() {
+		this("?");
+	}
+	
 	public Player(String symbol) {
 		characterList = new ArrayList<>();
 		this.symbol = symbol;
@@ -30,7 +47,7 @@ public class Player {
 			
 		}
 	}
-	
+
 	public Character getCharacter(int rank) {
 		Character character = null;
 		for (Character c: characterList) {

@@ -4,6 +4,7 @@ import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese wei
 import org.junit.Test;
 
 import de.htwg.stratego.model.impl.Flag;
+import de.htwg.stratego.model.impl.Player;
 import junit.framework.TestCase;
 
 public class CellTest extends TestCase {
@@ -14,7 +15,7 @@ public class CellTest extends TestCase {
 	@BeforeClass
 	public void setUp() {
 		cell = new Cell(1, 2);
-		flag = new Flag(1);
+		flag = new Flag(new Player());
 	}
 
 	@Test

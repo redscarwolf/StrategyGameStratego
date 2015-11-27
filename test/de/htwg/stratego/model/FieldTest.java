@@ -3,8 +3,7 @@ package de.htwg.stratego.model;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.htwg.stratego.model.Cell;
-import de.htwg.stratego.model.Field;
+import de.htwg.stratego.model.impl.Player;
 import de.htwg.stratego.model.impl.Sergeant;
 import junit.framework.TestCase;
 
@@ -13,12 +12,16 @@ public class FieldTest extends TestCase {
 	private Field field;
 	private Character character1;
 	private Character character2;
+	private Player playerOne;
+	private Player playerTwo;
 	
 	@BeforeClass
 	public void setUp() {
 		field = new Field(3, 2);
-		character1 = new Sergeant(Character.PLAYER_ONE);
-		character2 = new Sergeant(Character.PLAYER_TWO);
+		playerOne = new Player("#");
+		playerTwo = new Player("!");
+		character1 = new Sergeant(playerOne);
+		character2 = new Sergeant(playerTwo);
 		
 		field.getCell(0, 0).setCharacter(character1);
 		field.getCell(1, 1).setCharacter(character2);
@@ -92,7 +95,7 @@ public class FieldTest extends TestCase {
 		sb.append("  +---+---+---+\n");
 		sb.append("1 |   |! 4|   |\n");
 		sb.append("  +---+---+---+\n");
-		assertEquals(sb.toString(), field.getFieldString(Character.PLAYER_TWO));
+		assertEquals(sb.toString(), field.getFieldString(playerTwo));
 	}
 	
 	@Test

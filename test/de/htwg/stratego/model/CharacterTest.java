@@ -10,29 +10,32 @@ public class CharacterTest extends TestCase{
 	
 	private Character flag;
 	private Character sergeant;
-	private Character sergeant2;
-	
+	private Player playerOne;
+	private Player playerTwo;
+
 	@BeforeClass
 	public void setUp() {
-		flag = new Flag(Character.PLAYER_ONE);
-		sergeant = new Sergeant(Character.PLAYER_TWO);
-		sergeant2 = new Sergeant(0);
+		playerOne = new Player("#");
+		playerTwo = new Player("!");
+		
+		flag = new Flag(playerOne);
+		sergeant = new Sergeant(playerTwo);
 
-		new Spy(Character.PLAYER_ONE);
-		new Scout(Character.PLAYER_ONE);
-		new Miner(Character.PLAYER_ONE);
-		new Lieutenant(Character.PLAYER_ONE);
-		new Captain(Character.PLAYER_ONE);
-		new Major(Character.PLAYER_ONE);
-		new Colonel(Character.PLAYER_ONE);
-		new General(Character.PLAYER_ONE);
-		new Marshal(Character.PLAYER_ONE);
-		new Bomb(Character.PLAYER_ONE);
+		new Spy(playerOne);
+		new Scout(playerOne);
+		new Miner(playerOne);
+		new Lieutenant(playerOne);
+		new Captain(playerOne);
+		new Major(playerOne);
+		new Colonel(playerOne);
+		new General(playerOne);
+		new Marshal(playerOne);
+		new Bomb(playerOne);
 	}
 	
 	@Test
 	public void testGetPlayer() {
-		assertEquals(Character.PLAYER_ONE, flag.getPlayer());
+		assertEquals(playerOne, flag.getPlayer());
 	}
 	
 	@Test
@@ -57,9 +60,6 @@ public class CharacterTest extends TestCase{
 		
 		charString = "! " + Rank.SERGEANT;
 		assertEquals(charString, sergeant.toString());
-		
-		charString = "0 " + Rank.SERGEANT;
-		assertEquals(charString, sergeant2.toString());
 	}
 
 }

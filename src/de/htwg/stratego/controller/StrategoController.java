@@ -31,19 +31,6 @@ public class StrategoController extends Observable {
 	private enum PlayerStatus {PLAYER_ONE_START, PLAYER_TWO_START, PLAYER_ONE_TURN, PLAYER_TWO_TURN};
 	private PlayerStatus playerStatus = PlayerStatus.PLAYER_ONE_START;
 	
-	private static final int NUMBER_OF_BOMB = 6;
-	private static final int NUMBER_OF_MARSHALL = 1;
-	private static final int NUMBER_OF_GENERAL = 1;
-	private static final int NUMBER_OF_COLONEL = 2;
-	private static final int NUMBER_OF_MAJOR = 3;
-	private static final int NUMBER_OF_CAPTAIN = 4;
-	private static final int NUMBER_OF_LIEUTENANT = 4;
-	private static final int NUMBER_OF_SERGEANT = 4;
-	private static final int NUMBER_OF_MINER = 5;
-	private static final int NUMBER_OF_SCOUT = 8;
-	private static final int NUMBER_OF_SPY = 1;
-	private static final int NUMBER_OF_FLAG = 1;
-	
 	private Player playerOne;
 	private Player playerTwo;
 	
@@ -61,70 +48,70 @@ public class StrategoController extends Observable {
 		//initCharacterLists();
 	}
 	
-	private void initCharacterLists() {
-		// create Lists
-		characterListPlayer1 = new ArrayList<>();
-		characterListPlayer2 = new ArrayList<>();
-		
-		// fill Lists with Chars
-		addToCharList(new Bomb(Character.PLAYER_ONE),
-				new Bomb(Character.PLAYER_TWO),
-				NUMBER_OF_BOMB);
-		
-		addToCharList(new Marshal(Character.PLAYER_ONE),
-				new Marshal(Character.PLAYER_TWO),
-				NUMBER_OF_MARSHALL);
-		
-		addToCharList(new General(Character.PLAYER_ONE),
-				new General(Character.PLAYER_TWO),
-				NUMBER_OF_GENERAL);
-
-		addToCharList(new Colonel(Character.PLAYER_ONE),
-				new Colonel(Character.PLAYER_TWO),
-				NUMBER_OF_COLONEL);
-
-		addToCharList(new Major(Character.PLAYER_ONE),
-				new Major(Character.PLAYER_TWO),
-				NUMBER_OF_MAJOR);
-
-		addToCharList(new Captain(Character.PLAYER_ONE),
-				new Captain(Character.PLAYER_TWO),
-				NUMBER_OF_CAPTAIN);
-
-		addToCharList(new Lieutenant(Character.PLAYER_ONE),
-				new Lieutenant(Character.PLAYER_TWO),
-				NUMBER_OF_LIEUTENANT);
-		
-		addToCharList(new Sergeant(Character.PLAYER_ONE),
-					  new Sergeant(Character.PLAYER_TWO),
-					  NUMBER_OF_SERGEANT);
-
-		addToCharList(new Miner(Character.PLAYER_ONE),
-				new Miner(Character.PLAYER_TWO),
-				NUMBER_OF_MINER);
-
-		addToCharList(new Scout(Character.PLAYER_ONE),
-				new Scout(Character.PLAYER_TWO),
-				NUMBER_OF_SCOUT);
-
-		addToCharList(new Spy(Character.PLAYER_ONE),
-				new Spy(Character.PLAYER_TWO),
-				NUMBER_OF_SPY);
-		
-		addToCharList(new Flag(Character.PLAYER_ONE),
-				  new Flag(Character.PLAYER_TWO),
-				  NUMBER_OF_FLAG);
-	}
-	
-	private void addToCharList(Character ch1, Character ch2, int number){
-	
-		addNumberOfChar(characterListPlayer1,
-				ch1,
-				number);
-		addNumberOfChar(characterListPlayer2,
-			ch2,
-			number);
-	}
+//	private void initCharacterLists() {
+//		// create Lists
+//		characterListPlayer1 = new ArrayList<>();
+//		characterListPlayer2 = new ArrayList<>();
+//		
+//		// fill Lists with Chars
+//		addToCharList(new Bomb(Character.PLAYER_ONE),
+//				new Bomb(Character.PLAYER_TWO),
+//				NUMBER_OF_BOMB);
+//		
+//		addToCharList(new Marshal(Character.PLAYER_ONE),
+//				new Marshal(Character.PLAYER_TWO),
+//				NUMBER_OF_MARSHALL);
+//		
+//		addToCharList(new General(Character.PLAYER_ONE),
+//				new General(Character.PLAYER_TWO),
+//				NUMBER_OF_GENERAL);
+//
+//		addToCharList(new Colonel(Character.PLAYER_ONE),
+//				new Colonel(Character.PLAYER_TWO),
+//				NUMBER_OF_COLONEL);
+//
+//		addToCharList(new Major(Character.PLAYER_ONE),
+//				new Major(Character.PLAYER_TWO),
+//				NUMBER_OF_MAJOR);
+//
+//		addToCharList(new Captain(Character.PLAYER_ONE),
+//				new Captain(Character.PLAYER_TWO),
+//				NUMBER_OF_CAPTAIN);
+//
+//		addToCharList(new Lieutenant(Character.PLAYER_ONE),
+//				new Lieutenant(Character.PLAYER_TWO),
+//				NUMBER_OF_LIEUTENANT);
+//		
+//		addToCharList(new Sergeant(Character.PLAYER_ONE),
+//					  new Sergeant(Character.PLAYER_TWO),
+//					  NUMBER_OF_SERGEANT);
+//
+//		addToCharList(new Miner(Character.PLAYER_ONE),
+//				new Miner(Character.PLAYER_TWO),
+//				NUMBER_OF_MINER);
+//
+//		addToCharList(new Scout(Character.PLAYER_ONE),
+//				new Scout(Character.PLAYER_TWO),
+//				NUMBER_OF_SCOUT);
+//
+//		addToCharList(new Spy(Character.PLAYER_ONE),
+//				new Spy(Character.PLAYER_TWO),
+//				NUMBER_OF_SPY);
+//		
+//		addToCharList(new Flag(Character.PLAYER_ONE),
+//				  new Flag(Character.PLAYER_TWO),
+//				  NUMBER_OF_FLAG);
+//	}
+//	
+//	private void addToCharList(Character ch1, Character ch2, int number){
+//	
+//		addNumberOfChar(characterListPlayer1,
+//				ch1,
+//				number);
+//		addNumberOfChar(characterListPlayer2,
+//			ch2,
+//			number);
+//	}
 	
 	private void addNumberOfChar(List<Character> charlist,
 								 Character ch,
