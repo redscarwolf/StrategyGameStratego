@@ -204,7 +204,7 @@ public class StrategoController extends Observable {
 	
 	public void moveChar(int fromX, int fromY, int toX,
 			int toY) {
-		//TODO: check is move inside of Field 
+		// check is move inside of Field 
 		//get Cells and get Characters
 		Cell fromCell = field.getCell(fromX, fromY);
 		Cell toCell = field.getCell(toX, toY);
@@ -212,19 +212,19 @@ public class StrategoController extends Observable {
 		Character toCharacter = toCell.getCharacter();
 		
 		//Conditions of fromCharacter
-		//TODO: is selected character != null ;
+		// does selected cell contain a character
 		if (fromCharacter == null) {
 			notifyObservers();
 			return;
 		}
 		
-		//TODO: is Char moveable 
+		// is Char moveable 
 		if (!fromCharacter.isMoveable()) {
 			notifyObservers();
 			return;
 		}
 		
-		//TODO: is character a char of the player
+		// is character a char of the player
 		if (fromCharacter.getPlayer() == Character.PLAYER_ONE) {
 			if (!(playerStatus == PlayerStatus.PLAYER_ONE_TURN)) {
 				notifyObservers();
@@ -252,8 +252,7 @@ public class StrategoController extends Observable {
 		//Conditions of toCharacter
 		if (toCharacter == null) {
 			// if Cell is empty move Character to new position
-			fromCell.setCharacter(null);
-			toCell.setCharacter(fromCharacter);
+			changePosition(fromCell, toCell);
 		} else {
 			// if Cell is not empty fight with toCharacter
 			// only if toCharacter.getPlayer() is not equal to fromCharacter.getPlayer() 
@@ -270,8 +269,6 @@ public class StrategoController extends Observable {
 	}
 	
 	private void fight(Cell c1, Cell c2) {
-		//TODO gültige Zellen überprüfen
-		//TODO sind auf beiden Zellen Characters
 		// get Character rank
 		int r1 = c1.getCharacter().getRank();
 		int r2 = c2.getCharacter().getRank();
@@ -279,7 +276,8 @@ public class StrategoController extends Observable {
 		if (r1 > r2) {
 			//success
 			remove(c2.getX(),c2.getY());
-			// TODO bewege Char auf toX toY Celle
+			// move Character to toCell
+			changePosition(c1, c2);
 		} else if (r1 < r2) {
 			// lost
 			remove(c1.getX(),c1.getY());
@@ -287,8 +285,13 @@ public class StrategoController extends Observable {
 			// equal both lose
 			remove(c1.getX(),c1.getY());
 			remove(c2.getX(),c2.getY());
-			
 		}
+	}
+	
+	private void changePosition(Cell fromCell, Cell toCell) {
+		Character ch = fromCell.getCharacter();
+		fromCell.setCharacter(null);
+		toCell.setCharacter(ch);
 	}
 	
 	public void add(int x, int y, int rank) {
