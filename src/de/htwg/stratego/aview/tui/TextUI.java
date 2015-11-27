@@ -24,7 +24,7 @@ public class TextUI implements IObserver {
 	public boolean processInputLine(String input) {
 		boolean continu = true;
 
-		boolean correctInput = Pattern.matches("q|h|f|(a \\d \\d \\d)|(r \\d \\d)|(m \\d \\d \\d \\d)", input);
+		boolean correctInput = Pattern.matches("q|h|f|(a \\d \\d \\d\\d?)|(r \\d \\d)|(m \\d \\d \\d \\d)", input);
 		if (!correctInput) {
 			System.out.println("Illegal command!");
 			return continu;
@@ -76,8 +76,8 @@ public class TextUI implements IObserver {
 		System.out.println(StatusMessage.textMap.get(sc.getStatus()));
 		System.out.println(sc.toStringPlayerStatus());
 		System.out.print(sc.getFieldString());
-		System.out.println("Characters Player1: " + sc.toStringCharacterList(Character.PLAYER_ONE));
-		System.out.println("Characters Player2: " + sc.toStringCharacterList(Character.PLAYER_TWO));
+		System.out.println("Characters Player1: " + sc.toStringCharacterList(sc.getPlayerOne()));
+		System.out.println("Characters Player2: " + sc.toStringCharacterList(sc.getPlayerTwo()));
 		System.out.print("Command (Type \"h\" for help): ");
 	}
 

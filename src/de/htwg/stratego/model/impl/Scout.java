@@ -4,7 +4,7 @@ import de.htwg.stratego.model.Rank;
 
 public class Scout extends AbstractCharacter {
 
-	public Scout(int player) {
+	public Scout(Player player) {
 		super(Rank.SCOUT, true, player);
 	}
 

@@ -15,6 +15,7 @@ import de.htwg.stratego.model.impl.Lieutenant;
 import de.htwg.stratego.model.impl.Major;
 import de.htwg.stratego.model.impl.Marshal;
 import de.htwg.stratego.model.impl.Miner;
+import de.htwg.stratego.model.impl.Player;
 import de.htwg.stratego.model.impl.Scout;
 import de.htwg.stratego.model.impl.Sergeant;
 import de.htwg.stratego.model.impl.Spy;
@@ -26,9 +27,6 @@ public class StrategoController extends Observable {
 	
 	private static final int WIDTH_FIELD = 10;
 	private static final int HEIGHT_FIELD = 10;
-	
-	private List<Character> characterListPlayer1;
-	private List<Character> characterListPlayer2;
 	
 	private enum PlayerStatus {PLAYER_ONE_START, PLAYER_TWO_START, PLAYER_ONE_TURN, PLAYER_TWO_TURN};
 	private PlayerStatus playerStatus = PlayerStatus.PLAYER_ONE_START;
@@ -46,9 +44,21 @@ public class StrategoController extends Observable {
 	private static final int NUMBER_OF_SPY = 1;
 	private static final int NUMBER_OF_FLAG = 1;
 	
+	private Player playerOne;
+	private Player playerTwo;
+	
 	public StrategoController() {
 		setField(WIDTH_FIELD, HEIGHT_FIELD);
-		initCharacterLists();
+		playerOne = new Player("#");
+		playerTwo = new Player("!");
+		
+		playerOne.addCharacter(new Flag(playerOne));
+		playerOne.addCharacter(new Sergeant(playerOne));
+		playerTwo.addCharacter(new Sergeant(playerTwo));
+		playerTwo.addCharacter(new Marshal(playerTwo));
+		playerTwo.addCharacter(new Flag(playerTwo));
+		
+		//initCharacterLists();
 	}
 	
 	private void initCharacterLists() {
@@ -124,22 +134,16 @@ public class StrategoController extends Observable {
 		}
 	}
 	
+	public Player getPlayerOne() {
+		return playerOne;
+	}
 	
-	public String toStringCharacterList(int player) {
-		List<Character> characterList = null;
-		if (player == Character.PLAYER_ONE) {
-			characterList = characterListPlayer1;
-		} else if (player == Character.PLAYER_TWO) {
-			characterList = characterListPlayer2;
-		} else {
-			return  "?";
-		}
-		
-		StringBuilder sb = new StringBuilder("|");
-		for (Character c : characterList) {
-			sb.append(c.getRank() + "|");
-		}
-		return sb.toString();
+	public Player getPlayerTwo() {
+		return playerTwo;
+	}
+	
+	public String toStringCharacterList(Player player) {
+		return player.getCharacterListAsString();
 	}
 	
 	public void changePlayerSetup() {
@@ -189,15 +193,13 @@ public class StrategoController extends Observable {
 		// fill Player1 left to right, up to middle
 		for (int x = 0; x < field.getWidth(); x++) {
 			for (int y = 0; y < 4; y++) {		
-				field.getCell(x, y).setCharacter(characterListPlayer1.get(0));
-				characterListPlayer1.remove(0);
+				field.getCell(x, y).setCharacter(playerOne.removeCharacter(0));
 			}
 		}
 		// fill Player2 right to left, bottom to middle
 		for (int x = field.getWidth() - 1; x > -1; x--) {
 			for (int y = field.getHeight() - 1; y > field.getHeight() - 5; y--) {		
-				field.getCell(x, y).setCharacter(characterListPlayer2.get(0));
-				characterListPlayer2.remove(0);
+				field.getCell(x, y).setCharacter(playerTwo.removeCharacter(0));
 			}
 		}
 	}
@@ -225,12 +227,12 @@ public class StrategoController extends Observable {
 		}
 		
 		// is character a char of the player
-		if (fromCharacter.getPlayer() == Character.PLAYER_ONE) {
+		if (fromCharacter.getPlayer() == playerOne) {
 			if (!(playerStatus == PlayerStatus.PLAYER_ONE_TURN)) {
 				notifyObservers();
 				return;
 			}
-		} else if (fromCharacter.getPlayer() == Character.PLAYER_TWO) {
+		} else if (fromCharacter.getPlayer() == playerTwo) {
 			if (!(playerStatus == PlayerStatus.PLAYER_TWO_TURN)) {
 				notifyObservers();
 				return;
@@ -295,24 +297,19 @@ public class StrategoController extends Observable {
 	}
 	
 	public void add(int x, int y, int rank) {
-		List<Character> characterList = null;
+		Player p = null;
 		
 		if (playerStatus == PlayerStatus.PLAYER_ONE_START) {
-			characterList = characterListPlayer1;
+			p = playerOne;
 		} else if (playerStatus == PlayerStatus.PLAYER_TWO_START) {
-			characterList = characterListPlayer2;
+			p = playerTwo;
 		} else {
 			//TODO
 			return;
 		}
 		
 		// looking for char-rank in charList
-		Character character = null;
-		for (Character c: characterList) {
-			if (c.getRank() == rank) {
-				character = c;
-			}
-		}
+		Character character = p.getCharacter(rank);
 		
 		if (character == null) {
 			// didn't found char-rank 
@@ -326,7 +323,7 @@ public class StrategoController extends Observable {
 		}
 		
 		// take char from list and add to field
-		characterList.remove(character);
+		p.removeCharacter(character);
 		cell.setCharacter(character);
 		
 		notifyObservers();
@@ -338,19 +335,19 @@ public class StrategoController extends Observable {
 	}
 	
 	private Character remove(int x, int y) {
-		List<Character> characterList = null;
+		Player p = null;
 		
 		Character c = field.getCell(x, y).getCharacter();
 		
-		if (c.getPlayer() == Character.PLAYER_ONE) {
-			characterList = characterListPlayer1;
-		} else if (c.getPlayer() == Character.PLAYER_TWO) {
-			characterList = characterListPlayer2;
+		if (c.getPlayer() == playerOne) {
+			p = playerOne;
+		} else if (c.getPlayer() == playerTwo) {
+			p = playerTwo;
 		}
 		
 		field.getCell(x, y).setCharacter(null);
 		if (c != null) {
-			characterList.add(c);
+			p.addCharacter(c);
 		}
 		
 		return c;
@@ -359,10 +356,10 @@ public class StrategoController extends Observable {
 	public String getFieldString() {
 		if (playerStatus == PlayerStatus.PLAYER_ONE_TURN ||
 				playerStatus == PlayerStatus.PLAYER_ONE_START) {
-			return field.getFieldString(Character.PLAYER_ONE);
+			return field.getFieldString(playerOne);
 		} else if (playerStatus == PlayerStatus.PLAYER_TWO_TURN ||
 				playerStatus == PlayerStatus.PLAYER_TWO_START) {
-			return field.getFieldString(Character.PLAYER_TWO);
+			return field.getFieldString(playerTwo);
 		} else {
 			return field.toString();
 		}

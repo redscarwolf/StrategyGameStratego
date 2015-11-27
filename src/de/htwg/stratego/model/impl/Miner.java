@@ -4,7 +4,7 @@ import de.htwg.stratego.model.Rank;
 
 public class Miner extends AbstractCharacter {
 
-	public Miner(int player) {
+	public Miner(Player player) {
 		super(Rank.MINER, true, player);
 	}
 

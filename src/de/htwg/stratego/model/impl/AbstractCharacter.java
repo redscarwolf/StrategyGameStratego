@@ -6,16 +6,16 @@ public abstract class AbstractCharacter implements Character {
 
 	protected int rank;
 	protected boolean moveable;
-	protected int player;
+	protected Player player;
 	
-	public AbstractCharacter(int rank, boolean moveable, int player) {
+	public AbstractCharacter(int rank, boolean moveable, Player player) {
 		this.rank = rank;
 		this.moveable = moveable;
 		this.player = player;
 	}
 	
 	@Override
-	public int getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 	
@@ -31,20 +31,7 @@ public abstract class AbstractCharacter implements Character {
 	
 	@Override
 	public String toString() {
-		String playerString;
-		switch (player) {
-			case PLAYER_ONE:
-				playerString = "#";
-				break;
-			case PLAYER_TWO:
-				playerString = "!";
-				break;
-			default:
-				playerString = Integer.toString(player);
-				break;
-		}
-		
-		return String.format("%s%2s", playerString, Integer.toString(rank));
+		return String.format("%s%2s", player, Integer.toString(rank));
 	}
 	
 }

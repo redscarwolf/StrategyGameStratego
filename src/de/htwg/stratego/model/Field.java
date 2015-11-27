@@ -1,5 +1,7 @@
 package de.htwg.stratego.model;
 
+import de.htwg.stratego.model.impl.Player;
+
 public class Field {
 
 	private int width;
@@ -48,15 +50,15 @@ public class Field {
 	
 	@Override
 	public String toString() {
-		return getFieldString(-1);
+		return getFieldString(null);
 	}
 
 	/**
-	 * If player = -1 all characters are printed.
+	 * If player = null all characters are printed.
 	 * @param player
 	 * @return
 	 */
-	public String getFieldString(int player) {
+	public String getFieldString(Player player) {
 		StringBuilder lineSb = new StringBuilder("  +");
 		StringBuilder mainSb = new StringBuilder("   ");		
 
@@ -76,7 +78,7 @@ public class Field {
 				if (c == null) {
 					mainSb.append("|   ");
 				} else {
-					if (c.getPlayer() == player || player <= -1) {
+					if (c.getPlayer() == player || player == null) {
 						mainSb.append("|" + c);
 					} else {
 						mainSb.append("| X ");

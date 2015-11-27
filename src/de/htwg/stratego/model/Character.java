@@ -1,5 +1,7 @@
 package de.htwg.stratego.model;
 
+import de.htwg.stratego.model.impl.Player;
+
 public interface Character {
 	
 	public static final int PLAYER_ONE = 1;
@@ -7,6 +9,6 @@ public interface Character {
 	
 	public int getRank();
 	public boolean isMoveable();
-	public int getPlayer();
+	public Player getPlayer();
 
 }

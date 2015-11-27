@@ -4,7 +4,7 @@ import de.htwg.stratego.model.Rank;
 
 public class Flag extends AbstractCharacter {
 	
-	public Flag(int player) {
+	public Flag(Player player) {
 		super(Rank.FLAG, false, player);
 	}
 	

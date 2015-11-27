@@ -4,7 +4,7 @@ import de.htwg.stratego.model.Rank;
 
 public class Marshal extends AbstractCharacter {
 
-	public Marshal(int player) {
+	public Marshal(Player player) {
 		super(Rank.MARSHAL, true, player);
 	}
 

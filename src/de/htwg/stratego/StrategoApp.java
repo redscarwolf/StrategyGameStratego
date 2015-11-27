@@ -14,7 +14,7 @@ public final class StrategoApp {
 	public static void main(String[] args) {
 		
 		sc = new StrategoController();
-		sc.fillField();
+//		sc.fillField();
 		
 		tui = new TextUI(sc);
 		tui.printTUI();
