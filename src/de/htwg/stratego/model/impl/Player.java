@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.htwg.stratego.model.Character;
-import de.htwg.stratego.model.Rank;
 
 public class Player {
 
@@ -24,12 +23,32 @@ public class Player {
 	private static final int NUMBER_OF_SPY = 1;
 	private static final int NUMBER_OF_FLAG = 1;
 	
+	public List<Character> getCharacterList() {
+		return characterList;
+	}
+	
+	private void initCharacterList(){
+		Bomb.buildSeveral(NUMBER_OF_BOMB,this);
+		Marshal.buildSeveral(NUMBER_OF_MARSHAL, this);
+		General.buildSeveral(NUMBER_OF_GENERAL, this);
+		Colonel.buildSeveral(NUMBER_OF_COLONEL, this);
+		Major.buildSeveral(NUMBER_OF_MAJOR, this);
+		Captain.buildSeveral(NUMBER_OF_CAPTAIN, this);
+		Lieutenant.buildSeveral(NUMBER_OF_LIEUTENANT, this);
+		Sergeant.buildSeveral(NUMBER_OF_SERGEANT, this);
+		Miner.buildSeveral(NUMBER_OF_MINER, this);
+		Scout.buildSeveral(NUMBER_OF_SCOUT, this);
+		Spy.buildSeveral(NUMBER_OF_SPY, this);
+		Flag.buildSeveral(NUMBER_OF_FLAG, this);
+	}
+	
 	public Player() {
 		this("?");
 	}
 	
 	public Player(String symbol) {
 		characterList = new ArrayList<>();
+		initCharacterList();
 		this.symbol = symbol;
 	}
 	
@@ -39,13 +58,6 @@ public class Player {
 	
 	public void removeCharacter(Character c) {
 		characterList.remove(c);
-	}
-	
-	public void addCharacters(int rank, int n) {
-		switch (rank) {
-		case Rank.BOMB:
-			
-		}
 	}
 
 	public Character getCharacter(int rank) {

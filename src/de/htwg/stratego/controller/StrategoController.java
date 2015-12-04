@@ -39,13 +39,11 @@ public class StrategoController extends Observable {
 		playerOne = new Player("#");
 		playerTwo = new Player("!");
 		
-		playerOne.addCharacter(new Flag(playerOne));
-		playerOne.addCharacter(new Sergeant(playerOne));
-		playerTwo.addCharacter(new Sergeant(playerTwo));
-		playerTwo.addCharacter(new Marshal(playerTwo));
-		playerTwo.addCharacter(new Flag(playerTwo));
-		
-		//initCharacterLists();
+//		playerOne.addCharacter(new Flag(playerOne));
+//		playerOne.addCharacter(new Sergeant(playerOne));
+//		playerTwo.addCharacter(new Sergeant(playerTwo));
+//		playerTwo.addCharacter(new Marshal(playerTwo));
+//		playerTwo.addCharacter(new Flag(playerTwo));
 	}
 	
 //	private void initCharacterLists() {
@@ -113,13 +111,13 @@ public class StrategoController extends Observable {
 //			number);
 //	}
 	
-	private void addNumberOfChar(List<Character> charlist,
-								 Character ch,
-								 int number) {
-		for (int i = 0; i < number; i++) {
-			charlist.add(ch);
-		}
-	}
+//	private void addNumberOfChar(List<Character> charlist,
+//								 Character ch,
+//								 int number) {
+//		for (int i = 0; i < number; i++) {
+//			charlist.add(ch);
+//		}
+//	}
 	
 	public Player getPlayerOne() {
 		return playerOne;
