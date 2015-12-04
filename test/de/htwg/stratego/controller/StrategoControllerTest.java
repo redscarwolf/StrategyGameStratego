@@ -44,4 +44,9 @@ public class StrategoControllerTest extends TestCase {
 	public void testGetFieldString() {
 		assertEquals(field.toString(),controller.getFieldString());
 	}
+	
+	@Test
+	public void testMoveChar() {
+		
+	}
 }
