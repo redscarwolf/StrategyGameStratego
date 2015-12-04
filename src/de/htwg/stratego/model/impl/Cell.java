@@ -1,28 +1,35 @@
-package de.htwg.stratego.model;
+package de.htwg.stratego.model.impl;
 
-public class Cell {
+import de.htwg.stratego.model.ICharacter;
+import de.htwg.stratego.model.ICell;
+
+public class Cell implements ICell {
 	private int x;
 	private int y;
-	private Character character;
+	private ICharacter character;
 	
 	public Cell(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
+	@Override
 	public int getX() {
 		return x;
 	}
 
+	@Override
 	public int getY() {
 		return y;
 	}
 	
-	public void setCharacter(Character c) {
+	@Override
+	public void setCharacter(ICharacter c) {
 		character = c;
 	}
 	
-	public Character getCharacter() {
+	@Override
+	public ICharacter getCharacter() {
 		return character;
 	}
 	

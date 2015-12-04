@@ -1,6 +1,7 @@
-package de.htwg.stratego.model.impl;
+package de.htwg.stratego.model.impl.character;
 
-import de.htwg.stratego.model.Rank;
+import de.htwg.stratego.model.impl.Player;
+import de.htwg.stratego.model.impl.Rank;
 
 public class Lieutenant extends AbstractCharacter {
 

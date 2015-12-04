@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import de.htwg.stratego.controller.StrategoController;
 import de.htwg.stratego.util.observer.Event;
 import de.htwg.stratego.util.observer.IObserver;
-import de.htwg.stratego.model.Character;;
+import de.htwg.stratego.model.ICharacter;;
 
 public class TextUI implements IObserver {
 

@@ -1,7 +1,7 @@
 package de.htwg.stratego.controller;
 
-import de.htwg.stratego.model.Character;
-import de.htwg.stratego.model.impl.Player;
+import de.htwg.stratego.model.ICharacter;
+import de.htwg.stratego.model.IPlayer;
 
 public class PlayerOneTurn extends AbstractGameState {
 
@@ -10,7 +10,7 @@ public class PlayerOneTurn extends AbstractGameState {
 	}
 
 	@Override
-	public Player getCurrentPlayer() {
+	public IPlayer getCurrentPlayer() {
 		return sc.getPlayerOne();
 	}
 
@@ -20,7 +20,7 @@ public class PlayerOneTurn extends AbstractGameState {
 	}
 
 	@Override
-	public Character remove(int x, int y) {
+	public ICharacter remove(int x, int y) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -46,7 +46,7 @@ public class PlayerOneTurn extends AbstractGameState {
 
 	@Override
 	public void changeState() {
-		sc.setState(new PlayerTwoTurn(sc));
+//		sc.setState(new PlayerTwoTurn(sc));
 	}
 	
 }

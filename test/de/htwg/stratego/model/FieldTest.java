@@ -3,15 +3,17 @@ package de.htwg.stratego.model;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.htwg.stratego.model.impl.Cell;
+import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.Player;
-import de.htwg.stratego.model.impl.Sergeant;
+import de.htwg.stratego.model.impl.character.Sergeant;
 import junit.framework.TestCase;
 
 public class FieldTest extends TestCase {
 
 	private Field field;
-	private Character character1;
-	private Character character2;
+	private ICharacter character1;
+	private ICharacter character2;
 	private Player playerOne;
 	private Player playerTwo;
 	

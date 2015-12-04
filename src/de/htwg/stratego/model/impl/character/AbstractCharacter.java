@@ -1,8 +1,9 @@
-package de.htwg.stratego.model.impl;
+package de.htwg.stratego.model.impl.character;
 
-import de.htwg.stratego.model.Character;
+import de.htwg.stratego.model.ICharacter;
+import de.htwg.stratego.model.impl.Player;
 
-public abstract class AbstractCharacter implements Character {
+public abstract class AbstractCharacter implements ICharacter {
 
 	protected int rank;
 	protected boolean moveable;

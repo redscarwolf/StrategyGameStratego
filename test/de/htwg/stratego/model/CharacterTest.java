@@ -4,12 +4,24 @@ import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese wei
 import org.junit.Test;
 
 import de.htwg.stratego.model.impl.*;
+import de.htwg.stratego.model.impl.character.Bomb;
+import de.htwg.stratego.model.impl.character.Captain;
+import de.htwg.stratego.model.impl.character.Colonel;
+import de.htwg.stratego.model.impl.character.Flag;
+import de.htwg.stratego.model.impl.character.General;
+import de.htwg.stratego.model.impl.character.Lieutenant;
+import de.htwg.stratego.model.impl.character.Major;
+import de.htwg.stratego.model.impl.character.Marshal;
+import de.htwg.stratego.model.impl.character.Miner;
+import de.htwg.stratego.model.impl.character.Scout;
+import de.htwg.stratego.model.impl.character.Sergeant;
+import de.htwg.stratego.model.impl.character.Spy;
 import junit.framework.TestCase;
 
 public class CharacterTest extends TestCase{
 	
-	private Character flag;
-	private Character sergeant;
+	private ICharacter flag;
+	private ICharacter sergeant;
 	private Player playerOne;
 	private Player playerTwo;
 

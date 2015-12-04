@@ -1,8 +1,10 @@
-package de.htwg.stratego.model;
+package de.htwg.stratego.model.impl;
 
-import de.htwg.stratego.model.impl.Player;
+import de.htwg.stratego.model.ICharacter;
+import de.htwg.stratego.model.IField;
+import de.htwg.stratego.model.IPlayer;
 
-public class Field {
+public class Field implements IField {
 
 	private int width;
 	private int height;
@@ -24,14 +26,17 @@ public class Field {
 		}
 	}
 
+	@Override
 	public int getWidth() {
 		return width;
 	}
 
+	@Override
 	public int getHeight() {
 		return height;
 	}
 
+	@Override
 	public Cell getCell(int x, int y) {
 //		if (x < 0 || x > width - 1 || y < 0 || y > height - 1) {
 //			throw new IndexOutOfBoundsException();
@@ -58,7 +63,8 @@ public class Field {
 	 * @param player
 	 * @return
 	 */
-	public String getFieldString(Player player) {
+	@Override
+	public String getFieldString(IPlayer player) {
 		StringBuilder lineSb = new StringBuilder("  +");
 		StringBuilder mainSb = new StringBuilder("   ");		
 
@@ -74,7 +80,7 @@ public class Field {
 			mainSb.append(lineString);
 			mainSb.append(j + " ");
 			for (int i = 0; i < width; i++) {
-				Character c = cells[i][j].getCharacter();
+				ICharacter c = cells[i][j].getCharacter();
 				if (c == null) {
 					mainSb.append("|   ");
 				} else {

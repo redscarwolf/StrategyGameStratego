@@ -1,4 +1,4 @@
-package de.htwg.stratego.model;
+package de.htwg.stratego.model.impl;
 
 public final class Rank {
 	
@@ -14,7 +14,7 @@ public final class Rank {
 	public static final int GENERAL = 9;
 	public static final int MARSHAL = 10;
 	public static final int BOMB = 11;
-	
+
 	private Rank() { }
 
 }

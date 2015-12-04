@@ -1,138 +1,47 @@
 package de.htwg.stratego.controller;
 
-import java.util.List;
-
-import de.htwg.stratego.model.Cell;
-import de.htwg.stratego.model.Character;
-import de.htwg.stratego.model.Field;
-import de.htwg.stratego.model.Rank;
-import de.htwg.stratego.model.impl.Flag;
-import de.htwg.stratego.model.impl.Marshal;
+import de.htwg.stratego.model.ICharacter;
+import de.htwg.stratego.model.ICell;
+import de.htwg.stratego.model.IField;
+import de.htwg.stratego.model.IFieldFactory;
+import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.model.impl.Player;
-import de.htwg.stratego.model.impl.Sergeant;
 import de.htwg.stratego.util.observer.Observable;
 
 public class StrategoController extends Observable {
 	private GameStatus status = GameStatus.WELCOME;
-	private Field field;
+	private IField field;
 	
 	private static final int WIDTH_FIELD = 10;
 	private static final int HEIGHT_FIELD = 10;
 	
-//	private enum PlayerStatus {PLAYER_ONE_START, PLAYER_TWO_START, PLAYER_ONE_TURN, PLAYER_TWO_TURN};
-//	private PlayerStatus playerStatus = PlayerStatus.PLAYER_ONE_START;
-	
-	private Player playerOne;
-	private Player playerTwo;
+	private IPlayer playerOne;
+	private IPlayer playerTwo;
 	
 	private GameState gameState;
 	
-	public StrategoController() {
+	private IFieldFactory fieldFactory;
+	
+	public StrategoController(IFieldFactory fieldFactory) {
+		this.fieldFactory = fieldFactory;
 		setFieldSize(WIDTH_FIELD, HEIGHT_FIELD);
+		//TODO: impl.Player ersetzen / PlayerFactory
 		playerOne = new Player("#");
 		playerTwo = new Player("!");
 		
-//		playerOne.addCharacter(new Flag(playerOne));
-//		playerOne.addCharacter(new Sergeant(playerOne));
-//		playerTwo.addCharacter(new Sergeant(playerTwo));
-//		playerTwo.addCharacter(new Marshal(playerTwo));
-//		playerTwo.addCharacter(new Flag(playerTwo));
-		playerOne.addCharacter(new Flag(playerOne));
-		playerOne.addCharacter(new Sergeant(playerOne));
-		playerTwo.addCharacter(new Sergeant(playerTwo));
-		playerTwo.addCharacter(new Marshal(playerTwo));
-		playerTwo.addCharacter(new Flag(playerTwo));
-		
 		gameState = new PlayerOneStart(this);
-		//initCharacterLists();
+		fillField();
 	}
-	
-//	private void initCharacterLists() {
-//		// create Lists
-//		characterListPlayer1 = new ArrayList<>();
-//		characterListPlayer2 = new ArrayList<>();
-//		
-//		// fill Lists with Chars
-//		addToCharList(new Bomb(Character.PLAYER_ONE),
-//				new Bomb(Character.PLAYER_TWO),
-//				NUMBER_OF_BOMB);
-//		
-//		addToCharList(new Marshal(Character.PLAYER_ONE),
-//				new Marshal(Character.PLAYER_TWO),
-//				NUMBER_OF_MARSHALL);
-//		
-//		addToCharList(new General(Character.PLAYER_ONE),
-//				new General(Character.PLAYER_TWO),
-//				NUMBER_OF_GENERAL);
-//
-//		addToCharList(new Colonel(Character.PLAYER_ONE),
-//				new Colonel(Character.PLAYER_TWO),
-//				NUMBER_OF_COLONEL);
-//
-//		addToCharList(new Major(Character.PLAYER_ONE),
-//				new Major(Character.PLAYER_TWO),
-//				NUMBER_OF_MAJOR);
-//
-//		addToCharList(new Captain(Character.PLAYER_ONE),
-//				new Captain(Character.PLAYER_TWO),
-//				NUMBER_OF_CAPTAIN);
-//
-//		addToCharList(new Lieutenant(Character.PLAYER_ONE),
-//				new Lieutenant(Character.PLAYER_TWO),
-//				NUMBER_OF_LIEUTENANT);
-//		
-//		addToCharList(new Sergeant(Character.PLAYER_ONE),
-//					  new Sergeant(Character.PLAYER_TWO),
-//					  NUMBER_OF_SERGEANT);
-//
-//		addToCharList(new Miner(Character.PLAYER_ONE),
-//				new Miner(Character.PLAYER_TWO),
-//				NUMBER_OF_MINER);
-//
-//		addToCharList(new Scout(Character.PLAYER_ONE),
-//				new Scout(Character.PLAYER_TWO),
-//				NUMBER_OF_SCOUT);
-//
-//		addToCharList(new Spy(Character.PLAYER_ONE),
-//				new Spy(Character.PLAYER_TWO),
-//				NUMBER_OF_SPY);
-//		
-//		addToCharList(new Flag(Character.PLAYER_ONE),
-//				  new Flag(Character.PLAYER_TWO),
-//				  NUMBER_OF_FLAG);
-//	}
-//	
-//	private void addToCharList(Character ch1, Character ch2, int number){
-//	
-//		addNumberOfChar(characterListPlayer1,
-//				ch1,
-//				number);
-//		addNumberOfChar(characterListPlayer2,
-//			ch2,
-//			number);
-//	}
-	
-//	private void addNumberOfChar(List<Character> charlist,
-//								 Character ch,
-//								 int number) {
-//		for (int i = 0; i < number; i++) {
-//			charlist.add(ch);
-//		}
-//	}
-	
-//	public void addCharacterToPlayerOne(Rank r) {
-//		playerOne.addCharacter(r);
-//	}
-	
-	public Player getPlayerOne() {
+		
+	public IPlayer getPlayerOne() {
 		return playerOne;
 	}
 	
-	public Player getPlayerTwo() {
+	public IPlayer getPlayerTwo() {
 		return playerTwo;
 	}
 	
-	public String toStringCharacterList(Player player) {
+	public String toStringCharacterList(IPlayer player) {
 		return player.getCharacterListAsString();
 	}
 	
@@ -140,14 +49,6 @@ public class StrategoController extends Observable {
 		gameState.changeState();
 		notifyObservers();
 	}
-//	
-//	public void changePlayerTurn() {
-//		if (playerStatus == PlayerStatus.PLAYER_ONE_TURN) {
-//			playerStatus = PlayerStatus.PLAYER_TWO_TURN;
-//		} else if (playerStatus == PlayerStatus.PLAYER_TWO_TURN) {
-//			playerStatus = PlayerStatus.PLAYER_ONE_TURN;
-//		}
-//	}
 	
 	public void setState(GameState s) {
 		gameState = s;
@@ -161,12 +62,12 @@ public class StrategoController extends Observable {
 		return gameState.toStringPlayerStatus();
 	}
 	
-	public Field getField() {
+	public IField getField() {
 		return field;
 	}
 	
 	public void setFieldSize(int width, int height) {
-		field = new Field(width, height);
+		field = fieldFactory.create(width, height);
 		//TODO: abfragen von illegalen größen -1 etc.S
 	}
 	
@@ -191,13 +92,13 @@ public class StrategoController extends Observable {
 	}
 	
 	public boolean moveChar(int fromX, int fromY, int toX,
-			int toY, Player player) {
+			int toY, IPlayer player) {
 		// check is move inside of Field 
 		//get Cells and get Characters
-		Cell fromCell = field.getCell(fromX, fromY);
-		Cell toCell = field.getCell(toX, toY);
-		Character fromCharacter = fromCell.getCharacter();
-		Character toCharacter = toCell.getCharacter();
+		ICell fromCell = field.getCell(fromX, fromY);
+		ICell toCell = field.getCell(toX, toY);
+		ICharacter fromCharacter = fromCell.getCharacter();
+		ICharacter toCharacter = toCell.getCharacter();
 		
 		//Conditions of fromCharacter
 		// does selected cell contain a character
@@ -246,7 +147,7 @@ public class StrategoController extends Observable {
 		return true;
 	}
 	
-	private void fight(Cell c1, Cell c2) {
+	private void fight(ICell c1, ICell c2) {
 		// get Character rank
 		int r1 = c1.getCharacter().getRank();
 		int r2 = c2.getCharacter().getRank();
@@ -266,24 +167,24 @@ public class StrategoController extends Observable {
 		}
 	}
 
-	private void changePosition(Cell fromCell, Cell toCell) {
-		Character ch = fromCell.getCharacter();
+	private void changePosition(ICell fromCell, ICell toCell) {
+		ICharacter ch = fromCell.getCharacter();
 		fromCell.setCharacter(null);
 		toCell.setCharacter(ch);
 	}
 	
 	public void add(int x, int y, int rank) {
-		Player p = gameState.getCurrentPlayer();
+		IPlayer p = gameState.getCurrentPlayer();
 
 		// looking for char-rank in charList
-		Character character = p.getCharacter(rank);
+		ICharacter character = p.getCharacter(rank);
 		
 		if (character == null) {
 			// didn't found char-rank 
 			return;
 		}
 		
-		Cell cell = field.getCell(x, y);
+		ICell cell = field.getCell(x, y);
 		if (cell.getCharacter() != null) {
 			// field already has a char
 			return;
@@ -301,9 +202,9 @@ public class StrategoController extends Observable {
 		notifyObservers();
 	}
 	
-	private Character remove(int x, int y) {
-		Player p = gameState.getCurrentPlayer();
-		Character c = field.getCell(x, y).getCharacter();
+	private ICharacter remove(int x, int y) {
+		IPlayer p = gameState.getCurrentPlayer();
+		ICharacter c = field.getCell(x, y).getCharacter();
 		
 		field.getCell(x, y).setCharacter(null);
 		if (c != null) {

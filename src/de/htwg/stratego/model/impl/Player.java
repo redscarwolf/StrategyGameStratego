@@ -3,11 +3,24 @@ package de.htwg.stratego.model.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.htwg.stratego.model.Character;
+import de.htwg.stratego.model.ICharacter;
+import de.htwg.stratego.model.IPlayer;
+import de.htwg.stratego.model.impl.character.Bomb;
+import de.htwg.stratego.model.impl.character.Captain;
+import de.htwg.stratego.model.impl.character.Colonel;
+import de.htwg.stratego.model.impl.character.Flag;
+import de.htwg.stratego.model.impl.character.General;
+import de.htwg.stratego.model.impl.character.Lieutenant;
+import de.htwg.stratego.model.impl.character.Major;
+import de.htwg.stratego.model.impl.character.Marshal;
+import de.htwg.stratego.model.impl.character.Miner;
+import de.htwg.stratego.model.impl.character.Scout;
+import de.htwg.stratego.model.impl.character.Sergeant;
+import de.htwg.stratego.model.impl.character.Spy;
 
-public class Player {
+public class Player implements IPlayer {
 
-	private List<Character> characterList;
+	private List<ICharacter> characterList;
 	private String symbol;
 	
 	private static final int NUMBER_OF_BOMB = 6;
@@ -23,7 +36,18 @@ public class Player {
 	private static final int NUMBER_OF_SPY = 1;
 	private static final int NUMBER_OF_FLAG = 1;
 	
-	public List<Character> getCharacterList() {
+	public Player() {
+		this("?");
+	}
+	
+	public Player(String symbol) {
+		characterList = new ArrayList<>();
+		initCharacterList();
+		this.symbol = symbol;
+	}
+	
+	@Override
+	public List<ICharacter> getCharacterList() {
 		return characterList;
 	}
 	
@@ -42,27 +66,20 @@ public class Player {
 		Flag.buildSeveral(NUMBER_OF_FLAG, this);
 	}
 	
-	public Player() {
-		this("?");
-	}
-	
-	public Player(String symbol) {
-		characterList = new ArrayList<>();
-		initCharacterList();
-		this.symbol = symbol;
-	}
-	
-	public void addCharacter(Character c) {
+	@Override
+	public void addCharacter(ICharacter c) {
 		characterList.add(c);
 	}
 	
-	public void removeCharacter(Character c) {
+	@Override
+	public void removeCharacter(ICharacter c) {
 		characterList.remove(c);
 	}
 
-	public Character getCharacter(int rank) {
-		Character character = null;
-		for (Character c: characterList) {
+	@Override
+	public ICharacter getCharacter(int rank) {
+		ICharacter character = null;
+		for (ICharacter c: characterList) {
 			if (c.getRank() == rank) {
 				character = c;
 			}
@@ -70,13 +87,15 @@ public class Player {
 		return character;
 	}
 	
-	public Character removeCharacter(int index) {
+	@Override
+	public ICharacter removeCharacter(int index) {
 		return characterList.remove(index);
 	}
 	
+	@Override
 	public String getCharacterListAsString() {
 		StringBuilder sb = new StringBuilder("|");
-		for (Character c : characterList) {
+		for (ICharacter c : characterList) {
 			sb.append(c.getRank() + "|");
 		}
 		return sb.toString();

@@ -3,14 +3,15 @@ package de.htwg.stratego.model;
 import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese weiter
 import org.junit.Test;
 
-import de.htwg.stratego.model.impl.Flag;
+import de.htwg.stratego.model.impl.Cell;
 import de.htwg.stratego.model.impl.Player;
+import de.htwg.stratego.model.impl.character.Flag;
 import junit.framework.TestCase;
 
 public class CellTest extends TestCase {
 
 	private Cell cell;
-	private Character flag;
+	private ICharacter flag;
 	
 	@BeforeClass
 	public void setUp() {

@@ -2,9 +2,10 @@ package de.htwg.stratego.controller;
 
 import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese weiter
 import org.junit.Test;
-import junit.framework.TestCase;
 
-import de.htwg.stratego.model.*;
+import de.htwg.stratego.model.impl.Field;
+import de.htwg.stratego.model.impl.FieldFactory;
+import junit.framework.TestCase;
 
 public class StrategoControllerTest extends TestCase {
 	private StrategoController controller;
@@ -12,7 +13,7 @@ public class StrategoControllerTest extends TestCase {
 	
 	@BeforeClass
 	public void setUp() {
-		controller = new StrategoController();
+		controller = new StrategoController(new FieldFactory());
 		field = new Field(10,10);
 		//fill with Chars
 //		field.getCell(0, 0).setCharacter(new Flag(1));
@@ -42,7 +43,7 @@ public class StrategoControllerTest extends TestCase {
 	
 	@Test
 	public void testGetFieldString() {
-		assertEquals(field.toString(),controller.getFieldString());
+		assertEquals(controller.getField().getFieldString(controller.getPlayerOne()), controller.getFieldString());
 	}
 	
 	@Test

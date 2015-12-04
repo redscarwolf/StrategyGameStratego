@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import de.htwg.stratego.aview.tui.TextUI;
 import de.htwg.stratego.controller.StrategoController;
+import de.htwg.stratego.model.impl.FieldFactory;
 
 public final class StrategoApp {
 
@@ -13,7 +14,7 @@ public final class StrategoApp {
 	
 	public static void main(String[] args) {
 		
-		sc = new StrategoController();
+		sc = new StrategoController(new FieldFactory());
 //		sc.fillField();
 		
 		tui = new TextUI(sc);
