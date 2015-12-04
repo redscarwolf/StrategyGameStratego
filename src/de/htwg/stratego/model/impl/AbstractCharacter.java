@@ -7,13 +7,13 @@ public abstract class AbstractCharacter implements Character {
 	protected int rank;
 	protected boolean moveable;
 	protected Player player;
-	
+
 	public AbstractCharacter(int rank, boolean moveable, Player player) {
 		this.rank = rank;
 		this.moveable = moveable;
 		this.player = player;
 	}
-	
+
 	@Override
 	public Player getPlayer() {
 		return player;

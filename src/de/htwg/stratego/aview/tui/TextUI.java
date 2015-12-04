@@ -40,7 +40,7 @@ public class TextUI implements IObserver {
 			printHelp();
 			break;
 		case "f":
-			sc.changePlayerSetup();
+			sc.changeState();
 			break;
 		case "a":
 			sc.add(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]),
