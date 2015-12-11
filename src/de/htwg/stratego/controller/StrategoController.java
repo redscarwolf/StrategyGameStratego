@@ -31,12 +31,6 @@ public class StrategoController extends Observable {
 		playerTwo = new Player("!");
 		
 		gameState = new PlayerOneStart(this);
-		add(0,0,Rank.FLAG);
-		add(0,1,Rank.SERGEANT);
-		setState(new PlayerTwoStart(this));
-		add(1,1,Rank.FLAG);
-		add(1,0,Rank.SERGEANT);
-		add(0,2,Rank.SERGEANT);
 //		fillField();
 	}
 		
@@ -97,6 +91,10 @@ public class StrategoController extends Observable {
 		}
 	}
 	
+	public GameState getGameState() {
+		return gameState;
+	}
+	
 	public void moveChar(int fromX, int fromY, int toX, int toY) {
 		gameState.moveChar(fromX, fromY, toX, toY);
 		notifyObservers();
@@ -132,7 +130,6 @@ public class StrategoController extends Observable {
 		int dx = Math.abs(fromX - toX);
 		int dy = Math.abs(fromY - toY);
 		if (dx > 1 || dy > 1 || dx == dy) {
-			//TODO
 			return false;
 		}
 		
