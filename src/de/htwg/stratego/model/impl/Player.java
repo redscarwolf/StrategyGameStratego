@@ -72,8 +72,8 @@ public class Player implements IPlayer {
 	}
 	
 	@Override
-	public void removeCharacter(ICharacter c) {
-		characterList.remove(c);
+	public boolean removeCharacter(ICharacter c) {
+		return characterList.remove(c);
 	}
 
 	@Override
