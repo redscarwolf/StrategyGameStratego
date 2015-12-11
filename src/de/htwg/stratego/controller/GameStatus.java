@@ -10,5 +10,6 @@ public enum GameStatus {
     ILLEGAL_ARGUMENT,
     CREATE,
     RESET,
+    GAME_OVER
 
 }

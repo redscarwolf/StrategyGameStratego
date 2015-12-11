@@ -3,10 +3,12 @@ package de.htwg.stratego.controller;
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IPlayer;
 
-public class PlayerTwoStart extends AbstractGameState {
+public class PlayerTwoStart implements GameState {
 
+	private StrategoController sc;
+	
 	public PlayerTwoStart(StrategoController sc) {
-		super(sc);
+		this.sc = sc;
 	}
 
 	@Override

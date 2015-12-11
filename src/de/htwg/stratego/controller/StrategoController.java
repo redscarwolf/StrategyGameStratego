@@ -6,6 +6,7 @@ import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IFieldFactory;
 import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.model.impl.Player;
+import de.htwg.stratego.model.impl.Rank;
 import de.htwg.stratego.util.observer.Observable;
 
 public class StrategoController extends Observable {
@@ -30,9 +31,19 @@ public class StrategoController extends Observable {
 		playerTwo = new Player("!");
 		
 		gameState = new PlayerOneStart(this);
-		fillField();
+		add(0,0,Rank.FLAG);
+		add(0,1,Rank.SERGEANT);
+		setState(new PlayerTwoStart(this));
+		add(1,1,Rank.FLAG);
+		add(1,0,Rank.SERGEANT);
+		add(0,2,Rank.SERGEANT);
+//		fillField();
 	}
 		
+	public void setGameStatus(GameStatus status) {
+		this.status = status;
+	}
+	
 	public IPlayer getPlayerOne() {
 		return playerOne;
 	}
@@ -103,20 +114,17 @@ public class StrategoController extends Observable {
 		//Conditions of fromCharacter
 		// does selected cell contain a character
 		if (fromCharacter == null) {
-			notifyObservers();
 			return false;
 		}
 		
 		// is Char moveable 
 		if (!fromCharacter.isMoveable()) {
-			notifyObservers();
 			return false;
 		}
 		
 		// is character a char of the player
 		// TODO falls gameState != playerOne turn oder player two turn
 		if (fromCharacter.getPlayer() != player) {
-			notifyObservers();
 			return false;
 		}
 		
@@ -125,7 +133,6 @@ public class StrategoController extends Observable {
 		int dy = Math.abs(fromY - toY);
 		if (dx > 1 || dy > 1 || dx == dy) {
 			//TODO
-			notifyObservers();
 			return false;
 		}
 		
@@ -137,33 +144,33 @@ public class StrategoController extends Observable {
 			// if Cell is not empty fight with toCharacter
 			// only if toCharacter.getPlayer() is not equal to fromCharacter.getPlayer() 
 			if (toCharacter.getPlayer() == fromCharacter.getPlayer()) {
-				notifyObservers();
 				return false;
 			}
 			fight(fromCell, toCell);
 		}
-		System.out.println("ende von move");
 
 		return true;
 	}
 	
-	private void fight(ICell c1, ICell c2) {
+	private void fight(ICell cell1, ICell cell2) {
 		// get Character rank
-		int r1 = c1.getCharacter().getRank();
-		int r2 = c2.getCharacter().getRank();
+		ICharacter character1 = cell1.getCharacter();
+		ICharacter character2 = cell2.getCharacter();
+		int rank1 = character1.getRank();
+		int rank2 = character2.getRank();
 		
-		if (r1 > r2) {
+		if (rank1 > rank2) {
 			//success
-			remove(c2.getX(),c2.getY());
+			remove(cell2.getX(),cell2.getY(), character2.getPlayer());
 			// move Character to toCell
-			changePosition(c1, c2);
-		} else if (r1 < r2) {
+			changePosition(cell1, cell2);
+		} else if (rank1 < rank2) {
 			// lost
-			remove(c1.getX(),c1.getY());
+			remove(cell1.getX(),cell1.getY(), character1.getPlayer());
 		} else {
 			// equal both lose
-			remove(c1.getX(),c1.getY());
-			remove(c2.getX(),c2.getY());
+			remove(cell1.getX(),cell1.getY(), character1.getPlayer());
+			remove(cell2.getX(),cell2.getY(), character2.getPlayer());
 		}
 	}
 
@@ -203,15 +210,24 @@ public class StrategoController extends Observable {
 	}
 	
 	private ICharacter remove(int x, int y) {
-		IPlayer p = gameState.getCurrentPlayer();
+		return remove(x, y, gameState.getCurrentPlayer());
+	}
+	
+	public ICharacter remove(int x, int y, IPlayer player) {
 		ICharacter c = field.getCell(x, y).getCharacter();
 		
 		field.getCell(x, y).setCharacter(null);
 		if (c != null) {
-			p.addCharacter(c);
+			player.addCharacter(c);
 		}
-		
 		return c;
+	}
+	
+	public boolean lost(IPlayer player) {
+		if (player.getCharacter(Rank.FLAG) != null) {
+			return true;
+		}
+		return false;
 	}
 	
 	public String getFieldString() {

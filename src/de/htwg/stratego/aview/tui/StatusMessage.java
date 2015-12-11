@@ -13,10 +13,8 @@ public class StatusMessage {
 
 	static {
 		textMap.put(GameStatus.WELCOME, "Welcome to HTWG Stratego!");
-//		textMap.put(GameStatus.PLAYER_ONE_START, "Set your characters, player 1!");
-//		textMap.put(GameStatus.PLAYER_TWO_START, "Set your characters, player 2!");
-//		textMap.put(GameStatus.PLAYER_ONE_TURN, "It's your turn, player 1!");
-//		textMap.put(GameStatus.PLAYER_TWO_TURN, "It's your turn, player 2!");
+		textMap.put(GameStatus.GAME_OVER, "GAME OVER!");
+		textMap.put(GameStatus.ILLEGAL_ARGUMENT, "Illegal Argument! Try again.");
 	}
 	
 }

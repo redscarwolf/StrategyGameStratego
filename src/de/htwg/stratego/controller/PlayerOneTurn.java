@@ -3,10 +3,12 @@ package de.htwg.stratego.controller;
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IPlayer;
 
-public class PlayerOneTurn extends AbstractGameState {
+public class PlayerOneTurn implements GameState {
 
+	private StrategoController sc;
+	
 	public PlayerOneTurn(StrategoController sc) {
-		super(sc);
+		this.sc = sc;
 	}
 
 	@Override
@@ -33,9 +35,13 @@ public class PlayerOneTurn extends AbstractGameState {
 
 	@Override
 	public void moveChar(int fromX, int fromY, int toX, int toY) {
-		boolean b = sc.moveChar(fromX, fromY, toX, toY, getCurrentPlayer());
-		if (b) {
+		boolean moveSucces = sc.moveChar(fromX, fromY, toX, toY, getCurrentPlayer());
+		if (moveSucces) {
 			sc.setState(new PlayerTwoTurn(sc));
+		}
+		if (sc.lost(sc.getPlayerTwo())) {
+			sc.setGameStatus(GameStatus.GAME_OVER);
+			sc.setState(new PlayerOneWinner(sc));
 		}
 	}
 
