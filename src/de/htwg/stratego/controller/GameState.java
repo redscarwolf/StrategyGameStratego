@@ -12,5 +12,4 @@ public interface GameState {
 	void moveChar(int fromX, int fromY, int toX, int toY);
 	String toStringPlayerStatus();
 	void changeState();
-	
 }
