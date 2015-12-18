@@ -13,8 +13,8 @@ public class StrategoController extends Observable {
 	private GameStatus status = GameStatus.WELCOME;
 	private IField field;
 	
-	private static final int WIDTH_FIELD = 10;
-	private static final int HEIGHT_FIELD = 10;
+	public static final int WIDTH_FIELD = 10;
+	public static final int HEIGHT_FIELD = 10;
 	
 	private IPlayer playerOne;
 	private IPlayer playerTwo;

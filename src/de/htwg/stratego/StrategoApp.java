@@ -2,6 +2,7 @@ package de.htwg.stratego;
 
 import java.util.Scanner;
 
+import de.htwg.stratego.aview.gui.StrategoFrame;
 import de.htwg.stratego.aview.tui.TextUI;
 import de.htwg.stratego.controller.StrategoController;
 import de.htwg.stratego.model.impl.FieldFactory;
@@ -10,6 +11,7 @@ public final class StrategoApp {
 
 	private static Scanner scanner;
 	private static TextUI tui;
+	private static StrategoFrame gui;
 	private static StrategoController sc;
 	
 	public static void main(String[] args) {
@@ -19,6 +21,10 @@ public final class StrategoApp {
 		
 		tui = new TextUI(sc);
 		tui.printTUI();
+		
+		gui = new StrategoFrame(sc);
+		
+		sc.fillField();
 		
 		boolean continu = true;
 		scanner = new Scanner(System.in);
