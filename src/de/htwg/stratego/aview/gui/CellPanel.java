@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import de.htwg.stratego.controller.StrategoController;
+import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 
 public class CellPanel extends JPanel {
@@ -29,12 +30,19 @@ public class CellPanel extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		ICharacter character = sc.getField().getCell(column, row).getCharacter();
+		ICell cell = sc.getField().getCell(column, row);
+		ICharacter character = cell.getCharacter();
 		if (character != null) {
-			g.drawString(character.toString(), 20, 20);
+			if (character.isVisible()) {
+				g.drawString(character.toString(), 20, 20);
+			} else {
+				g.drawString(character.toString(), 20, 20);
+			}
 		}
-		g.setColor(Color.BLACK);
-		g.drawRect(0, 0, getSize().width - 1, getSize().height - 1);
+		if (cell.isPassable()) {
+			g.setColor(Color.BLACK);
+			g.drawRect(0, 0, getSize().width - 1, getSize().height - 1);
+		}
 	}
 
 	public int getRow() {

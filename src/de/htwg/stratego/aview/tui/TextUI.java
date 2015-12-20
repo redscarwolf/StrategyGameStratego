@@ -40,7 +40,7 @@ public class TextUI implements IObserver {
 			printHelp();
 			break;
 		case "f":
-			sc.changeState();
+			sc.changeStateNotify();
 			break;
 		case "a":
 			sc.add(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]),
@@ -50,7 +50,7 @@ public class TextUI implements IObserver {
 			sc.removeNotify(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]));
 			break;
 		case "m":
-			sc.moveChar(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]),
+			sc.move(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]),
 					Integer.valueOf(inputStrings[3]), Integer.valueOf(inputStrings[4]));
 			break;
 		default:

@@ -17,32 +17,18 @@ public class PlayerTwoTurn implements GameState {
 	}
 
 	@Override
-	public String getFieldString() {
-		return sc.getField().getFieldString(sc.getPlayerTwo());
+	public boolean isMoveAllowed() {
+		return true;
+	}
+	
+	@Override
+	public boolean isAddAllowed() {
+		return false;
 	}
 
 	@Override
-	public ICharacter remove(int x, int y) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void add(int x, int y, int rank) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void moveChar(int fromX, int fromY, int toX, int toY) {
-		boolean moveSucces = sc.moveChar(fromX, fromY, toX, toY, getCurrentPlayer());
-		if (moveSucces) {
-			sc.setState(new PlayerOneTurn(sc));
-		}
-		if (sc.lost(sc.getPlayerOne())) {
-			sc.setGameStatus(GameStatus.GAME_OVER);
-			sc.setState(new PlayerTwoWinner(sc));
-		}
+	public boolean isRemoveAllowed() {
+		return false;
 	}
 
 	@Override
@@ -52,7 +38,8 @@ public class PlayerTwoTurn implements GameState {
 
 	@Override
 	public void changeState() {
-//		sc.setState(new PlayerOneTurn(sc));
+		sc.setState(new PlayerOneTurn(sc));
+		sc.toggleVisibilityOfCharacters(sc.getCurrentPlayer(), true);
 	}
 	
 }

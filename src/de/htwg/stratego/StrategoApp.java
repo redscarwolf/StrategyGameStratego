@@ -24,7 +24,7 @@ public final class StrategoApp {
 		
 		gui = new StrategoFrame(sc);
 		
-		sc.fillField();
+//		sc.fillField();
 		
 		boolean continu = true;
 		scanner = new Scanner(System.in);

@@ -38,7 +38,9 @@ public class StrategoFrame extends JFrame implements IObserver {
 		setTitle("HTWG Stratego");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
+		setMinimumSize(getSize());
 		setLocationRelativeTo(null);
+		setAlwaysOnTop(true);
 		setVisible(true);
 	}
 

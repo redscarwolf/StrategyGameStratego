@@ -1,8 +1,6 @@
 package de.htwg.stratego.model.impl;
 
-import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IField;
-import de.htwg.stratego.model.IPlayer;
 
 public class Field implements IField {
 
@@ -24,6 +22,7 @@ public class Field implements IField {
 				cells[x][y] = new Cell(x, y);
 			}
 		}
+		
 	}
 
 	@Override
@@ -38,9 +37,6 @@ public class Field implements IField {
 
 	@Override
 	public Cell getCell(int x, int y) {
-//		if (x < 0 || x > width - 1 || y < 0 || y > height - 1) {
-//			throw new IndexOutOfBoundsException();
-//		}
 		return cells[x][y];
 	}
 	
@@ -55,16 +51,6 @@ public class Field implements IField {
 	
 	@Override
 	public String toString() {
-		return getFieldString(null);
-	}
-
-	/**
-	 * If player = null all characters are printed.
-	 * @param player
-	 * @return
-	 */
-	@Override
-	public String getFieldString(IPlayer player) {
 		StringBuilder lineSb = new StringBuilder("  +");
 		StringBuilder mainSb = new StringBuilder("   ");		
 
@@ -80,16 +66,7 @@ public class Field implements IField {
 			mainSb.append(lineString);
 			mainSb.append(j + " ");
 			for (int i = 0; i < width; i++) {
-				ICharacter c = cells[i][j].getCharacter();
-				if (c == null) {
-					mainSb.append("|   ");
-				} else {
-					if (c.getPlayer() == player || player == null) {
-						mainSb.append("|" + c);
-					} else {
-						mainSb.append("| X ");
-					}
-				}
+				mainSb.append("|" + cells[i][j]);
 			}
 			mainSb.append("|\n");
 		}
@@ -97,5 +74,5 @@ public class Field implements IField {
 		
 		return mainSb.toString();
 	}
-	
+
 }

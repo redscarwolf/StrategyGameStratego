@@ -68,7 +68,9 @@ public class Player implements IPlayer {
 	
 	@Override
 	public void addCharacter(ICharacter c) {
-		characterList.add(c);
+		if (c != null) {
+			characterList.add(c);
+		}
 	}
 	
 	@Override
@@ -79,7 +81,7 @@ public class Player implements IPlayer {
 	@Override
 	public ICharacter getCharacter(int rank) {
 		ICharacter character = null;
-		for (ICharacter c: characterList) {
+		for (ICharacter c : characterList) {
 			if (c.getRank() == rank) {
 				character = c;
 			}
@@ -104,6 +106,11 @@ public class Player implements IPlayer {
 	@Override
 	public String toString() {
 		return symbol;
+	}
+
+	@Override
+	public boolean containsCharacter(int rank) {
+		return getCharacter(rank) != null;
 	}
 	
 }

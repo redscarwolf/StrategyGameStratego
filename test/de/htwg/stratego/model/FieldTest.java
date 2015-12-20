@@ -88,17 +88,17 @@ public class FieldTest extends TestCase {
 		assertEquals(sb.toString(), field.toString());
 	}
 	
-	@Test
-	public void testGetFieldString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("    0   1   2  \n");
-		sb.append("  +---+---+---+\n");
-		sb.append("0 | X |   |   |\n");
-		sb.append("  +---+---+---+\n");
-		sb.append("1 |   |! 4|   |\n");
-		sb.append("  +---+---+---+\n");
-		assertEquals(sb.toString(), field.getFieldString(playerTwo));
-	}
+//	@Test
+//	public void testGetFieldString() {
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("    0   1   2  \n");
+//		sb.append("  +---+---+---+\n");
+//		sb.append("0 | X |   |   |\n");
+//		sb.append("  +---+---+---+\n");
+//		sb.append("1 |   |! 4|   |\n");
+//		sb.append("  +---+---+---+\n");
+//		assertEquals(sb.toString(), field.getFieldString(playerTwo));
+//	}
 	
 	@Test
 	public void testEquals() {

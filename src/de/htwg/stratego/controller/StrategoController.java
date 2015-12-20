@@ -21,17 +21,25 @@ public class StrategoController extends Observable {
 	
 	private GameState gameState;
 	
-	private IFieldFactory fieldFactory;
-	
 	public StrategoController(IFieldFactory fieldFactory) {
-		this.fieldFactory = fieldFactory;
-		setFieldSize(WIDTH_FIELD, HEIGHT_FIELD);
+		field = fieldFactory.create(WIDTH_FIELD, HEIGHT_FIELD);
 		//TODO: impl.Player ersetzen / PlayerFactory
 		playerOne = new Player("#");
 		playerTwo = new Player("!");
 		
 		gameState = new PlayerOneStart(this);
-//		fillField();
+		
+		// some cells are not passable
+		field.getCell(2, 4).setPassable(false);
+		field.getCell(3, 4).setPassable(false);
+		field.getCell(2, 5).setPassable(false);
+		field.getCell(3, 5).setPassable(false);
+		
+		field.getCell(6, 4).setPassable(false);
+		field.getCell(7, 4).setPassable(false);
+		field.getCell(6, 5).setPassable(false);
+		field.getCell(7, 5).setPassable(false);
+		
 	}
 		
 	public void setGameStatus(GameStatus status) {
@@ -52,6 +60,10 @@ public class StrategoController extends Observable {
 	
 	public void changeState() {
 		gameState.changeState();
+	}
+	
+	public void changeStateNotify() {
+		changeState();
 		notifyObservers();
 	}
 	
@@ -69,11 +81,6 @@ public class StrategoController extends Observable {
 	
 	public IField getField() {
 		return field;
-	}
-	
-	public void setFieldSize(int width, int height) {
-		field = fieldFactory.create(width, height);
-		//TODO: abfragen von illegalen größen -1 etc.S
 	}
 	
 	public void fillField() {
@@ -95,140 +102,138 @@ public class StrategoController extends Observable {
 		return gameState;
 	}
 	
-	public void moveChar(int fromX, int fromY, int toX, int toY) {
-		gameState.moveChar(fromX, fromY, toX, toY);
+	public IPlayer getCurrentPlayer() {
+		return gameState.getCurrentPlayer();
+	}
+	
+	public void move(int fromX, int fromY, int toX, int toY) {
+		if (!isMoveAllowed()) {
+			status = GameStatus.ILLEGAL_ARGUMENT;
+		} else {
+			Move move = new Move(fromX, fromY, toX, toY, this);
+			boolean moveSuccess = move.execute();
+			if (moveSuccess) {
+				changeState();
+				if (lost(getCurrentPlayer())) {
+					gameOver();
+				}
+			} else {
+				status = GameStatus.ILLEGAL_ARGUMENT;
+			}
+		}
 		notifyObservers();
 	}
 	
-	public boolean moveChar(int fromX, int fromY, int toX,
-			int toY, IPlayer player) {
-		// check is move inside of Field 
-		//get Cells and get Characters
-		ICell fromCell = field.getCell(fromX, fromY);
-		ICell toCell = field.getCell(toX, toY);
-		ICharacter fromCharacter = fromCell.getCharacter();
-		ICharacter toCharacter = toCell.getCharacter();
-		
-		//Conditions of fromCharacter
-		// does selected cell contain a character
-		if (fromCharacter == null) {
-			return false;
-		}
-		
-		// is Char moveable 
-		if (!fromCharacter.isMoveable()) {
-			return false;
-		}
-		
-		// is character a char of the player
-		// TODO falls gameState != playerOne turn oder player two turn
-		if (fromCharacter.getPlayer() != player) {
-			return false;
-		}
-		
-		// correct range of move
-		int dx = Math.abs(fromX - toX);
-		int dy = Math.abs(fromY - toY);
-		if (dx > 1 || dy > 1 || dx == dy) {
-			return false;
-		}
-		
-		//Conditions of toCharacter
-		if (toCharacter == null) {
-			// if Cell is empty move Character to new position
-			changePosition(fromCell, toCell);
-		} else {
-			// if Cell is not empty fight with toCharacter
-			// only if toCharacter.getPlayer() is not equal to fromCharacter.getPlayer() 
-			if (toCharacter.getPlayer() == fromCharacter.getPlayer()) {
-				return false;
-			}
-			fight(fromCell, toCell);
-		}
-
-		return true;
+	public boolean isMoveAllowed() {
+		return gameState.isMoveAllowed();
 	}
 	
-	private void fight(ICell cell1, ICell cell2) {
-		// get Character rank
-		ICharacter character1 = cell1.getCharacter();
-		ICharacter character2 = cell2.getCharacter();
-		int rank1 = character1.getRank();
-		int rank2 = character2.getRank();
-		
-		if (rank1 > rank2) {
-			//success
-			remove(cell2.getX(),cell2.getY(), character2.getPlayer());
-			// move Character to toCell
-			changePosition(cell1, cell2);
-		} else if (rank1 < rank2) {
-			// lost
-			remove(cell1.getX(),cell1.getY(), character1.getPlayer());
-		} else {
-			// equal both lose
-			remove(cell1.getX(),cell1.getY(), character1.getPlayer());
-			remove(cell2.getX(),cell2.getY(), character2.getPlayer());
-		}
+	public boolean isAddAllowed() {
+		return gameState.isAddAllowed();
+	}
+	
+	public boolean isRemoveAllowed() {
+		return gameState.isRemoveAllowed();
 	}
 
-	private void changePosition(ICell fromCell, ICell toCell) {
-		ICharacter ch = fromCell.getCharacter();
-		fromCell.setCharacter(null);
-		toCell.setCharacter(ch);
+	private void gameOver() {
+		setGameStatus(GameStatus.GAME_OVER);
+		IPlayer currentPlayer = getCurrentPlayer();
+		if (currentPlayer == playerOne) {
+			setState(new PlayerTwoWinner(this));
+		} else if (currentPlayer == playerTwo) {
+			setState(new PlayerOneWinner(this));
+		}
+		setVisibilityOfAllCharacters(true);
 	}
 	
 	public void add(int x, int y, int rank) {
+		if (!isAddAllowed()) {
+			return;
+		}
 		IPlayer p = gameState.getCurrentPlayer();
 
 		// looking for char-rank in charList
 		ICharacter character = p.getCharacter(rank);
-		
 		if (character == null) {
 			// didn't found char-rank 
 			return;
 		}
 		
 		ICell cell = field.getCell(x, y);
-		if (cell.getCharacter() != null) {
+		if (cell.containsCharacter()) {
 			// field already has a char
+			return;
+		}
+
+		if (!cell.isPassable()) {
 			return;
 		}
 		
 		// take char from list and add to field
 		p.removeCharacter(character);
 		cell.setCharacter(character);
-		
 		notifyObservers();
 	}
-	
+
 	public void removeNotify(int x, int y) {
+		if (!isRemoveAllowed()) {
+			return;
+		}
 		remove(x, y);
 		notifyObservers();
 	}
 	
-	private ICharacter remove(int x, int y) {
-		return remove(x, y, gameState.getCurrentPlayer());
+	public void remove(int x, int y) {
+		remove(x, y, gameState.getCurrentPlayer());
 	}
 	
-	public ICharacter remove(int x, int y, IPlayer player) {
-		ICharacter c = field.getCell(x, y).getCharacter();
-		
-		field.getCell(x, y).setCharacter(null);
-		if (c != null) {
-			player.addCharacter(c);
+	public void remove(int x, int y, IPlayer player) {
+		ICell cell = field.getCell(x, y);
+		ICharacter character = field.getCell(x, y).getCharacter();
+		if (cell.containsCharacter() && character.belongsTo(player)) {
+			cell.removeCharacter();
+			player.addCharacter(character);
+		} else {
+			status = GameStatus.ILLEGAL_ARGUMENT;
 		}
-		return c;
 	}
 	
+	public void toggleVisibilityOfCharacters(IPlayer player, boolean visible) {
+		for (int y = 0; y < field.getHeight(); y++) {
+			for (int x = 0; x < field.getWidth(); x++) {
+				ICell cell = field.getCell(x, y);
+				if (!cell.containsCharacter()) {
+					continue;
+				}
+				ICharacter character = cell.getCharacter();
+				if (character.belongsTo(player)) {
+					character.setVisible(visible);
+				} else {
+					character.setVisible(!visible);
+				}
+			}
+		}
+	}
+	
+	public void setVisibilityOfAllCharacters(boolean visible) {
+		for (int y = 0; y < field.getHeight(); y++) {
+			for (int x = 0; x < field.getWidth(); x++) {
+				ICell cell = field.getCell(x, y);
+				if (!cell.containsCharacter()) {
+					continue;
+				}
+				cell.getCharacter().setVisible(visible);
+			}
+		}
+	}
+
 	public boolean lost(IPlayer player) {
-		if (player.getCharacter(Rank.FLAG) != null) {
-			return true;
-		}
-		return false;
+		return player.containsCharacter(Rank.FLAG);
 	}
-	
+
 	public String getFieldString() {
-		return gameState.getFieldString();
+		return field.toString();
 	}
 
 }

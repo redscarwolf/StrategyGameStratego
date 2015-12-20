@@ -4,6 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.htwg.stratego.model.impl.Player;
+import de.htwg.stratego.model.impl.Rank;
 import de.htwg.stratego.model.impl.character.Sergeant;
 import junit.framework.TestCase;
 
@@ -39,6 +40,18 @@ public class PlayerTest extends TestCase {
 		assertEquals(character, player.removeCharacter(lastindex));
 	}
 
+	@Test
+	public void testAddCharacter() {
+		player.addCharacter(null);
+	}
+	
+	@Test
+	public void testContainsCharacter() {
+		assertTrue(player.containsCharacter(Rank.BOMB));
+		player.removeCharacter(player.getCharacter(Rank.FLAG));
+		assertFalse(player.containsCharacter(Rank.FLAG));
+	}
+	
 	@Test
 	public void testGetCharacterListAsString() {
 		String listStr = "|11|11|11|11|11|11|10|9|8|8|7|7|7|6|6|6|6|5|5|5|5|"

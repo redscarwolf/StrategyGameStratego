@@ -32,7 +32,7 @@ public class CharacterTest extends TestCase{
 		
 		flag = new Flag(playerOne);
 		sergeant = new Sergeant(playerTwo);
-
+		
 		new Spy(playerOne);
 		new Scout(playerOne);
 		new Miner(playerOne);
@@ -72,6 +72,27 @@ public class CharacterTest extends TestCase{
 		
 		charString = "! " + Rank.SERGEANT;
 		assertEquals(charString, sergeant.toString());
+		
+		sergeant.setVisible(false);
+		charString = " X ";
+		assertEquals(charString, sergeant.toString());
+	}
+
+	@Test
+	public void testSetVisible() {
+		sergeant.setVisible(false);
+		assertFalse(sergeant.isVisible());
+	}
+	
+	@Test
+	public void testIsVisible() {
+		assertTrue(flag.isVisible());
+	}
+	
+	@Test
+	public void testBelongsTo() {
+		assertTrue(flag.belongsTo(playerOne));
+		assertFalse(sergeant.belongsTo(playerOne));
 	}
 
 }

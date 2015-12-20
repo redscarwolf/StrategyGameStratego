@@ -1,6 +1,5 @@
 package de.htwg.stratego.controller;
 
-import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IPlayer;
 
 public class PlayerTwoStart implements GameState {
@@ -17,28 +16,20 @@ public class PlayerTwoStart implements GameState {
 	}
 
 	@Override
-	public String getFieldString() {
-		return sc.getField().getFieldString(sc.getPlayerTwo());
+	public boolean isMoveAllowed() {
+		return false;
 	}
 
 	@Override
-	public ICharacter remove(int x, int y) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean isAddAllowed() {
+		return true;
 	}
 
 	@Override
-	public void add(int x, int y, int rank) {
-		// TODO Auto-generated method stub
-		
+	public boolean isRemoveAllowed() {
+		return true;
 	}
-
-	@Override
-	public void moveChar(int fromX, int fromY, int toX, int toY) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public String toStringPlayerStatus() {
 		return "Set your characters, player 2!";
@@ -47,6 +38,7 @@ public class PlayerTwoStart implements GameState {
 	@Override
 	public void changeState() {
 		sc.setState(new PlayerOneTurn(sc));
+		sc.toggleVisibilityOfCharacters(sc.getCurrentPlayer(), true);
 	}
 	
 }

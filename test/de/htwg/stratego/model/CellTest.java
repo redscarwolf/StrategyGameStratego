@@ -36,6 +36,14 @@ public class CellTest extends TestCase {
 	}
 	
 	@Test
+	public void testContainsCharacter() {
+		cell.setCharacter(flag);
+		assertTrue(cell.containsCharacter());
+		cell.removeCharacter();
+		assertFalse(cell.containsCharacter());
+	}
+	
+	@Test
 	public void testEquals() {
 		assertTrue(cell.equals(new Cell(1, 2)));
 		
@@ -47,4 +55,20 @@ public class CellTest extends TestCase {
 		assertFalse(cell.equals(new Cell(1, 88)));
 	}
 
+	@Test
+	public void testIsPassable() {
+		cell.setPassable(false);
+		assertFalse(cell.isPassable());
+	}
+	
+	@Test
+	public void testToString() {
+		cell.setPassable(false);
+		assertEquals(cell.toString(), "|||");
+		cell.setPassable(true);
+		assertEquals(cell.toString(), "   ");
+		cell.setCharacter(flag);
+		assertEquals(cell.toString(), flag.toString());
+	}
+	
 }
