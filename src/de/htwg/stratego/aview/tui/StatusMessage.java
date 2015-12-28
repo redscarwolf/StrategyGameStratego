@@ -3,7 +3,7 @@ package de.htwg.stratego.aview.tui;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.htwg.stratego.controller.GameStatus;
+import de.htwg.stratego.controller.impl.GameStatus;
 
 public class StatusMessage {
 

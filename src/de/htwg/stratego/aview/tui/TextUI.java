@@ -2,15 +2,15 @@ package de.htwg.stratego.aview.tui;
 
 import java.util.regex.Pattern;
 
-import de.htwg.stratego.controller.StrategoController;
+import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.util.observer.Event;
 import de.htwg.stratego.util.observer.IObserver;
 
 public class TextUI implements IObserver {
 
-	private StrategoController sc;
+	private IStrategoController sc;
 
-	public TextUI(StrategoController sc) {
+	public TextUI(IStrategoController sc) {
 		this.sc = sc;
 		sc.addObserver(this);
 	}
@@ -75,7 +75,7 @@ public class TextUI implements IObserver {
 
 	public void printTUI() {
 		System.out.println(StatusMessage.textMap.get(sc.getStatus()));
-		System.out.println(sc.toStringPlayerStatus());
+		System.out.println(sc.getPlayerStatusString());
 		System.out.print(sc.getFieldString());
 		System.out.println("Characters Player1: " + sc.toStringCharacterList(sc.getPlayerOne()));
 		System.out.println("Characters Player2: " + sc.toStringCharacterList(sc.getPlayerTwo()));

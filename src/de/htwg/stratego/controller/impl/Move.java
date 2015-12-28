@@ -1,4 +1,4 @@
-package de.htwg.stratego.controller;
+package de.htwg.stratego.controller.impl;
 
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;

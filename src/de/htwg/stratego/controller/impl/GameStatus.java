@@ -1,4 +1,4 @@
-package de.htwg.stratego.controller;
+package de.htwg.stratego.controller.impl;
 
 /**
  * Stati for Controller and View

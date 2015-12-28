@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import de.htwg.stratego.controller.StrategoController;
+import de.htwg.stratego.controller.impl.StrategoController;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 

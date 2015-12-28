@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import de.htwg.stratego.controller.StrategoController;
+import de.htwg.stratego.controller.impl.StrategoController;
 import de.htwg.stratego.util.observer.Event;
 import de.htwg.stratego.util.observer.IObserver;
 

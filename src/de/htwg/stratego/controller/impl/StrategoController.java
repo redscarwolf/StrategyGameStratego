@@ -1,6 +1,7 @@
-package de.htwg.stratego.controller;
+package de.htwg.stratego.controller.impl;
 
 import de.htwg.stratego.model.ICharacter;
+import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IFieldFactory;
@@ -9,7 +10,7 @@ import de.htwg.stratego.model.impl.Player;
 import de.htwg.stratego.model.impl.Rank;
 import de.htwg.stratego.util.observer.Observable;
 
-public class StrategoController extends Observable {
+public class StrategoController extends Observable implements IStrategoController {
 	
 	public static final int WIDTH_FIELD = 10;
 	public static final int HEIGHT_FIELD = 10;
@@ -40,27 +41,33 @@ public class StrategoController extends Observable {
 		field.getCell(6, 5).setPassable(false);
 		field.getCell(7, 5).setPassable(false);
 	}
-	
+	// TODO #################
+	@Override
 	public IPlayer getPlayerOne() {
 		return playerOne;
 	}
 	
+	@Override
 	public IPlayer getPlayerTwo() {
 		return playerTwo;
 	}
 	
+	@Override
 	public String toStringCharacterList(IPlayer player) {
 		return player.getCharacterListAsString();
 	}
+	// ####################
 	
 	public void setGameStatus(GameStatus status) {
 		this.status = status;
 	}
 	
+	@Override
 	public GameStatus getStatus() {
 		return status;
 	}
 	
+	@Override
 	public void changeStateNotify() {
 		changeState();
 		notifyObservers();
@@ -78,7 +85,8 @@ public class StrategoController extends Observable {
 		return gameState;
 	}
 	
-	public String toStringPlayerStatus() {
+	@Override
+	public String getPlayerStatusString() {
 		return gameState.toStringPlayerStatus();
 	}
 	
@@ -128,6 +136,7 @@ public class StrategoController extends Observable {
 		setVisibilityOfAllCharacters(true);
 	}
 	
+	@Override
 	public void move(int fromX, int fromY, int toX, int toY) {
 		if (!isMoveAllowed()) {
 			status = GameStatus.ILLEGAL_ARGUMENT;
@@ -150,6 +159,7 @@ public class StrategoController extends Observable {
 		return player.containsCharacter(Rank.FLAG);
 	}
 	
+	@Override
 	public void add(int x, int y, int rank) {
 		if (!isAddAllowed()) {
 			return;
@@ -178,7 +188,8 @@ public class StrategoController extends Observable {
 		cell.setCharacter(character);
 		notifyObservers();
 	}
-
+	
+	@Override
 	public void removeNotify(int x, int y) {
 		if (!isRemoveAllowed()) {
 			return;
@@ -230,7 +241,8 @@ public class StrategoController extends Observable {
 			}
 		}
 	}
-
+	
+	@Override
 	public String getFieldString() {
 		return field.toString();
 	}

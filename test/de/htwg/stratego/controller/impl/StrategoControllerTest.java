@@ -1,10 +1,19 @@
-package de.htwg.stratego.controller;
+package de.htwg.stratego.controller.impl;
 
 import junit.framework.TestCase;
 
 import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese weiter
 import org.junit.Test;
 
+import de.htwg.stratego.controller.impl.GameState;
+import de.htwg.stratego.controller.impl.GameStatus;
+import de.htwg.stratego.controller.impl.PlayerOneStart;
+import de.htwg.stratego.controller.impl.PlayerOneTurn;
+import de.htwg.stratego.controller.impl.PlayerOneWinner;
+import de.htwg.stratego.controller.impl.PlayerTwoStart;
+import de.htwg.stratego.controller.impl.PlayerTwoTurn;
+import de.htwg.stratego.controller.impl.PlayerTwoWinner;
+import de.htwg.stratego.controller.impl.StrategoController;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IField;
@@ -179,7 +188,7 @@ public class StrategoControllerTest extends TestCase {
 	@Test
 	public void testToStringPlayerStatus() {
 		sc.setState(playerOneStart);
-		assertEquals(sc.toStringPlayerStatus(), playerOneStart.toStringPlayerStatus());
+		assertEquals(sc.getPlayerStatusString(), playerOneStart.toStringPlayerStatus());
 	}
 	
 	@Test

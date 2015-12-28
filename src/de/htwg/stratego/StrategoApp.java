@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import de.htwg.stratego.aview.gui.StrategoFrame;
 import de.htwg.stratego.aview.tui.TextUI;
-import de.htwg.stratego.controller.StrategoController;
+import de.htwg.stratego.controller.impl.StrategoController;
 import de.htwg.stratego.model.impl.FieldFactory;
 
 public final class StrategoApp {
