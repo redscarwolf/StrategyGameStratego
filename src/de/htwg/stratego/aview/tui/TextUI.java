@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 import de.htwg.stratego.controller.StrategoController;
 import de.htwg.stratego.util.observer.Event;
 import de.htwg.stratego.util.observer.IObserver;
-import de.htwg.stratego.model.ICharacter;;
 
 public class TextUI implements IObserver {
 
@@ -60,7 +59,7 @@ public class TextUI implements IObserver {
 		return continu;
 	}
 
-	public void printHelp() {
+	private void printHelp() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("--------------------\n");
 		sb.append("HELP\n");
@@ -68,6 +67,8 @@ public class TextUI implements IObserver {
 		sb.append("a [x] [y] [rank] - Adds a character to the field\n");
 		sb.append("r [x] [y] - Removes a character from the field\n");
 		sb.append("m [x1] [y1] [x2] [y2] - Moves a character from (x1,y1) to (x2,y2)\n");
+		sb.append("f - Finish your construction phase\n");
+		sb.append("q - Quit game\n");
 		System.out.println(sb);
 		System.out.print("Command (Type \"h\" for help): ");
 	}

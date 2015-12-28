@@ -20,7 +20,40 @@ public class Move {
 		toCharacter = toCell.getCharacter();
 	}
 	
-	public boolean isValid() {
+	public boolean execute() {
+		if (!isValid()) {
+			return false;
+		}
+
+		//Conditions of toCharacter
+		if (toCharacter == null) {
+			// if Cell is empty move Character to new position
+			fromCell.setCharacter(null);
+			toCell.setCharacter(fromCharacter);
+		} else {
+			// if Cell is not empty fight with toCharacter
+			// only if toCharacter.getPlayer() is not equal to fromCharacter.getPlayer() 
+			if (toCharacter.getPlayer() == fromCharacter.getPlayer()) {
+				return false;
+			}
+			
+			int result = fight(fromCharacter, toCharacter);
+			if (result > 0) {  // success
+				sc.remove(toCell.getX(), toCell.getY(), toCharacter.getPlayer());
+				fromCell.setCharacter(null);
+				toCell.setCharacter(fromCharacter);
+			} else if (result < 0) { // lost
+				sc.remove(fromCell.getX(), fromCell.getY(), fromCharacter.getPlayer());
+			} else { // equal
+				sc.remove(fromCell.getX(), fromCell.getY(), fromCharacter.getPlayer());
+				sc.remove(toCell.getX(), toCell.getY(), toCharacter.getPlayer());
+			}
+		}
+		
+		return true;
+	}
+	
+	private boolean isValid() {
 		// check is move inside of Field 
 
 				
@@ -104,57 +137,24 @@ public class Move {
 		}
 		return true;
 	}
-	
-	public boolean execute() {
-		if (!isValid()) {
-			return false;
-		}
 
-		//Conditions of toCharacter
-		if (toCharacter == null) {
-			// if Cell is empty move Character to new position
-			fromCell.setCharacter(null);
-			toCell.setCharacter(fromCharacter);
-		} else {
-			// if Cell is not empty fight with toCharacter
-			// only if toCharacter.getPlayer() is not equal to fromCharacter.getPlayer() 
-			if (toCharacter.getPlayer() == fromCharacter.getPlayer()) {
-				return false;
-			}
-			
-			int result = fight(fromCharacter, toCharacter);
-			if (result > 0) {
-				sc.remove(toCell.getX(), toCell.getY(), toCharacter.getPlayer());
-				fromCell.setCharacter(null);
-				toCell.setCharacter(fromCharacter);
-			} else if (result < 0) {
-				sc.remove(fromCell.getX(), fromCell.getY(), fromCharacter.getPlayer());
-			} else {
-				sc.remove(fromCell.getX(), fromCell.getY(), fromCharacter.getPlayer());
-				sc.remove(toCell.getX(), toCell.getY(), toCharacter.getPlayer());
-			}
-		}
-		
-		return true;
-	}
-
-	public int fight(ICharacter character1, ICharacter character2) {
+	private int fight(ICharacter chAttacker, ICharacter chDefender) {
 		// get Character rank
-		int rank1 = character1.getRank();
-		int rank2 = character2.getRank();
+		int rankAttacker = chAttacker.getRank();
+		int rankDefender = chDefender.getRank();
 		
-		if (rank1 == Rank.MINER && rank2 == Rank.BOMB) {
+		if (rankAttacker == Rank.MINER && rankDefender == Rank.BOMB) {
 			return 1;
 		}
 		
-		if (rank1 == Rank.SPY && rank2 == Rank.MARSHAL) {
+		if (rankAttacker == Rank.SPY && rankDefender == Rank.MARSHAL) {
 			return 1;
 		}
 		
-		if (rank1 > rank2) {
+		if (rankAttacker > rankDefender) {
 			//success
 			return 1;
-		} else if (rank1 < rank2) {
+		} else if (rankAttacker < rankDefender) {
 			// lost
 			return -1;
 		} else {

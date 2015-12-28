@@ -10,25 +10,25 @@ import de.htwg.stratego.model.impl.Rank;
 import de.htwg.stratego.util.observer.Observable;
 
 public class StrategoController extends Observable {
-	private GameStatus status = GameStatus.WELCOME;
-	private IField field;
 	
 	public static final int WIDTH_FIELD = 10;
 	public static final int HEIGHT_FIELD = 10;
 	
+	private IField field;
 	private IPlayer playerOne;
 	private IPlayer playerTwo;
 	
+	private GameStatus status = GameStatus.WELCOME;
 	private GameState gameState;
 	
 	public StrategoController(IFieldFactory fieldFactory) {
-		field = fieldFactory.create(WIDTH_FIELD, HEIGHT_FIELD);
 		//TODO: impl.Player ersetzen / PlayerFactory
 		playerOne = new Player("#");
 		playerTwo = new Player("!");
 		
 		gameState = new PlayerOneStart(this);
 		
+		field = fieldFactory.create(WIDTH_FIELD, HEIGHT_FIELD);
 		// some cells are not passable
 		field.getCell(2, 4).setPassable(false);
 		field.getCell(3, 4).setPassable(false);
@@ -39,11 +39,6 @@ public class StrategoController extends Observable {
 		field.getCell(7, 4).setPassable(false);
 		field.getCell(6, 5).setPassable(false);
 		field.getCell(7, 5).setPassable(false);
-		
-	}
-		
-	public void setGameStatus(GameStatus status) {
-		this.status = status;
 	}
 	
 	public IPlayer getPlayerOne() {
@@ -58,8 +53,12 @@ public class StrategoController extends Observable {
 		return player.getCharacterListAsString();
 	}
 	
-	public void changeState() {
-		gameState.changeState();
+	public void setGameStatus(GameStatus status) {
+		this.status = status;
+	}
+	
+	public GameStatus getStatus() {
+		return status;
 	}
 	
 	public void changeStateNotify() {
@@ -67,16 +66,36 @@ public class StrategoController extends Observable {
 		notifyObservers();
 	}
 	
+	public void changeState() {
+		gameState.changeState();
+	}
+	
 	public void setState(GameState s) {
 		gameState = s;
 	}
 	
-	public GameStatus getStatus() {
-		return status;
+	public GameState getGameState() {
+		return gameState;
 	}
 	
 	public String toStringPlayerStatus() {
 		return gameState.toStringPlayerStatus();
+	}
+	
+	public IPlayer getCurrentPlayer() {
+		return gameState.getCurrentPlayer();
+	}
+	
+	public boolean isMoveAllowed() {
+		return gameState.isMoveAllowed();
+	}
+	
+	public boolean isAddAllowed() {
+		return gameState.isAddAllowed();
+	}
+	
+	public boolean isRemoveAllowed() {
+		return gameState.isRemoveAllowed();
 	}
 	
 	public IField getField() {
@@ -97,13 +116,16 @@ public class StrategoController extends Observable {
 			}
 		}
 	}
-	
-	public GameState getGameState() {
-		return gameState;
-	}
-	
-	public IPlayer getCurrentPlayer() {
-		return gameState.getCurrentPlayer();
+
+	private void gameOver() {
+		setGameStatus(GameStatus.GAME_OVER);
+		IPlayer currentPlayer = getCurrentPlayer();
+		if (currentPlayer == playerOne) {
+			setState(new PlayerTwoWinner(this));
+		} else if (currentPlayer == playerTwo) {
+			setState(new PlayerOneWinner(this));
+		}
+		setVisibilityOfAllCharacters(true);
 	}
 	
 	public void move(int fromX, int fromY, int toX, int toY) {
@@ -124,27 +146,8 @@ public class StrategoController extends Observable {
 		notifyObservers();
 	}
 	
-	public boolean isMoveAllowed() {
-		return gameState.isMoveAllowed();
-	}
-	
-	public boolean isAddAllowed() {
-		return gameState.isAddAllowed();
-	}
-	
-	public boolean isRemoveAllowed() {
-		return gameState.isRemoveAllowed();
-	}
-
-	private void gameOver() {
-		setGameStatus(GameStatus.GAME_OVER);
-		IPlayer currentPlayer = getCurrentPlayer();
-		if (currentPlayer == playerOne) {
-			setState(new PlayerTwoWinner(this));
-		} else if (currentPlayer == playerTwo) {
-			setState(new PlayerOneWinner(this));
-		}
-		setVisibilityOfAllCharacters(true);
+	public boolean lost(IPlayer player) {
+		return player.containsCharacter(Rank.FLAG);
 	}
 	
 	public void add(int x, int y, int rank) {
@@ -226,10 +229,6 @@ public class StrategoController extends Observable {
 				cell.getCharacter().setVisible(visible);
 			}
 		}
-	}
-
-	public boolean lost(IPlayer player) {
-		return player.containsCharacter(Rank.FLAG);
 	}
 
 	public String getFieldString() {
