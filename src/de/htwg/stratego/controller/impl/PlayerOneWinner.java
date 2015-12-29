@@ -4,10 +4,8 @@ import de.htwg.stratego.model.IPlayer;
 
 public class PlayerOneWinner implements GameState {
 
-	private StrategoController sc;
 	
 	public PlayerOneWinner(StrategoController sc) {
-		this.sc = sc;
 	}
 	
 	@Override

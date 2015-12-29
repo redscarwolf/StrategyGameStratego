@@ -11,6 +11,8 @@ public final class StrategoApp {
 
 	private static Scanner scanner;
 	private static TextUI tui;
+	
+	@SuppressWarnings("unused")
 	private static StrategoFrame gui;
 	private static StrategoController sc;
 	

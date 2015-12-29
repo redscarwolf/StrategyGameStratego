@@ -1,6 +1,5 @@
 package de.htwg.stratego.controller.impl;
 
-import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IPlayer;
 
 public class PlayerTwoTurn implements GameState {

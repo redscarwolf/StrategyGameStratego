@@ -1,7 +1,5 @@
 package de.htwg.stratego.model;
 
-import de.htwg.stratego.model.impl.Player;
-
 public interface ICharacter {
 	
 	int getRank();
