@@ -11,122 +11,117 @@ import de.htwg.stratego.model.impl.Rank;
 import de.htwg.stratego.util.observer.Observable;
 
 public class StrategoController extends Observable implements IStrategoController {
-	
+
 	public static final int WIDTH_FIELD = 10;
 	public static final int HEIGHT_FIELD = 10;
-	
+
 	private IField field;
 	private IPlayer playerOne;
 	private IPlayer playerTwo;
-	
-	private GameStatus status = GameStatus.WELCOME;
+
+	private String statusController = "Welcome to HTWG Stratego!";
 	private GameState gameState;
-	
+
 	public StrategoController(IFieldFactory fieldFactory) {
-		//TODO: impl.Player ersetzen / PlayerFactory
+		// TODO: impl.Player ersetzen / PlayerFactory
 		playerOne = new Player("#");
 		playerTwo = new Player("!");
-		
+
 		gameState = new PlayerOneStart(this);
-		
+
 		field = fieldFactory.create(WIDTH_FIELD, HEIGHT_FIELD);
 		// some cells are not passable
 		field.getCell(2, 4).setPassable(false);
 		field.getCell(3, 4).setPassable(false);
 		field.getCell(2, 5).setPassable(false);
 		field.getCell(3, 5).setPassable(false);
-		
+
 		field.getCell(6, 4).setPassable(false);
 		field.getCell(7, 4).setPassable(false);
 		field.getCell(6, 5).setPassable(false);
 		field.getCell(7, 5).setPassable(false);
 	}
-	// TODO #################
+	
+	@Override
+	public String getStatusString() {
+		return statusController;
+	}
+
 	@Override
 	public IPlayer getPlayerOne() {
 		return playerOne;
 	}
-	
+
 	@Override
 	public IPlayer getPlayerTwo() {
 		return playerTwo;
 	}
-	
+
 	@Override
-	public String toStringCharacterList(IPlayer player) {
+	public String getCharacterListString(IPlayer player) {
 		return player.getCharacterListAsString();
 	}
-	// ####################
-	
-	public void setGameStatus(GameStatus status) {
-		this.status = status;
-	}
-	
-	@Override
-	public GameStatus getStatus() {
-		return status;
-	}
-	
+
 	@Override
 	public void changeStateNotify() {
 		changeState();
 		notifyObservers();
 	}
-	
+
 	public void changeState() {
 		gameState.changeState();
 	}
-	
+
 	public void setState(GameState s) {
 		gameState = s;
 	}
-	
+
 	public GameState getGameState() {
 		return gameState;
 	}
-	
+
 	@Override
 	public String getPlayerStatusString() {
 		return gameState.toStringPlayerStatus();
 	}
-	
+
 	public IPlayer getCurrentPlayer() {
 		return gameState.getCurrentPlayer();
 	}
-	
+
 	public boolean isMoveAllowed() {
 		return gameState.isMoveAllowed();
 	}
-	
+
 	public boolean isAddAllowed() {
 		return gameState.isAddAllowed();
 	}
-	
+
 	public boolean isRemoveAllowed() {
 		return gameState.isRemoveAllowed();
 	}
-	
+
 	public IField getField() {
 		return field;
 	}
-	
+
 	public void fillField() {
 		// fill Player1 left to right, up to middle
 		for (int x = 0; x < field.getWidth(); x++) {
-			for (int y = 0; y < 4; y++) {		
+			for (int y = 0; y < 4; y++) {
 				field.getCell(x, y).setCharacter(playerOne.removeCharacter(0));
 			}
 		}
 		// fill Player2 right to left, bottom to middle
 		for (int x = field.getWidth() - 1; x > -1; x--) {
-			for (int y = field.getHeight() - 1; y > field.getHeight() - 5; y--) {		
+			for (int y = field.getHeight() - 1; y > field.getHeight() - 5; y--) {
 				field.getCell(x, y).setCharacter(playerTwo.removeCharacter(0));
 			}
 		}
 	}
 
 	private void gameOver() {
-		setGameStatus(GameStatus.GAME_OVER);
+		statusController = "GAME OVER!";
 		IPlayer currentPlayer = getCurrentPlayer();
 		if (currentPlayer == playerOne) {
 			setState(new PlayerTwoWinner(this));
@@ -135,11 +130,11 @@ public class StrategoController extends Observable implements IStrategoControlle
 		}
 		setVisibilityOfAllCharacters(true);
 	}
-	
+
 	@Override
 	public void move(int fromX, int fromY, int toX, int toY) {
 		if (!isMoveAllowed()) {
-			status = GameStatus.ILLEGAL_ARGUMENT;
+			statusController = "Illegal Argument! Moving of Characters is not allowed, jet. Try again.";
 		} else {
 			Move move = new Move(fromX, fromY, toX, toY, this);
 			boolean moveSuccess = move.execute();
@@ -149,16 +144,16 @@ public class StrategoController extends Observable implements IStrategoControlle
 					gameOver();
 				}
 			} else {
-				status = GameStatus.ILLEGAL_ARGUMENT;
+				statusController = "Illegal Argument! Your move is not possible.";
 			}
 		}
 		notifyObservers();
 	}
-	
+
 	public boolean lost(IPlayer player) {
 		return player.containsCharacter(Rank.FLAG);
 	}
-	
+
 	@Override
 	public void add(int x, int y, int rank) {
 		if (!isAddAllowed()) {
@@ -169,10 +164,10 @@ public class StrategoController extends Observable implements IStrategoControlle
 		// looking for char-rank in charList
 		ICharacter character = p.getCharacter(rank);
 		if (character == null) {
-			// didn't found char-rank 
+			// didn't found char-rank
 			return;
 		}
-		
+
 		ICell cell = field.getCell(x, y);
 		if (cell.containsCharacter()) {
 			// field already has a char
@@ -182,13 +177,13 @@ public class StrategoController extends Observable implements IStrategoControlle
 		if (!cell.isPassable()) {
 			return;
 		}
-		
+
 		// take char from list and add to field
 		p.removeCharacter(character);
 		cell.setCharacter(character);
 		notifyObservers();
 	}
-	
+
 	@Override
 	public void removeNotify(int x, int y) {
 		if (!isRemoveAllowed()) {
@@ -197,11 +192,11 @@ public class StrategoController extends Observable implements IStrategoControlle
 		remove(x, y);
 		notifyObservers();
 	}
-	
+
 	public void remove(int x, int y) {
 		remove(x, y, gameState.getCurrentPlayer());
 	}
-	
+
 	public void remove(int x, int y, IPlayer player) {
 		ICell cell = field.getCell(x, y);
 		ICharacter character = field.getCell(x, y).getCharacter();
@@ -209,10 +204,11 @@ public class StrategoController extends Observable implements IStrategoControlle
 			cell.removeCharacter();
 			player.addCharacter(character);
 		} else {
-			status = GameStatus.ILLEGAL_ARGUMENT;
+			statusController = "Illegal Argument! There is no character or "
+					+ "you are not allowed to remove this character.";
 		}
 	}
-	
+
 	public void toggleVisibilityOfCharacters(IPlayer player, boolean visible) {
 		for (int y = 0; y < field.getHeight(); y++) {
 			for (int x = 0; x < field.getWidth(); x++) {
@@ -229,7 +225,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 			}
 		}
 	}
-	
+
 	public void setVisibilityOfAllCharacters(boolean visible) {
 		for (int y = 0; y < field.getHeight(); y++) {
 			for (int x = 0; x < field.getWidth(); x++) {
@@ -241,7 +237,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 			}
 		}
 	}
-	
+
 	@Override
 	public String getFieldString() {
 		return field.toString();

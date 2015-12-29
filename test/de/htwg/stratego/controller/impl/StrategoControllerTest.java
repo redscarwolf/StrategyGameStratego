@@ -6,7 +6,6 @@ import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese wei
 import org.junit.Test;
 
 import de.htwg.stratego.controller.impl.GameState;
-import de.htwg.stratego.controller.impl.GameStatus;
 import de.htwg.stratego.controller.impl.PlayerOneStart;
 import de.htwg.stratego.controller.impl.PlayerOneTurn;
 import de.htwg.stratego.controller.impl.PlayerOneWinner;
@@ -51,8 +50,8 @@ public class StrategoControllerTest extends TestCase {
 	}
 	
 	@Test
-	public void testGetStatus() {
-		assertEquals(GameStatus.WELCOME, sc.getStatus());
+	public void testGetStatusString() {
+		assertEquals("Welcome to HTWG Stratego!", sc.getStatusString());
 	}
 	
 	@Test
@@ -71,7 +70,8 @@ public class StrategoControllerTest extends TestCase {
 		sc.setState(playerOneStart);
 		sc.move(1, 0, 2, 0);
 		assertFalse(sc.getField().getCell(2, 0).containsCharacter());
-		assertEquals(sc.getStatus(), GameStatus.ILLEGAL_ARGUMENT);
+		assertEquals("Illegal Argument! Moving of Characters is not allowed, jet. Try again.",
+				sc.getStatusString());
 	
 		// correct move
 		sc.setState(playerOneTurn);
@@ -81,18 +81,19 @@ public class StrategoControllerTest extends TestCase {
 		
 		// wrong move
 		sc.move(0, 2, 0, 5);
-		assertEquals(sc.getStatus(), GameStatus.ILLEGAL_ARGUMENT);
+		assertEquals("Illegal Argument! Your move is not possible.",
+				     sc.getStatusString());
 		
 		// correct move, game over, player one win
 		sc.setState(playerOneTurn);
 		sc.move(1, 1, 2, 1);
-		assertEquals(sc.getStatus(), GameStatus.GAME_OVER);
+		assertEquals("GAME OVER!", sc.getStatusString());
 		assertTrue(sc.getGameState() instanceof PlayerOneWinner);
 
 		// correct move, game over, player two win
 		sc.setState(playerTwoTurn);
 		sc.move(5, 2, 5, 1);
-		assertEquals(sc.getStatus(), GameStatus.GAME_OVER);
+		assertEquals("GAME OVER!", sc.getStatusString());
 		assertTrue(sc.getGameState() instanceof PlayerTwoWinner);
 	}
 	
@@ -136,7 +137,9 @@ public class StrategoControllerTest extends TestCase {
 		// cell contains no character
 		sc.setState(playerOneStart);
 		sc.removeNotify(9, 9);
-		assertEquals(sc.getStatus(), GameStatus.ILLEGAL_ARGUMENT);
+		assertEquals("Illegal Argument! There is no character or "
+				+ "you are not allowed to remove this character.",
+				sc.getStatusString());
 		
 		// coccerct remove
 		sc.removeNotify(5, 1);
@@ -193,6 +196,6 @@ public class StrategoControllerTest extends TestCase {
 	
 	@Test
 	public void testToStringCharacterList() {
-		assertEquals(sc.toStringCharacterList(sc.getPlayerOne()), sc.getPlayerOne().getCharacterListAsString());
+		assertEquals(sc.getCharacterListString(sc.getPlayerOne()), sc.getPlayerOne().getCharacterListAsString());
 	}
 }
