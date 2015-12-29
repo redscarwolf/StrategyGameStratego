@@ -14,8 +14,8 @@ public class Move {
 	
 	public Move(int fromX, int fromY, int toX, int toY, StrategoController sc) {
 		this.sc = sc;
-		fromCell = sc.getField().getCell(fromX, fromY);
-		toCell = sc.getField().getCell(toX, toY);
+		fromCell = sc.getIField().getCell(fromX, fromY);
+		toCell = sc.getIField().getCell(toX, toY);
 		fromCharacter = fromCell.getCharacter();
 		toCharacter = toCell.getCharacter();
 	}
@@ -110,7 +110,7 @@ public class Move {
 			int absdy = Math.abs(dy);
 			dy = dy / absdy;
 			for (int i = dy; Math.abs(i) < absdy; i += dy) {
-				ICell cell = sc.getField().getCell(fromX, fromY + i);
+				ICell cell = sc.getIField().getCell(fromX, fromY + i);
 				if (!cell.isPassable() || cell.getCharacter() != null) {
 					return false;
 				}
@@ -119,7 +119,7 @@ public class Move {
 			int absdx = Math.abs(dx);
 			dx = dx / absdx;
 			for (int i = dx; Math.abs(i) < absdx; i += dx) {
-				ICell cell = sc.getField().getCell(fromX + i, fromY);
+				ICell cell = sc.getIField().getCell(fromX + i, fromY);
 				if (!cell.isPassable() || cell.getCharacter() != null) {
 					return false;
 				}

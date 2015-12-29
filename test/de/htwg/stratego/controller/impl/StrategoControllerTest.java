@@ -16,7 +16,7 @@ import de.htwg.stratego.controller.impl.StrategoController;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IField;
-import de.htwg.stratego.model.impl.FieldFactory;
+import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.Rank;
 
 public class StrategoControllerTest extends TestCase {
@@ -30,8 +30,8 @@ public class StrategoControllerTest extends TestCase {
 	
 	@BeforeClass
 	public void setUp() {
-		sc = new StrategoController(new FieldFactory());
-		field = sc.getField();
+		sc = new StrategoController(new Field(10, 10));
+		field = sc.getIField();
 		
 		playerOneStart = new PlayerOneStart(sc);
 		playerTwoStart = new PlayerTwoStart(sc);
@@ -56,7 +56,7 @@ public class StrategoControllerTest extends TestCase {
 	
 	@Test
 	public void testGetField() {
-		assertEquals(field, sc.getField());
+		assertEquals(field, sc.getIField());
 	}
 	
 	@Test
@@ -69,14 +69,14 @@ public class StrategoControllerTest extends TestCase {
 		// illegal state, move not allowed
 		sc.setState(playerOneStart);
 		sc.move(1, 0, 2, 0);
-		assertFalse(sc.getField().getCell(2, 0).containsCharacter());
+		assertFalse(sc.getIField().getCell(2, 0).containsCharacter());
 		assertEquals("Illegal Argument! Moving of Characters is not allowed, jet. Try again.",
 				sc.getStatusString());
 	
 		// correct move
 		sc.setState(playerOneTurn);
 		sc.move(1, 0, 1, 1);
-		assertTrue(sc.getField().getCell(1, 1).containsCharacter());
+		assertTrue(sc.getIField().getCell(1, 1).containsCharacter());
 		assertTrue(sc.getGameState() instanceof PlayerTwoTurn);
 		
 		// wrong move
@@ -102,24 +102,24 @@ public class StrategoControllerTest extends TestCase {
 		// illegal state, add not allowed
 		sc.setState(playerOneTurn);
 		sc.add(9, 9, Rank.BOMB);
-		assertFalse(sc.getField().getCell(9, 9).containsCharacter());
+		assertFalse(sc.getIField().getCell(9, 9).containsCharacter());
 		
 		// character not in player list
 		sc.setState(playerOneStart);
 		sc.add(9, 9, Rank.FLAG);
-		assertFalse(sc.getField().getCell(9, 9).containsCharacter());
+		assertFalse(sc.getIField().getCell(9, 9).containsCharacter());
 		
 		// cell contains already a character
 		sc.add(5, 1, Rank.BOMB);
-		assertEquals(sc.getField().getCell(5, 1).getCharacter().getRank(), Rank.FLAG);
+		assertEquals(sc.getIField().getCell(5, 1).getCharacter().getRank(), Rank.FLAG);
 		
 		// cell not passable
 		sc.add(2, 4, Rank.BOMB);
-		assertFalse(sc.getField().getCell(2, 4).containsCharacter());
+		assertFalse(sc.getIField().getCell(2, 4).containsCharacter());
 		
 		// correct add
 		sc.add(9, 9, Rank.BOMB);
-		assertEquals(sc.getField().getCell(9, 9).getCharacter().getRank(), Rank.BOMB);
+		assertEquals(sc.getIField().getCell(9, 9).getCharacter().getRank(), Rank.BOMB);
 	}
 	
 	@Test
@@ -127,12 +127,12 @@ public class StrategoControllerTest extends TestCase {
 		// illegal state, remove not allowed
 		sc.setState(playerOneTurn);
 		sc.removeNotify(5, 1);
-		assertTrue(sc.getField().getCell(5, 1).containsCharacter());
+		assertTrue(sc.getIField().getCell(5, 1).containsCharacter());
 		
 		// character belongs not to current player
 		sc.setState(playerOneStart);
 		sc.removeNotify(0, 2);
-		assertTrue(sc.getField().getCell(0, 2).containsCharacter());
+		assertTrue(sc.getIField().getCell(0, 2).containsCharacter());
 		
 		// cell contains no character
 		sc.setState(playerOneStart);
@@ -143,7 +143,7 @@ public class StrategoControllerTest extends TestCase {
 		
 		// coccerct remove
 		sc.removeNotify(5, 1);
-		assertFalse(sc.getField().getCell(5, 1).containsCharacter());
+		assertFalse(sc.getIField().getCell(5, 1).containsCharacter());
 	}
 	
 	@Test

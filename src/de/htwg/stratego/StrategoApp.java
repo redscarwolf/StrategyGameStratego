@@ -22,7 +22,6 @@ public final class StrategoApp {
 		// Set up Google Guice Dependency Injector
 		Injector injector = Guice.createInjector(new StrategoModule());
 		sc = injector.getInstance(IStrategoController.class);
-//		sc = new StrategoController(new FieldFactory());
 		
 //		sc.fillField();
 		
