@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import de.htwg.stratego.controller.impl.StrategoController;
+import com.google.inject.Inject;
+
+import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.util.observer.Event;
 import de.htwg.stratego.util.observer.IObserver;
 
@@ -14,14 +16,15 @@ public class StrategoFrame extends JFrame implements IObserver {
 //	private static final int WIDTH = 800;
 //	private static final int HEIGHT = 600;
 
-	private StrategoController sc;
+	private IStrategoController sc;
 
 	private FieldPanel fieldPanel;
 	private CharacterInfoPanel characterInfoPanel;
 	private StatusPanel statusPanel;
 	private SelectPanel selectPanel;
 	
-	public StrategoFrame(StrategoController sc) {
+	@Inject
+	public StrategoFrame(IStrategoController sc) {
 		this.sc = sc;
 		sc.addObserver(this);
 		

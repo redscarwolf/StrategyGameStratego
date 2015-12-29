@@ -2,10 +2,12 @@ package de.htwg.stratego;
 
 import java.util.Scanner;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 import de.htwg.stratego.aview.gui.StrategoFrame;
 import de.htwg.stratego.aview.tui.TextUI;
-import de.htwg.stratego.controller.impl.StrategoController;
-import de.htwg.stratego.model.impl.FieldFactory;
+import de.htwg.stratego.controller.IStrategoController;
 
 public final class StrategoApp {
 
@@ -14,11 +16,14 @@ public final class StrategoApp {
 	
 	@SuppressWarnings("unused")
 	private static StrategoFrame gui;
-	private static StrategoController sc;
+	private static IStrategoController sc;
 	
 	public static void main(String[] args) {
+		// Set up Google Guice Dependency Injector
+		Injector injector = Guice.createInjector(new StrategoModule());
+		sc = injector.getInstance(IStrategoController.class);
+//		sc = new StrategoController(new FieldFactory());
 		
-		sc = new StrategoController(new FieldFactory());
 //		sc.fillField();
 		
 		tui = new TextUI(sc);

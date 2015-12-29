@@ -1,5 +1,6 @@
 package de.htwg.stratego.controller;
 
+import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.util.observer.IObservable;
 
@@ -17,4 +18,10 @@ public interface IStrategoController extends IObservable {
 	String getCharacterListString(IPlayer player);
 	IPlayer getPlayerOne();
 	IPlayer getPlayerTwo();
+	
+	int getFieldHeight();
+	int getFieldWidth();
+	
+	// only for Gui
+	IField getIField();
 }

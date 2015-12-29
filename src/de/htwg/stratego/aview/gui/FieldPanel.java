@@ -8,16 +8,16 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
-import de.htwg.stratego.controller.impl.StrategoController;
+import de.htwg.stratego.controller.IStrategoController;
 
 public class FieldPanel extends JPanel {
 
 	private static int WIDTH_DEFAULT = 400;
 	private static int HEIGHT_DEFAULT = 400;
 	
-	public FieldPanel(StrategoController sc) {
-		int rows = StrategoController.WIDTH_FIELD;
-		int columns = StrategoController.HEIGHT_FIELD;
+	public FieldPanel(IStrategoController sc) {
+		int rows = sc.getFieldWidth();
+		int columns = sc.getFieldHeight();
 		
 		setMinimumSize(new Dimension(WIDTH_DEFAULT, HEIGHT_DEFAULT));
 		setPreferredSize(new Dimension(WIDTH_DEFAULT, HEIGHT_DEFAULT));

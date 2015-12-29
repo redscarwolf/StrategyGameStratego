@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import de.htwg.stratego.controller.impl.StrategoController;
+import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 
@@ -14,9 +14,9 @@ public class CellPanel extends JPanel {
 	private int row;
 	private int column;
 	
-	private StrategoController sc;
+	private IStrategoController sc;
 	
-	public CellPanel(int row, int column, StrategoController sc) {
+	public CellPanel(int row, int column, IStrategoController sc) {
 		this.row = row;
 		this.column = column;
 		this.sc = sc;
@@ -30,7 +30,7 @@ public class CellPanel extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		ICell cell = sc.getField().getCell(column, row);
+		ICell cell = sc.getIField().getCell(column, row);
 		ICharacter character = cell.getCharacter();
 		if (character != null) {
 			if (character.isVisible()) {

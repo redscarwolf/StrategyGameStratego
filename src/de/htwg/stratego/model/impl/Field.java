@@ -1,5 +1,8 @@
 package de.htwg.stratego.model.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
 import de.htwg.stratego.model.IField;
 
 public class Field implements IField {
@@ -8,8 +11,10 @@ public class Field implements IField {
 	private int height;
 
 	private Cell[][] cells;
-
-	public Field(int width, int height) {
+	
+	@Inject
+	public Field(@Named("fieldWidth") int width,
+				 @Named("fieldWidth") int height) {
 		this.width = width;
 		this.height = height;
 

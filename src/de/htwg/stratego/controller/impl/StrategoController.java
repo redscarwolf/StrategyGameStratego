@@ -1,10 +1,12 @@
 package de.htwg.stratego.controller.impl;
 
 import de.htwg.stratego.model.ICharacter;
+
+import com.google.inject.Inject;
+
 import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.IField;
-import de.htwg.stratego.model.IFieldFactory;
 import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.model.impl.Player;
 import de.htwg.stratego.model.impl.Rank;
@@ -12,24 +14,22 @@ import de.htwg.stratego.util.observer.Observable;
 
 public class StrategoController extends Observable implements IStrategoController {
 
-	public static final int WIDTH_FIELD = 10;
-	public static final int HEIGHT_FIELD = 10;
-
 	private IField field;
 	private IPlayer playerOne;
 	private IPlayer playerTwo;
 
 	private String statusController = "Welcome to HTWG Stratego!";
 	private GameState gameState;
-
-	public StrategoController(IFieldFactory fieldFactory) {
+	
+	@Inject
+	public StrategoController(IField field) {
 		// TODO: impl.Player ersetzen / PlayerFactory
 		playerOne = new Player("#");
 		playerTwo = new Player("!");
 
 		gameState = new PlayerOneStart(this);
 
-		field = fieldFactory.create(WIDTH_FIELD, HEIGHT_FIELD);
+		this.field = field;
 		// some cells are not passable
 		field.getCell(2, 4).setPassable(false);
 		field.getCell(3, 4).setPassable(false);
@@ -40,6 +40,16 @@ public class StrategoController extends Observable implements IStrategoControlle
 		field.getCell(7, 4).setPassable(false);
 		field.getCell(6, 5).setPassable(false);
 		field.getCell(7, 5).setPassable(false);
+	}
+	
+	@Override
+	public int getFieldWidth() {
+		return field.getWidth();
+	}
+	
+	@Override
+	public int getFieldHeight() {
+		return field.getHeight();
 	}
 	
 	@Override
@@ -100,8 +110,9 @@ public class StrategoController extends Observable implements IStrategoControlle
 	public boolean isRemoveAllowed() {
 		return gameState.isRemoveAllowed();
 	}
-
-	public IField getField() {
+	
+	@Override
+	public IField getIField() {
 		return field;
 	}
 
