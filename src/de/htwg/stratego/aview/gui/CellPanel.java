@@ -11,6 +11,7 @@ import de.htwg.stratego.model.ICharacter;
 
 public class CellPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private int row;
 	private int column;
 	

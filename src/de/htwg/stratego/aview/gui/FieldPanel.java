@@ -12,10 +12,22 @@ import de.htwg.stratego.controller.IStrategoController;
 
 public class FieldPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
+	private static final int ADD = 0;
+	private static final int REMOVE = 1;
+	private static final int MOVE = 2;
+	
 	private static int WIDTH_DEFAULT = 400;
 	private static int HEIGHT_DEFAULT = 400;
+	private IStrategoController sc;
+	private SelectPanel selectPanel;
+	private boolean isFirstClick = true;
+	private int fromX;
+	private int fromY;
 	
-	public FieldPanel(IStrategoController sc) {
+	public FieldPanel(IStrategoController sc, SelectPanel selectPanel) {
+		this.sc = sc;
+		this.selectPanel = selectPanel;
 		int rows = sc.getFieldWidth();
 		int columns = sc.getFieldHeight();
 		
@@ -28,22 +40,41 @@ public class FieldPanel extends JPanel {
 		for (int row = 0; row < rows; row++) {
 			for (int column = 0; column < columns; column++) {
 				CellPanel cellPanel = new CellPanel(row, column, sc);
-				cellPanel.addMouseListener(new MyMouseListener());
+				addMouseListenerToCellPanel(cellPanel);
+				// cellPanel.addMouseListener(new MyMouseListener());
+				
 				add(cellPanel);
 			}
 		}
-		
-		
 	}
 	
-	private static class MyMouseListener extends MouseAdapter {
-		
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			CellPanel cellPanel = (CellPanel) e.getSource();
-			System.out.println("(" + cellPanel.getRow() + ", " + cellPanel.getColumn()+ ")");
-		}
-		
+	private void addMouseListenerToCellPanel(CellPanel cellPanel) {
+		cellPanel.addMouseListener(
+				new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						CellPanel cellPanel = (CellPanel) e.getSource();
+						int x = cellPanel.getColumn();
+						int y = cellPanel.getRow();
+						
+						if (selectPanel.getSelectedMethod() == ADD) {
+							sc.add(x, y, selectPanel.getSelectedCharacterRank());
+						}
+						
+						if (selectPanel.getSelectedMethod() == REMOVE) {
+							sc.removeNotify(x, y);
+						}
+						
+						if (selectPanel.getSelectedMethod() == MOVE && isFirstClick) {
+							fromX = x;
+							fromY = y;
+							isFirstClick = false;
+							return;
+						} else {
+							sc.move(fromX, fromY, x, y);
+							isFirstClick = true;
+						}
+					}
+				});
 	}
-	
 }
