@@ -17,6 +17,7 @@ import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.impl.Field;
+import de.htwg.stratego.model.impl.PlayerFactory;
 import de.htwg.stratego.model.impl.Rank;
 
 public class StrategoControllerTest extends TestCase {
@@ -30,7 +31,7 @@ public class StrategoControllerTest extends TestCase {
 	
 	@BeforeClass
 	public void setUp() {
-		sc = new StrategoController(new Field(10, 10));
+		sc = new StrategoController(new Field(10, 10), new PlayerFactory());
 		field = sc.getIField();
 		
 		playerOneStart = new PlayerOneStart(sc);
