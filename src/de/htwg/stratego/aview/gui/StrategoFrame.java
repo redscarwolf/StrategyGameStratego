@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import com.google.inject.Inject;
-
 import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.util.observer.Event;
 import de.htwg.stratego.util.observer.IObserver;
@@ -23,7 +21,6 @@ public class StrategoFrame extends JFrame implements IObserver {
 	private StatusPanel statusPanel;
 	private SelectPanel selectPanel;
 	
-	@Inject
 	public StrategoFrame(IStrategoController sc) {
 		this.sc = sc;
 		sc.addObserver(this);

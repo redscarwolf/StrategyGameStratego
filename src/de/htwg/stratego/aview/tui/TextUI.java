@@ -75,6 +75,7 @@ public class TextUI implements IObserver {
 
 	public void printTUI() {
 		System.out.println(sc.getStatusString());
+		System.out.println(sc.getPlayerStatusString());
 		System.out.print(sc.getFieldString());
 		System.out.println("Characters Player1: " + sc.getCharacterListString(sc.getPlayerOne()));
 		System.out.println("Characters Player2: " + sc.getCharacterListString(sc.getPlayerTwo()));

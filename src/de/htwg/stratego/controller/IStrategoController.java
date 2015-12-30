@@ -19,9 +19,9 @@ public interface IStrategoController extends IObservable {
 	IPlayer getPlayerOne();
 	IPlayer getPlayerTwo();
 	
-	int getFieldHeight();
-	int getFieldWidth();
 	
 	// only for Gui
+	int getFieldHeight();
+	int getFieldWidth();
 	IField getIField();
 }
