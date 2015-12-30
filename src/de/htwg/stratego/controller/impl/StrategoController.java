@@ -8,7 +8,7 @@ import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayer;
-import de.htwg.stratego.model.impl.Player;
+import de.htwg.stratego.model.IPlayerFactory;
 import de.htwg.stratego.model.impl.Rank;
 import de.htwg.stratego.util.observer.Observable;
 
@@ -22,10 +22,10 @@ public class StrategoController extends Observable implements IStrategoControlle
 	private GameState gameState;
 	
 	@Inject
-	public StrategoController(IField field) {
-		// TODO: impl.Player ersetzen / PlayerFactory
-		playerOne = new Player("#");
-		playerTwo = new Player("!");
+	public StrategoController(IField field, IPlayerFactory playerFactory) {
+		
+		playerOne = playerFactory.create("#");
+		playerTwo = playerFactory.create("!");
 
 		gameState = new PlayerOneStart(this);
 

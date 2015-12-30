@@ -5,6 +5,7 @@ import com.google.inject.name.Names;
 
 import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.model.IField;
+import de.htwg.stratego.model.IPlayerFactory;
 
 public class StrategoModule extends AbstractModule {
 	private static final int WIDTH = 10;
@@ -12,6 +13,11 @@ public class StrategoModule extends AbstractModule {
 	
 	@Override
 	protected void configure() {
+		// IStrategoController
+		bind(IStrategoController.class)
+		.to(de.htwg.stratego.controller.impl.StrategoController.class);
+		
+		// IField
 		bind(Integer.class)
 		.annotatedWith(Names.named("fieldWidth"))
 		.toInstance(WIDTH);
@@ -23,8 +29,9 @@ public class StrategoModule extends AbstractModule {
 		bind(IField.class)
 		.to(de.htwg.stratego.model.impl.Field.class);
 		
-		bind(IStrategoController.class)
-		.to(de.htwg.stratego.controller.impl.StrategoController.class);
+		// IPlayerFactory
+		bind(IPlayerFactory.class)
+		.to(de.htwg.stratego.model.impl.PlayerFactory.class);
 	}
 	
 }

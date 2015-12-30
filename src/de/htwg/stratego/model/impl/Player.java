@@ -3,6 +3,9 @@ package de.htwg.stratego.model.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.model.impl.character.Bomb;
@@ -36,11 +39,13 @@ public class Player implements IPlayer {
 	private static final int NUMBER_OF_SPY = 1;
 	private static final int NUMBER_OF_FLAG = 1;
 	
+
 	public Player() {
 		this("?");
 	}
 	
-	public Player(String symbol) {
+	@Inject
+	public Player(@Named("symbolPlayerOne") String symbol) {
 		characterList = new ArrayList<>();
 		initCharacterList();
 		this.symbol = symbol;
