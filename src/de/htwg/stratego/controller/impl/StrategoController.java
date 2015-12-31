@@ -145,17 +145,19 @@ public class StrategoController extends Observable implements IStrategoControlle
 	@Override
 	public void move(int fromX, int fromY, int toX, int toY) {
 		if (!isMoveAllowed()) {
-			statusController = "Illegal Argument! Moving of Characters is not allowed, jet. Try again.";
+			statusController = "Moving of Characters is not allowed.";
 		} else {
 			Move move = new Move(fromX, fromY, toX, toY, this);
 			boolean moveSuccess = move.execute();
 			if (moveSuccess) {
 				changeState();
+				statusController = "You moved from (" + fromX + "," + fromY + ") to ("
+								 + toX + "," + toY + ")";
 				if (lost(getCurrentPlayer())) {
 					gameOver();
 				}
 			} else {
-				statusController = "Illegal Argument! Your move is not possible.";
+				statusController = "Your move was not possible. Try again.";
 			}
 		}
 		notifyObservers();
@@ -168,39 +170,49 @@ public class StrategoController extends Observable implements IStrategoControlle
 	@Override
 	public void add(int x, int y, int rank) {
 		if (!isAddAllowed()) {
+			statusController = "Add is not allowed";
+			notifyObservers();
 			return;
 		}
+		
 		IPlayer p = gameState.getCurrentPlayer();
-
-		// looking for char-rank in charList
 		ICharacter character = p.getCharacter(rank);
 		if (character == null) {
-			// didn't found char-rank
+			statusController = "all Characters of type <" + rank + "> are on the field.";
+			notifyObservers();
 			return;
 		}
 
 		ICell cell = field.getCell(x, y);
 		if (cell.containsCharacter()) {
 			// field already has a char
+			statusController = "field already has a char";
+			notifyObservers();
 			return;
 		}
 
 		if (!cell.isPassable()) {
+			statusController = "cell (" + x + "," + y + ") is not passable";
+			notifyObservers();
 			return;
 		}
 
 		// take char from list and add to field
 		p.removeCharacter(character);
 		cell.setCharacter(character);
+		statusController = "added Character <<" + character.getRank() + ">> to (" + x + "," + y + ")";
 		notifyObservers();
 	}
 
 	@Override
 	public void removeNotify(int x, int y) {
 		if (!isRemoveAllowed()) {
+			statusController = "remove is not allowed.";
+			notifyObservers();
 			return;
 		}
 		remove(x, y);
+		statusController = "removed Character from (" + x + "," + y + ")";
 		notifyObservers();
 	}
 
@@ -215,7 +227,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 			cell.removeCharacter();
 			player.addCharacter(character);
 		} else {
-			statusController = "Illegal Argument! There is no character or "
+			statusController = "There is no character or "
 					+ "you are not allowed to remove this character.";
 		}
 	}

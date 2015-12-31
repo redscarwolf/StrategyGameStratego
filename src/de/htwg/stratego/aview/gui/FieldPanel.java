@@ -59,20 +59,28 @@ public class FieldPanel extends JPanel {
 						
 						if (selectPanel.getSelectedMethod() == ADD) {
 							sc.add(x, y, selectPanel.getSelectedCharacterRank());
+							System.out.println("#### ADD ####");
+							return;
 						}
 						
 						if (selectPanel.getSelectedMethod() == REMOVE) {
 							sc.removeNotify(x, y);
+							System.out.println("#### REMOVE ####");
+							return;
 						}
 						
 						if (selectPanel.getSelectedMethod() == MOVE && isFirstClick) {
 							fromX = x;
 							fromY = y;
 							isFirstClick = false;
+							System.out.println("#### MOVE FIRST ####");
 							return;
-						} else {
+						}
+						if (selectPanel.getSelectedMethod() == MOVE && !isFirstClick){
 							sc.move(fromX, fromY, x, y);
 							isFirstClick = true;
+							System.out.println("#### MOVE ####");
+							return;
 						}
 					}
 				});

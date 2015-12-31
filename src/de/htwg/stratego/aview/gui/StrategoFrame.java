@@ -27,7 +27,7 @@ public class StrategoFrame extends JFrame implements IObserver {
 		
 		characterInfoPanel = new CharacterInfoPanel();
 		statusPanel = new StatusPanel(sc);
-		selectPanel = new SelectPanel();
+		selectPanel = new SelectPanel(sc);
 		fieldPanel = new FieldPanel(sc, selectPanel);
 		
 		add(fieldPanel, BorderLayout.CENTER);
