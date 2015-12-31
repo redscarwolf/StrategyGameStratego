@@ -25,13 +25,13 @@ public class StrategoFrame extends JFrame implements IObserver {
 		this.sc = sc;
 		sc.addObserver(this);
 		
-		characterInfoPanel = new CharacterInfoPanel();
+		characterInfoPanel = new CharacterInfoPanel(sc);
 		statusPanel = new StatusPanel(sc);
 		selectPanel = new SelectPanel(sc);
 		fieldPanel = new FieldPanel(sc, selectPanel);
 		
 		add(fieldPanel, BorderLayout.CENTER);
-		add(characterInfoPanel, BorderLayout.WEST);
+		add(characterInfoPanel, BorderLayout.SOUTH);
 		add(statusPanel, BorderLayout.NORTH);
 		add(selectPanel, BorderLayout.EAST);
 		
@@ -47,6 +47,9 @@ public class StrategoFrame extends JFrame implements IObserver {
 	@Override
 	public void update(Event e) {
 		statusPanel.setText(sc.getStatusString(), sc.getPlayerStatusString());
+		characterInfoPanel.setText(
+				sc.getCharacterListString(sc.getPlayerOne()),
+				sc.getCharacterListString(sc.getPlayerTwo()));
 		repaint();
 	}
 	
