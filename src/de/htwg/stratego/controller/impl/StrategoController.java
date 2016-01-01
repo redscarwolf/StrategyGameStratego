@@ -53,6 +53,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 			}
 		}
 		statusController = "New Game";
+		undoManager.clear();
 		notifyObservers();
 	}
 	

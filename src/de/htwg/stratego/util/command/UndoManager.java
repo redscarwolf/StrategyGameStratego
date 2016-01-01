@@ -19,4 +19,8 @@ public class UndoManager {
 		}
 	}
 	
+	public void clear() {
+		undoStack.clear();
+	}
+	
 }
