@@ -51,6 +51,18 @@ public class StrategoControllerTest extends TestCase {
 	}
 
 	@Test
+	public void testReset() {
+		sc.reset();
+		
+		assertTrue(sc.getGameState() instanceof PlayerOneStart);
+		for (int x = 0; x < field.getWidth(); x++) {
+			for (int y = 0; y < field.getHeight(); y++) {
+				assertFalse(sc.getIField().getCell(x, y).containsCharacter());
+			}
+		}
+	}
+	
+	@Test
 	public void testGetField() {
 		assertEquals(field, sc.getIField());
 	}

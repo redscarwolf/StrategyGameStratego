@@ -43,6 +43,19 @@ public class StrategoController extends Observable implements IStrategoControlle
 	}
 	
 	@Override
+	public void reset() {
+		gameState = new PlayerOneStart(this);
+		for (int x = 0; x < field.getWidth(); x++) {
+			for (int y = 0; y < field.getHeight(); y++) {
+				remove(x, y, playerOne);
+				remove(x, y, playerTwo);
+			}
+		}
+		statusController = "New Game";
+		notifyObservers();
+	}
+	
+	@Override
 	public int getFieldWidth() {
 		return field.getWidth();
 	}
