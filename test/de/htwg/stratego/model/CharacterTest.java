@@ -18,7 +18,7 @@ import de.htwg.stratego.model.impl.character.Sergeant;
 import de.htwg.stratego.model.impl.character.Spy;
 import junit.framework.TestCase;
 
-public class CharacterTest extends TestCase{
+public class CharacterTest extends TestCase {
 	
 	private ICharacter flag;
 	private ICharacter sergeant;

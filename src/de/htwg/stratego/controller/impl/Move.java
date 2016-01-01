@@ -69,8 +69,7 @@ public class Move {
 		}
 		
 		// is character a char of the player
-		// TODO falls gameState != playerOne turn oder player two turn
-		if (fromCharacter.getPlayer() != sc.getCurrentPlayer()) {
+		if (!fromCharacter.belongsTo(sc.getCurrentPlayer())) {
 			return false;
 		}
 		
@@ -78,7 +77,7 @@ public class Move {
 		if (!toCell.isPassable()) {
 			return false;
 		}
-		
+	
 		// correct range of move
 		if (fromCharacter.getRank() == Rank.SCOUT) {
 			if(!correctScoutMove()) {
@@ -111,16 +110,17 @@ public class Move {
 			dy = dy / absdy;
 			for (int i = dy; Math.abs(i) < absdy; i += dy) {
 				ICell cell = sc.getIField().getCell(fromX, fromY + i);
-				if (!cell.isPassable() || cell.getCharacter() != null) {
+				if (!cell.isPassable() || cell.containsCharacter()) {
 					return false;
 				}
 			}
-		} else if (dy == 0) {
+		}
+		if (dy == 0) {
 			int absdx = Math.abs(dx);
 			dx = dx / absdx;
 			for (int i = dx; Math.abs(i) < absdx; i += dx) {
 				ICell cell = sc.getIField().getCell(fromX + i, fromY);
-				if (!cell.isPassable() || cell.getCharacter() != null) {
+				if (!cell.isPassable() || cell.containsCharacter()) {
 					return false;
 				}
 			}

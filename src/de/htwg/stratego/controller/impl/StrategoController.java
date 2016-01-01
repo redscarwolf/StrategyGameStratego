@@ -116,20 +116,20 @@ public class StrategoController extends Observable implements IStrategoControlle
 		return field;
 	}
 
-	public void fillField() {
-		// fill Player1 left to right, up to middle
-		for (int x = 0; x < field.getWidth(); x++) {
-			for (int y = 0; y < 4; y++) {
-				field.getCell(x, y).setCharacter(playerOne.removeCharacter(0));
-			}
-		}
-		// fill Player2 right to left, bottom to middle
-		for (int x = field.getWidth() - 1; x > -1; x--) {
-			for (int y = field.getHeight() - 1; y > field.getHeight() - 5; y--) {
-				field.getCell(x, y).setCharacter(playerTwo.removeCharacter(0));
-			}
-		}
-	}
+//	public void fillField() {
+//		// fill Player1 left to right, up to middle
+//		for (int x = 0; x < field.getWidth(); x++) {
+//			for (int y = 0; y < 4; y++) {
+//				field.getCell(x, y).setCharacter(playerOne.removeCharacter(0));
+//			}
+//		}
+//		// fill Player2 right to left, bottom to middle
+//		for (int x = field.getWidth() - 1; x > -1; x--) {
+//			for (int y = field.getHeight() - 1; y > field.getHeight() - 5; y--) {
+//				field.getCell(x, y).setCharacter(playerTwo.removeCharacter(0));
+//			}
+//		}
+//	}
 
 	private void gameOver() {
 		statusController = "GAME OVER!";
@@ -212,7 +212,6 @@ public class StrategoController extends Observable implements IStrategoControlle
 			return;
 		}
 		remove(x, y);
-		statusController = "removed Character from (" + x + "," + y + ")";
 		notifyObservers();
 	}
 
@@ -229,7 +228,9 @@ public class StrategoController extends Observable implements IStrategoControlle
 		} else {
 			statusController = "There is no character or "
 					+ "you are not allowed to remove this character.";
+			return;
 		}
+		statusController = "removed Character from (" + x + "," + y + ")";
 	}
 
 	public void toggleVisibilityOfCharacters(IPlayer player, boolean visible) {
