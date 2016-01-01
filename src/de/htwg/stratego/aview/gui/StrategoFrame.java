@@ -1,8 +1,13 @@
 package de.htwg.stratego.aview.gui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.util.observer.Event;
@@ -21,15 +26,55 @@ public class StrategoFrame extends JFrame implements IObserver {
 	private StatusPanel statusPanel;
 	private SelectPanel selectPanel;
 	
+	private JMenuBar menuBar;
+	private JMenu gameMenu;
+	private JMenuItem newMenuItem;
+	private JMenuItem undoMenuItem;
+	private JMenuItem exitMenuItem;
+	
 	public StrategoFrame(IStrategoController sc) {
 		this.sc = sc;
 		sc.addObserver(this);
+		
+		menuBar = new JMenuBar();
+		gameMenu = new JMenu("Game");
+		newMenuItem = new JMenuItem("New");
+		undoMenuItem = new JMenuItem("Undo");
+		exitMenuItem = new JMenuItem("Exit");
+		
+		newMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		undoMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		
+		exitMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		
+		gameMenu.add(newMenuItem);
+		gameMenu.add(undoMenuItem);
+		gameMenu.addSeparator();
+		gameMenu.add(exitMenuItem);
+		menuBar.add(gameMenu);
 		
 		characterInfoPanel = new CharacterInfoPanel(sc);
 		statusPanel = new StatusPanel(sc);
 		selectPanel = new SelectPanel(sc);
 		fieldPanel = new FieldPanel(sc, selectPanel);
 		
+		setJMenuBar(menuBar);
 		add(fieldPanel, BorderLayout.CENTER);
 		add(characterInfoPanel, BorderLayout.SOUTH);
 		add(statusPanel, BorderLayout.NORTH);
