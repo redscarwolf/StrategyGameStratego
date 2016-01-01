@@ -1,6 +1,7 @@
 package de.htwg.stratego.aview.gui;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
@@ -17,21 +18,27 @@ public class StatusPanel extends JPanel {
 	private JLabel contentPlayerStatusLabel;
 	
 	public StatusPanel(IStrategoController sc) {
-		setBackground(Color.RED);
-		setLayout(new GridLayout(2, 0));
+		setLayout(new FlowLayout(FlowLayout.LEADING));
+		
+		JPanel panel1 = new JPanel();
+		JPanel panel2 = new JPanel();
+		panel1.setLayout(new GridLayout(2, 0, 5, 5));
+		panel2.setLayout(new GridLayout(2, 0, 5, 5));
 		
 		nameStatusLabel = new JLabel("Status:");
-		add(nameStatusLabel);
+		namePlayerStatusLabel = new JLabel("Player Status:");
+		panel1.add(nameStatusLabel);
+		panel1.add(namePlayerStatusLabel);
 		
 		contentStatusLabel = new JLabel("");
-		add(contentStatusLabel);
-		
-		
-		namePlayerStatusLabel = new JLabel("Player Status:");
-		add(namePlayerStatusLabel);
-		
 		contentPlayerStatusLabel = new JLabel("");
-		add(contentPlayerStatusLabel);
+		panel2.add(contentStatusLabel);
+		panel2.add(contentPlayerStatusLabel);
+		
+		add(panel1);
+		add(panel2);
+		
+		setText(sc.getStatusString(), sc.getPlayerStatusString());
 	}
 	
 	public void setText(String status, String playerStatus) {

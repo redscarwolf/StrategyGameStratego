@@ -17,8 +17,8 @@ public class FieldPanel extends JPanel {
 	private static final int REMOVE = 1;
 	private static final int MOVE = 2;
 	
-	private static int WIDTH_DEFAULT = 400;
-	private static int HEIGHT_DEFAULT = 400;
+	private static final int WIDTH_DEFAULT = 400;
+	private static final int HEIGHT_DEFAULT = 400;
 	private IStrategoController sc;
 	private SelectPanel selectPanel;
 	private boolean isFirstClick = true;
@@ -52,7 +52,7 @@ public class FieldPanel extends JPanel {
 		cellPanel.addMouseListener(
 				new MouseAdapter() {
 					@Override
-					public void mouseClicked(MouseEvent e) {
+					public void mousePressed(MouseEvent e) {
 						CellPanel cellPanel = (CellPanel) e.getSource();
 						int x = cellPanel.getColumn();
 						int y = cellPanel.getRow();

@@ -33,6 +33,8 @@ public class CharacterInfoPanel extends JPanel {
 		pl2Panel.add(plTwoLabel);
 		playerTwoTextArea = new JTextArea();
 		pl2Panel.add(playerTwoTextArea);
+		
+		setText(sc.getCharacterListString(sc.getPlayerOne()), sc.getCharacterListString(sc.getPlayerTwo()));
 	}
 	
 	public void setText(String playerOne, String playerTwo) {
