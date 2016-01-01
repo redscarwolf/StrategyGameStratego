@@ -1,15 +1,15 @@
 package de.htwg.stratego.controller.impl;
 
-import de.htwg.stratego.model.ICharacter;
-
 import com.google.inject.Inject;
 
 import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.model.ICell;
+import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.model.IPlayerFactory;
 import de.htwg.stratego.model.impl.Rank;
+import de.htwg.stratego.util.command.UndoManager;
 import de.htwg.stratego.util.observer.Observable;
 
 public class StrategoController extends Observable implements IStrategoController {
@@ -21,9 +21,10 @@ public class StrategoController extends Observable implements IStrategoControlle
 	private String statusController = "Welcome to HTWG Stratego!";
 	private GameState gameState;
 	
+	private UndoManager undoManager = new UndoManager();
+	
 	@Inject
 	public StrategoController(IField field, IPlayerFactory playerFactory) {
-		
 		playerOne = playerFactory.create("#");
 		playerTwo = playerFactory.create("!");
 
@@ -156,6 +157,14 @@ public class StrategoController extends Observable implements IStrategoControlle
 	}
 
 	@Override
+	public void undo() {
+		undoManager.undoCommand();
+		toggleVisibilityOfCharacters(getCurrentPlayer(), true);
+		statusController = "Undo.";
+		notifyObservers();
+	}
+	
+	@Override
 	public void move(int fromX, int fromY, int toX, int toY) {
 		if (!isMoveAllowed()) {
 			statusController = "Moving of Characters is not allowed.";
@@ -163,6 +172,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 			Move move = new Move(fromX, fromY, toX, toY, this);
 			boolean moveSuccess = move.execute();
 			if (moveSuccess) {
+				undoManager.doCommand(move);
 				changeState();
 				statusController = "You moved from (" + fromX + "," + fromY + ") to ("
 								 + toX + "," + toY + ")";
@@ -210,9 +220,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 			return;
 		}
 
-		// take char from list and add to field
-		p.removeCharacter(character);
-		cell.setCharacter(character);
+		undoManager.doCommand(new AddCommand(cell, p, character, this));
 		statusController = "added Character <<" + character.getRank() + ">> to (" + x + "," + y + ")";
 		notifyObservers();
 	}
@@ -236,8 +244,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 		ICell cell = field.getCell(x, y);
 		ICharacter character = field.getCell(x, y).getCharacter();
 		if (cell.containsCharacter() && character.belongsTo(player)) {
-			cell.removeCharacter();
-			player.addCharacter(character);
+			undoManager.doCommand(new RemoveCommand(cell, player, character, this));
 		} else {
 			statusController = "There is no character or "
 					+ "you are not allowed to remove this character.";

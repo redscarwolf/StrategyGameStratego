@@ -3,14 +3,16 @@ package de.htwg.stratego.controller.impl;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.impl.Rank;
+import de.htwg.stratego.util.command.Command;
 
-public class Move {
+public class Move implements Command {
 
 	private ICell fromCell;
 	private ICell toCell;
 	private ICharacter fromCharacter;
 	private ICharacter toCharacter;
 	private StrategoController sc;
+	private GameState oldGameState;
 	
 	public Move(int fromX, int fromY, int toX, int toY, StrategoController sc) {
 		this.sc = sc;
@@ -18,6 +20,7 @@ public class Move {
 		toCell = sc.getIField().getCell(toX, toY);
 		fromCharacter = fromCell.getCharacter();
 		toCharacter = toCell.getCharacter();
+		oldGameState = sc.getGameState();
 	}
 	
 	public boolean execute() {
@@ -161,6 +164,22 @@ public class Move {
 			// equal both lose
 			return 0;
 		}
+	}
+
+	@Override
+	public void doCommand() {
+
+	}
+
+	@Override
+	public void undoCommand() {
+		fromCell.setCharacter(fromCharacter);
+		toCell.setCharacter(toCharacter);
+		fromCharacter.getPlayer().removeCharacter(fromCharacter);
+		if (toCharacter != null) {
+			toCharacter.getPlayer().removeCharacter(toCharacter);
+		}
+		sc.setState(oldGameState);
 	}
 
 }

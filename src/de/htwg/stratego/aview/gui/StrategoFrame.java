@@ -3,11 +3,13 @@ package de.htwg.stratego.aview.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
 import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.util.observer.Event;
@@ -42,6 +44,9 @@ public class StrategoFrame extends JFrame implements IObserver {
 		undoMenuItem = new JMenuItem("Undo");
 		exitMenuItem = new JMenuItem("Exit");
 		
+		undoMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+		        KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
+		
 		newMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -52,7 +57,7 @@ public class StrategoFrame extends JFrame implements IObserver {
 		undoMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				sc.undo();
 			}
 		});
 		
