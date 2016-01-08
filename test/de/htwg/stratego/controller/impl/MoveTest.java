@@ -159,4 +159,24 @@ public class MoveTest extends TestCase {
 		assertEquals(Rank.SPY, field.getCell(2, 1).getCharacter().getRank());
 	}
 	
+	@Test
+	public void testUndoCommand() {
+		sc.setState(new PlayerOneStart(sc));
+		sc.add(1, 1, Rank.SERGEANT);
+		sc.setState(new PlayerTwoStart(sc));
+		sc.add(2, 1, Rank.SPY);
+		sc.setState(new PlayerOneTurn(sc));
+		
+		Move move = new Move(1, 1, 2, 1, sc);
+		move.execute();
+		move.undoCommand();
+
+		assertEquals(Rank.SERGEANT, field.getCell(1, 1).getCharacter().getRank());
+		assertEquals(Rank.SPY, field.getCell(2, 1).getCharacter().getRank());
+		
+		move = new Move(1, 1, 1, 0, sc);
+		move.execute();
+		move.undoCommand();
+		assertEquals(Rank.SERGEANT, field.getCell(1, 1).getCharacter().getRank());
+	}
 }
