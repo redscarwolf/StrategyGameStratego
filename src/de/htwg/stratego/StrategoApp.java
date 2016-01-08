@@ -9,14 +9,14 @@ import de.htwg.stratego.aview.gui.StrategoFrame;
 import de.htwg.stratego.aview.tui.TextUI;
 import de.htwg.stratego.controller.IStrategoController;
 
-public final class StrategoApp {
+class StrategoApp {
 
 	private static Scanner scanner;
 	private static TextUI tui;
-	
-	@SuppressWarnings("unused")
-	private static StrategoFrame gui;
 	private static IStrategoController sc;
+	
+	private StrategoApp() {
+	}
 	
 	public static void main(String[] args) {
 		// Set up Google Guice Dependency Injector
@@ -26,7 +26,7 @@ public final class StrategoApp {
 		tui = new TextUI(sc);
 		tui.printTUI();
 
-		gui = new StrategoFrame(sc);
+		new StrategoFrame(sc);
 
 		boolean continu = true;
 		scanner = new Scanner(System.in);

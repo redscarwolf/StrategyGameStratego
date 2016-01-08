@@ -21,12 +21,6 @@ public class CellPanel extends JPanel {
 		this.row = row;
 		this.column = column;
 		this.sc = sc;
-//		Graphics g = img.getGraphics();
-//		g.setColor(Color.BLACK);
-//		g.drawRect(0, 0, 40, 40);
-//		g.dispose();
-		
-//		setBackground(Color.CYAN);
 	}
 	
 	@Override

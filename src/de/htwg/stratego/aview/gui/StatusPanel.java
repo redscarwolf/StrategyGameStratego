@@ -1,6 +1,5 @@
 package de.htwg.stratego.aview.gui;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
