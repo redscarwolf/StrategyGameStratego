@@ -77,17 +77,21 @@ public class FieldPanel extends JPanel implements MouseListener {
 	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
+		return;
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		return;
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		return;
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		return;
 	}
 }
