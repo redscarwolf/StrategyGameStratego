@@ -13,6 +13,8 @@ class StrategoApp {
 
 	private static Scanner scanner;
 	private static TextUI tui;
+	@SuppressWarnings("unused")
+	private static  StrategoFrame gui;
 	private static IStrategoController sc;
 	
 	private StrategoApp() {
@@ -26,7 +28,7 @@ class StrategoApp {
 		tui = new TextUI(sc);
 		tui.printTUI();
 
-		new StrategoFrame(sc);
+		gui = new StrategoFrame(sc);
 
 		boolean continu = true;
 		scanner = new Scanner(System.in);
