@@ -168,7 +168,7 @@ public class Move implements Command {
 
 	@Override
 	public void doCommand() {
-
+		return;
 	}
 
 	@Override

@@ -54,6 +54,11 @@ public class CellTest extends TestCase {
 		//y not Equal
 		assertFalse(cell.equals(new Cell(1, 88)));
 	}
+	
+	@Test
+	public void testHashCode() {
+		assertEquals(cell.hashCode(), 994);
+	}
 
 	@Test
 	public void testIsPassable() {
