@@ -73,6 +73,13 @@ public class StrategoControllerTest extends TestCase {
 	}
 
 	@Test
+	public void testUndo() {
+		sc.undo();
+		assertFalse(sc.getIField().getCell(5, 2).containsCharacter());
+		assertEquals(sc.getStatusString(), "Undo.");
+	}
+	
+	@Test
 	public void testMove() {
 		// illegal state, move not allowed
 		sc.setState(playerOneStart);

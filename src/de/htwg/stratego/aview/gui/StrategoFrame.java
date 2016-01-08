@@ -57,7 +57,7 @@ public class StrategoFrame extends JFrame implements IObserver {
 				sc.undo();
 			}
 		});
-		
+
 		exitMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
