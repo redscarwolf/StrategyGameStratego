@@ -5,12 +5,13 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
 import de.htwg.stratego.controller.IStrategoController;
 
-public class FieldPanel extends JPanel {
+public class FieldPanel extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
 	private static final int ADD = 0;
@@ -40,49 +41,63 @@ public class FieldPanel extends JPanel {
 		for (int row = 0; row < rows; row++) {
 			for (int column = 0; column < columns; column++) {
 				CellPanel cellPanel = new CellPanel(row, column, sc);
-				addMouseListenerToCellPanel(cellPanel);
-				// cellPanel.addMouseListener(new MyMouseListener());
-				
+//				addMouseListenerToCellPanel(cellPanel);
+				cellPanel.addMouseListener(this);
 				add(cellPanel);
 			}
 		}
 	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		CellPanel cellPanel = (CellPanel) e.getSource();
+		int x = cellPanel.getColumn();
+		int y = cellPanel.getRow();
+		
+		if (selectPanel.getSelectedMethod() == ADD) {
+			sc.add(x, y, selectPanel.getSelectedCharacterRank());
+			System.out.println("#### ADD ####");
+			return;
+		}
+		
+		if (selectPanel.getSelectedMethod() == REMOVE) {
+			sc.removeNotify(x, y);
+			System.out.println("#### REMOVE ####");
+			return;
+		}
+		
+		if (selectPanel.getSelectedMethod() == MOVE && isFirstClick) {
+			fromX = x;
+			fromY = y;
+			isFirstClick = false;
+			System.out.println("#### MOVE FIRST ####");
+			return;
+		}
+		if (selectPanel.getSelectedMethod() == MOVE && !isFirstClick){
+			sc.move(fromX, fromY, x, y);
+			isFirstClick = true;
+			System.out.println("#### MOVE ####");
+			return;
+		}
+	}
 	
-	private void addMouseListenerToCellPanel(CellPanel cellPanel) {
-		cellPanel.addMouseListener(
-				new MouseAdapter() {
-					@Override
-					public void mousePressed(MouseEvent e) {
-						CellPanel cellPanel = (CellPanel) e.getSource();
-						int x = cellPanel.getColumn();
-						int y = cellPanel.getRow();
-						
-						if (selectPanel.getSelectedMethod() == ADD) {
-							sc.add(x, y, selectPanel.getSelectedCharacterRank());
-							System.out.println("#### ADD ####");
-							return;
-						}
-						
-						if (selectPanel.getSelectedMethod() == REMOVE) {
-							sc.removeNotify(x, y);
-							System.out.println("#### REMOVE ####");
-							return;
-						}
-						
-						if (selectPanel.getSelectedMethod() == MOVE && isFirstClick) {
-							fromX = x;
-							fromY = y;
-							isFirstClick = false;
-							System.out.println("#### MOVE FIRST ####");
-							return;
-						}
-						if (selectPanel.getSelectedMethod() == MOVE && !isFirstClick){
-							sc.move(fromX, fromY, x, y);
-							isFirstClick = true;
-							System.out.println("#### MOVE ####");
-							return;
-						}
-					}
-				});
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		
 	}
 }
