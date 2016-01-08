@@ -22,16 +22,12 @@ public final class StrategoApp {
 		// Set up Google Guice Dependency Injector
 		Injector injector = Guice.createInjector(new StrategoModule());
 		sc = injector.getInstance(IStrategoController.class);
-		
-//		sc.fillField();
-		
+	
 		tui = new TextUI(sc);
 		tui.printTUI();
-		
+
 		gui = new StrategoFrame(sc);
-		
-//		sc.fillField();
-		
+
 		boolean continu = true;
 		scanner = new Scanner(System.in);
 		while (continu) {

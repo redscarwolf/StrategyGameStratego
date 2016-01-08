@@ -53,7 +53,7 @@ public class StrategoFrame extends JFrame implements IObserver {
 				sc.reset();
 			}
 		});
-		
+
 		undoMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

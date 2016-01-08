@@ -11,7 +11,7 @@ public class UndoManager {
 		newCommand.doCommand();
 		undoStack.push(newCommand);
 	}
-	
+
 	public void undoCommand() {
 		if (!undoStack.isEmpty()) {
 			Command command = undoStack.poll();
