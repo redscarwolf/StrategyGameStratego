@@ -2,17 +2,14 @@ package de.htwg.stratego.controller.impl;
 
 import de.htwg.stratego.model.IPlayer;
 
-public class PlayerTwoWinner implements GameState {
+public class PlayerWinner implements GameState {
 
+	private IPlayer player;
 	
-	public PlayerTwoWinner(StrategoController sc) {
+	public PlayerWinner(IPlayer player) {
+		this.player = player;
 	}
 	
-	@Override
-	public IPlayer getCurrentPlayer() {
-		return null;
-	}
-
 	@Override
 	public boolean isMoveAllowed() {
 		return false;
@@ -30,12 +27,12 @@ public class PlayerTwoWinner implements GameState {
 	
 	@Override
 	public String toStringPlayerStatus() {
-		return "Player 2 won!";
+		return "Player " + player + " won!";
 	}
 
 	@Override
 	public void changeState() {
-		
+		return;
 	}
 
 }

@@ -81,9 +81,10 @@ public class TextUI implements IObserver {
 		logger.info(sc.getStatusString());
 		logger.info(sc.getPlayerStatusString());
 		logger.info("\n" + sc.getFieldString());
-		logger.info("Characters Player1: " + sc.getCharacterListString(sc.getPlayerOne()));
-		logger.info("Characters Player2: " + sc.getCharacterListString(sc.getPlayerTwo()));
+		logger.info("Characters Player1: " + sc.getCharacterListString(sc.getPlayer()[0]));
+		logger.info("Characters Player2: " + sc.getCharacterListString(sc.getPlayer()[1]));
 		logger.info("Command (Type \"h\" for help): ");
+
 	}
 
 }

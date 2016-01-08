@@ -19,7 +19,7 @@ public class RemoveCommandTest extends TestCase {
 	
 	@Test
 	public void testUndoCommand() {
-		sc.setState(new PlayerOneStart(sc));
+		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
 		sc.add(1, 1, Rank.SCOUT);
 		sc.remove(1, 1);
 		sc.undo();

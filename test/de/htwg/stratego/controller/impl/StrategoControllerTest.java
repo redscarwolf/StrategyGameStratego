@@ -1,30 +1,26 @@
 package de.htwg.stratego.controller.impl;
 
-import junit.framework.TestCase;
-
 import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese weiter
 import org.junit.Test;
 
-import de.htwg.stratego.controller.impl.GameState;
-import de.htwg.stratego.controller.impl.PlayerOneStart;
-import de.htwg.stratego.controller.impl.PlayerOneTurn;
-import de.htwg.stratego.controller.impl.PlayerOneWinner;
-import de.htwg.stratego.controller.impl.PlayerTwoStart;
-import de.htwg.stratego.controller.impl.PlayerTwoTurn;
-import de.htwg.stratego.controller.impl.PlayerTwoWinner;
-import de.htwg.stratego.controller.impl.StrategoController;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IField;
+import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.PlayerFactory;
 import de.htwg.stratego.model.impl.Rank;
+import junit.framework.TestCase;
 
 public class StrategoControllerTest extends TestCase {
 	private StrategoController sc;
 	private IField field;
 
+	private IPlayer playerOne;
+	private IPlayer playerTwo;
+	
 	private GameState playerOneStart;
+	private GameState playerTwoStart;
 	private GameState playerOneTurn;
 	private GameState playerTwoTurn;
 
@@ -33,16 +29,22 @@ public class StrategoControllerTest extends TestCase {
 		sc = new StrategoController(new Field(10, 10), new PlayerFactory());
 		field = sc.getIField();
 
-		playerOneStart = new PlayerOneStart(sc);
-		playerOneTurn = new PlayerOneTurn(sc);
-		playerTwoTurn = new PlayerTwoTurn(sc);
+		playerOne = sc.getPlayer()[0];
+		playerTwo = sc.getPlayer()[1];
+		
+		playerOneStart = new PlayerStart(playerOne, sc);
+		playerOneTurn = new PlayerTurn(playerOne, sc);
+		playerTwoStart = new PlayerStart(playerTwo, sc);
+		playerTwoTurn = new PlayerTurn(playerTwo, sc);
 
 		// add characters for player one
+		sc.setState(playerOneStart);
 		sc.add(5, 1, Rank.FLAG);
 		sc.add(1, 0, Rank.SERGEANT);
 
 		// add characters for player two
-		sc.setState(new PlayerTwoStart(sc));
+		sc.setState(playerTwoStart);
+		sc.setCurrentPlayer(1);
 		sc.add(2, 1, Rank.FLAG);
 		sc.add(0, 2, Rank.SERGEANT);
 		sc.add(5, 2, Rank.SERGEANT);
@@ -52,7 +54,7 @@ public class StrategoControllerTest extends TestCase {
 	public void testReset() {
 		sc.reset();
 		
-		assertTrue(sc.getGameState() instanceof PlayerOneStart);
+		assertEquals(sc.getCurrentPlayer(), sc.getPlayer()[0]);
 		for (int x = 0; x < field.getWidth(); x++) {
 			for (int y = 0; y < field.getHeight(); y++) {
 				assertFalse(sc.getIField().getCell(x, y).containsCharacter());
@@ -81,6 +83,7 @@ public class StrategoControllerTest extends TestCase {
 	public void testMove() {
 		// illegal state, move not allowed
 		sc.setState(playerOneStart);
+		sc.setCurrentPlayer(0);
 		sc.move(1, 0, 2, 0);
 		assertFalse(sc.getIField().getCell(2, 0).containsCharacter());
 		assertEquals("Moving of Characters is not allowed.",
@@ -88,26 +91,28 @@ public class StrategoControllerTest extends TestCase {
 
 		// correct move
 		sc.setState(playerOneTurn);
+		sc.setCurrentPlayer(0);
 		sc.move(1, 0, 1, 1);
 		assertTrue(sc.getIField().getCell(1, 1).containsCharacter());
-		assertTrue(sc.getGameState() instanceof PlayerTwoTurn);
 
 		// wrong move
+		sc.setState(playerTwoTurn);
+		sc.setCurrentPlayer(1);
 		sc.move(0, 2, 0, 5);
 		assertEquals("Your move was not possible. Try again.",
 				sc.getStatusString());
 
 		// correct move, game over, player one win
 		sc.setState(playerOneTurn);
+		sc.setCurrentPlayer(0);
 		sc.move(1, 1, 2, 1);
 		assertEquals("GAME OVER!", sc.getStatusString());
-		assertTrue(sc.getGameState() instanceof PlayerOneWinner);
 
 		// correct move, game over, player two win
+		sc.setCurrentPlayer(1);
 		sc.setState(playerTwoTurn);
 		sc.move(5, 2, 5, 1);
 		assertEquals("GAME OVER!", sc.getStatusString());
-		assertTrue(sc.getGameState() instanceof PlayerTwoWinner);
 	}
 
 	@Test
@@ -141,16 +146,19 @@ public class StrategoControllerTest extends TestCase {
 	public void testRemove() {
 		// illegal state, remove not allowed
 		sc.setState(playerOneTurn);
+		sc.setCurrentPlayer(0);
 		sc.removeNotify(5, 1);
 		assertTrue(sc.getIField().getCell(5, 1).containsCharacter());
 
 		// character belongs not to current player
 		sc.setState(playerOneStart);
+		sc.setCurrentPlayer(0);
 		sc.removeNotify(0, 2);
 		assertTrue(sc.getIField().getCell(0, 2).containsCharacter());
 
 		// cell contains no character
 		sc.setState(playerOneStart);
+		sc.setCurrentPlayer(0);
 		sc.removeNotify(9, 9);
 		assertEquals("There is no character or "
 					+ "you are not allowed to remove this character.",
@@ -164,13 +172,14 @@ public class StrategoControllerTest extends TestCase {
 	@Test
 	public void testLost() {
 		sc.setState(playerOneStart);
+		sc.setCurrentPlayer(0);
 		sc.remove(5, 1);
 		assertTrue(sc.lost(sc.getCurrentPlayer()));
 	}
 
 	@Test
 	public void testToggleVisibilityOfCharacters() {
-		sc.toggleVisibilityOfCharacters(sc.getPlayerOne(), true);
+		sc.toggleVisibilityOfCharacters(sc.getCurrentPlayer(), true);
 
 		for (int y = 0; y < field.getHeight(); y++) {
 			for (int x = 0; x < field.getWidth(); x++) {
@@ -179,7 +188,7 @@ public class StrategoControllerTest extends TestCase {
 					continue;
 				}
 				ICharacter character = cell.getCharacter();
-				if (character.belongsTo(sc.getPlayerOne())) {
+				if (character.belongsTo(sc.getCurrentPlayer())) {
 					assertTrue(character.isVisible());
 				} else {
 					assertFalse(character.isVisible());
@@ -212,15 +221,16 @@ public class StrategoControllerTest extends TestCase {
 
 	@Test
 	public void testToStringCharacterList() {
-		assertEquals(sc.getCharacterListString(sc.getPlayerOne()), sc
-				.getPlayerOne().getCharacterListAsString());
+		assertEquals(sc.getCharacterListString(sc.getCurrentPlayer()), sc
+				.getCurrentPlayer().getCharacterListAsString());
 	}
 	
 	@Test
 	public void testChangeStateNotify() {
 		sc.setState(playerOneStart);
+		sc.setCurrentPlayer(0);
 		sc.changeStateNotify();
-		assertTrue(sc.getGameState() instanceof PlayerTwoStart);
+		assertTrue(sc.getGameState() instanceof PlayerStart);
 	}
 	
 	@Test

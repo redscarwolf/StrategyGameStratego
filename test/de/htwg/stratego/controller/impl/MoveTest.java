@@ -34,28 +34,28 @@ public class MoveTest extends TestCase {
 	
 	@Test
 	public void testCharacterBelongsNotToCurrentPlayer() {
-		sc.setState(new PlayerTwoStart(sc));
+		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
 		sc.add(0, 0, Rank.SCOUT);
-		sc.setState(new PlayerOneTurn(sc));
+		sc.setState(new PlayerTurn(sc.nextPlayer(), sc));
 		assertFalse(new Move(0, 0, 0, 1, sc).execute());
 	}
 	
 	@Test
 	public void testCellIsNotPassable() {
-		sc.setState(new PlayerOneStart(sc));
+		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
 		sc.add(1, 4, Rank.SCOUT);
-		sc.setState(new PlayerOneTurn(sc));
+		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
 		assertFalse(new Move(1, 4, 2, 4, sc).execute());
 	}
 	
 	@Test
 	public void testCorrectScoutMove() {
-		sc.setState(new PlayerOneStart(sc));
+		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
 		sc.add(1, 4, Rank.SCOUT);
 		sc.add(2, 2, Rank.SCOUT);
 		sc.add(1, 6, Rank.MINER);
 		sc.add(4, 2, Rank.MINER);
-		sc.setState(new PlayerOneTurn(sc));
+		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
 		
 		// illegal range of move
 		assertFalse(new Move(1, 4, 0, 2, sc).execute());
@@ -74,9 +74,9 @@ public class MoveTest extends TestCase {
 	
 	@Test
 	public void testCorrectNormalMove() {
-		sc.setState(new PlayerOneStart(sc));
+		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
 		sc.add(1, 1, Rank.SERGEANT);
-		sc.setState(new PlayerOneTurn(sc));
+		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
 		
 		// illegal range of move
 		assertFalse(new Move(1, 1, 1, 1, sc).execute());
@@ -90,21 +90,20 @@ public class MoveTest extends TestCase {
 	
 	@Test
 	public void testToCharacterBelongsToCurrentPlayer() {
-		sc.setState(new PlayerOneStart(sc));
+		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
 		sc.add(1, 1, Rank.SERGEANT);
 		sc.add(2, 1, Rank.SERGEANT);
-		sc.setState(new PlayerOneTurn(sc));
+		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
 		
 		assertFalse(new Move(1, 1, 2, 1, sc).execute());
 	}
 	
 	@Test
 	public void testEqualFight() {
-		sc.setState(new PlayerOneStart(sc));
 		sc.add(1, 1, Rank.SERGEANT);
-		sc.setState(new PlayerTwoStart(sc));
+		sc.changeState();
 		sc.add(2, 1, Rank.SERGEANT);
-		sc.setState(new PlayerOneTurn(sc));
+		sc.changeState();
 		
 		new Move(1, 1, 2, 1, sc).execute();
 		assertFalse(field.getCell(1, 1).containsCharacter());
@@ -113,11 +112,10 @@ public class MoveTest extends TestCase {
 
 	@Test
 	public void testWinFight() {
-		sc.setState(new PlayerOneStart(sc));
 		sc.add(1, 1, Rank.SERGEANT);
-		sc.setState(new PlayerTwoStart(sc));
+		sc.changeState();
 		sc.add(2, 1, Rank.SPY);
-		sc.setState(new PlayerOneTurn(sc));
+		sc.changeState();
 		
 		new Move(1, 1, 2, 1, sc).execute();
 		assertEquals(Rank.SERGEANT, field.getCell(2, 1).getCharacter().getRank());
@@ -125,11 +123,10 @@ public class MoveTest extends TestCase {
 	
 	@Test
 	public void testLooseFight() {
-		sc.setState(new PlayerOneStart(sc));
 		sc.add(1, 1, Rank.SPY);
-		sc.setState(new PlayerTwoStart(sc));
+		sc.changeState();
 		sc.add(2, 1, Rank.SERGEANT);
-		sc.setState(new PlayerOneTurn(sc));
+		sc.changeState();
 		
 		new Move(1, 1, 2, 1, sc).execute();
 		assertEquals(Rank.SERGEANT, field.getCell(2, 1).getCharacter().getRank());
@@ -137,11 +134,10 @@ public class MoveTest extends TestCase {
 
 	@Test
 	public void testMinerBombFight() {
-		sc.setState(new PlayerOneStart(sc));
 		sc.add(1, 1, Rank.MINER);
-		sc.setState(new PlayerTwoStart(sc));
+		sc.changeState();
 		sc.add(2, 1, Rank.BOMB);
-		sc.setState(new PlayerOneTurn(sc));
+		sc.changeState();
 		
 		new Move(1, 1, 2, 1, sc).execute();
 		assertEquals(Rank.MINER, field.getCell(2, 1).getCharacter().getRank());
@@ -149,11 +145,10 @@ public class MoveTest extends TestCase {
 	
 	@Test
 	public void testSpyMarshalFight() {
-		sc.setState(new PlayerOneStart(sc));
 		sc.add(1, 1, Rank.SPY);
-		sc.setState(new PlayerTwoStart(sc));
+		sc.changeState();
 		sc.add(2, 1, Rank.MARSHAL);
-		sc.setState(new PlayerOneTurn(sc));
+		sc.changeState();
 		
 		new Move(1, 1, 2, 1, sc).execute();
 		assertEquals(Rank.SPY, field.getCell(2, 1).getCharacter().getRank());
@@ -161,11 +156,10 @@ public class MoveTest extends TestCase {
 	
 	@Test
 	public void testUndoCommand() {
-		sc.setState(new PlayerOneStart(sc));
 		sc.add(1, 1, Rank.SERGEANT);
-		sc.setState(new PlayerTwoStart(sc));
+		sc.changeState();
 		sc.add(2, 1, Rank.SPY);
-		sc.setState(new PlayerOneTurn(sc));
+		sc.changeState();
 		
 		Move move = new Move(1, 1, 2, 1, sc);
 		move.execute();
