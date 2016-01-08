@@ -15,6 +15,7 @@ public final class Rank {
 	public static final int MARSHAL = 10;
 	public static final int BOMB = 11;
 
-	private Rank() { }
+	private Rank() { 
+	}
 
 }
