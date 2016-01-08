@@ -41,7 +41,6 @@ public class FieldPanel extends JPanel implements MouseListener {
 		for (int row = 0; row < rows; row++) {
 			for (int column = 0; column < columns; column++) {
 				CellPanel cellPanel = new CellPanel(row, column, sc);
-//				addMouseListenerToCellPanel(cellPanel);
 				cellPanel.addMouseListener(this);
 				add(cellPanel);
 			}
@@ -56,13 +55,11 @@ public class FieldPanel extends JPanel implements MouseListener {
 		
 		if (selectPanel.getSelectedMethod() == ADD) {
 			sc.add(x, y, selectPanel.getSelectedCharacterRank());
-			System.out.println("#### ADD ####");
 			return;
 		}
 		
 		if (selectPanel.getSelectedMethod() == REMOVE) {
 			sc.removeNotify(x, y);
-			System.out.println("#### REMOVE ####");
 			return;
 		}
 		
@@ -70,13 +67,11 @@ public class FieldPanel extends JPanel implements MouseListener {
 			fromX = x;
 			fromY = y;
 			isFirstClick = false;
-			System.out.println("#### MOVE FIRST ####");
 			return;
 		}
 		if (selectPanel.getSelectedMethod() == MOVE && !isFirstClick){
 			sc.move(fromX, fromY, x, y);
 			isFirstClick = true;
-			System.out.println("#### MOVE ####");
 			return;
 		}
 	}
