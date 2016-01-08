@@ -25,7 +25,6 @@ public class StrategoControllerTest extends TestCase {
 	private IField field;
 
 	private GameState playerOneStart;
-	private GameState playerTwoStart;
 	private GameState playerOneTurn;
 	private GameState playerTwoTurn;
 
@@ -35,7 +34,6 @@ public class StrategoControllerTest extends TestCase {
 		field = sc.getIField();
 
 		playerOneStart = new PlayerOneStart(sc);
-		playerTwoStart = new PlayerTwoStart(sc);
 		playerOneTurn = new PlayerOneTurn(sc);
 		playerTwoTurn = new PlayerTwoTurn(sc);
 
