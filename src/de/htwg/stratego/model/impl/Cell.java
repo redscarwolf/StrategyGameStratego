@@ -64,7 +64,16 @@ public class Cell implements ICell {
 	@Override
 	public boolean equals(Object o) {
 		Cell cell = (Cell) o;
-		return (x == cell.getX() && y == cell.getY());
+		return x == cell.getX() && y == cell.getY();
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
 	}
 	
 	@Override
@@ -77,5 +86,4 @@ public class Cell implements ICell {
 		}
 		return "|||";
 	}
-
 }
