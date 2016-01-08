@@ -9,8 +9,8 @@
             <Root level="error">
                 <AppenderRef ref="Console" />
             </Root>
-            <logger name="de.htwg.sudoku.aview" level="TRACE" />
-            <Root level="ERROR">
+            <logger name="de.htwg.stratego.aview" level="TRACE" />
+            <Root level="INFO">
                    <AppenderRef ref="CONSOLE"/>
             </Root>
         </Loggers>
