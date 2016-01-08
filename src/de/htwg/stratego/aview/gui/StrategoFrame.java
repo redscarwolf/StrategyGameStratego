@@ -18,9 +18,6 @@ import de.htwg.stratego.util.observer.IObserver;
 public class StrategoFrame extends JFrame implements IObserver {
 	private static final long serialVersionUID = 1L;
 
-//	private static final int WIDTH = 800;
-//	private static final int HEIGHT = 600;
-
 	private IStrategoController sc;
 
 	private FieldPanel fieldPanel;
