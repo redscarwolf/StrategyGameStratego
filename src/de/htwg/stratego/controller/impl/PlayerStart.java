@@ -2,17 +2,14 @@ package de.htwg.stratego.controller.impl;
 
 import de.htwg.stratego.model.IPlayer;
 
-public class PlayerTwoStart implements GameState {
+public class PlayerStart implements GameState {
 
 	private StrategoController sc;
+	private IPlayer player;
 	
-	public PlayerTwoStart(StrategoController sc) {
+	public PlayerStart(IPlayer player, StrategoController sc) {
 		this.sc = sc;
-	}
-
-	@Override
-	public IPlayer getCurrentPlayer() {
-		return sc.getPlayerTwo();
+		this.player = player;
 	}
 
 	@Override
@@ -32,13 +29,18 @@ public class PlayerTwoStart implements GameState {
 	
 	@Override
 	public String toStringPlayerStatus() {
-		return "Set your characters, player 2!";
+		return "Set your characters, player " + player + "!";
 	}
 
 	@Override
 	public void changeState() {
-		sc.setState(new PlayerOneTurn(sc));
+		IPlayer[] player = sc.getPlayer();
+		if (sc.getCurrentPlayer() == player[player.length - 1]) {
+			sc.setState(new PlayerTurn(sc.nextPlayer(), sc));
+		} else {
+			sc.setState(new PlayerStart(sc.nextPlayer(), sc));
+		}
 		sc.toggleVisibilityOfCharacters(sc.getCurrentPlayer(), true);
 	}
-	
+
 }

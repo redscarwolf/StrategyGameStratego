@@ -15,20 +15,23 @@ import de.htwg.stratego.util.observer.Observable;
 public class StrategoController extends Observable implements IStrategoController {
 
 	private IField field;
-	private IPlayer playerOne;
-	private IPlayer playerTwo;
+	
+	private IPlayer[] player;
+	private int currentPlayer;
 
 	private String statusController = "Welcome to HTWG Stratego!";
 	private GameState gameState;
 	
 	private UndoManager undoManager = new UndoManager();
-	
+
 	@Inject
 	public StrategoController(IField field, IPlayerFactory playerFactory) {
-		playerOne = playerFactory.create("#");
-		playerTwo = playerFactory.create("!");
-
-		gameState = new PlayerOneStart(this);
+		player = new IPlayer[2];
+		player[0] = playerFactory.create("#");
+		player[1] = playerFactory.create("!");
+		currentPlayer = 0;
+		
+		gameState = new PlayerStart(player[currentPlayer], this);
 
 		this.field = field;
 		// some cells are not passable
@@ -45,11 +48,12 @@ public class StrategoController extends Observable implements IStrategoControlle
 	
 	@Override
 	public void reset() {
-		gameState = new PlayerOneStart(this);
+		currentPlayer = 0;
+		gameState = new PlayerStart(getCurrentPlayer(), this);
 		for (int x = 0; x < field.getWidth(); x++) {
 			for (int y = 0; y < field.getHeight(); y++) {
-				remove(x, y, playerOne);
-				remove(x, y, playerTwo);
+				remove(x, y, player[0]);
+				remove(x, y, player[1]);
 			}
 		}
 		statusController = "New Game";
@@ -72,16 +76,10 @@ public class StrategoController extends Observable implements IStrategoControlle
 		return statusController;
 	}
 
-	@Override
-	public IPlayer getPlayerOne() {
-		return playerOne;
+	public IPlayer[] getPlayer() {
+		return player;
 	}
-
-	@Override
-	public IPlayer getPlayerTwo() {
-		return playerTwo;
-	}
-
+	
 	@Override
 	public String getCharacterListString(IPlayer player) {
 		return player.getCharacterListAsString();
@@ -109,11 +107,20 @@ public class StrategoController extends Observable implements IStrategoControlle
 	public String getPlayerStatusString() {
 		return gameState.toStringPlayerStatus();
 	}
-
+	
 	public IPlayer getCurrentPlayer() {
-		return gameState.getCurrentPlayer();
+		return player[currentPlayer];
+	}
+	
+	public void setCurrentPlayer(int p) {
+		currentPlayer = p;
 	}
 
+	public IPlayer nextPlayer() {
+		currentPlayer = (currentPlayer + 1) % player.length;
+		return player[currentPlayer];
+	}
+	
 	public boolean isMoveAllowed() {
 		return gameState.isMoveAllowed();
 	}
@@ -133,12 +140,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 
 	private void gameOver() {
 		statusController = "GAME OVER!";
-		IPlayer currentPlayer = getCurrentPlayer();
-		if (currentPlayer == playerOne) {
-			setState(new PlayerTwoWinner(this));
-		} else if (currentPlayer == playerTwo) {
-			setState(new PlayerOneWinner(this));
-		}
+		setState(new PlayerWinner(nextPlayer()));
 		setVisibilityOfAllCharacters(true);
 	}
 
@@ -184,7 +186,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 			return;
 		}
 		
-		IPlayer p = gameState.getCurrentPlayer();
+		IPlayer p = getCurrentPlayer();
 		ICharacter character = p.getCharacter(rank);
 		if (character == null) {
 			statusController = "all Characters of type <" + rank + "> are on the field.";
@@ -223,7 +225,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 	}
 
 	public void remove(int x, int y) {
-		remove(x, y, gameState.getCurrentPlayer());
+		remove(x, y, getCurrentPlayer());
 	}
 
 	public void remove(int x, int y, IPlayer player) {

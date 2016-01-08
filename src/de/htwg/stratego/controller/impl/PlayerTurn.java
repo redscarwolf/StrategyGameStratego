@@ -2,43 +2,40 @@ package de.htwg.stratego.controller.impl;
 
 import de.htwg.stratego.model.IPlayer;
 
-public class PlayerOneStart implements GameState {
+public class PlayerTurn implements GameState {
 
 	private StrategoController sc;
+	private IPlayer player;
 	
-	public PlayerOneStart(StrategoController sc) {
+	public PlayerTurn(IPlayer player, StrategoController sc) {
 		this.sc = sc;
-	}
-
-	@Override
-	public IPlayer getCurrentPlayer() {
-		return sc.getPlayerOne();
+		this.player = player;
 	}
 
 	@Override
 	public boolean isMoveAllowed() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isAddAllowed() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isRemoveAllowed() {
-		return true;
+		return false;
 	}
 	
 	@Override
 	public String toStringPlayerStatus() {
-		return "Set your characters, player 1!";
+		return "It's your turn, player " + player + "!";
 	}
 
 	@Override
 	public void changeState() {
-		sc.setState(new PlayerTwoStart(sc));
+		sc.setState(new PlayerTurn(sc.nextPlayer(), sc));
 		sc.toggleVisibilityOfCharacters(sc.getCurrentPlayer(), true);
 	}
-
+	
 }

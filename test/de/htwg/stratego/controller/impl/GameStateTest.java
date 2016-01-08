@@ -1,96 +1,63 @@
 package de.htwg.stratego.controller.impl;
 
-import junit.framework.TestCase;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.PlayerFactory;
+import junit.framework.TestCase;
 
 public class GameStateTest extends TestCase {
 
 	private StrategoController sc;
-	
-	private GameState playerOneStart;
-	private GameState playerTwoStart;
-	private GameState playerOneTurn;
-	private GameState playerTwoTurn;
-	private GameState playerOneWinner;
-	private GameState playerTwoWinner;
-	
+
+	private GameState playerStart;
+	private GameState playerTurn;
+	private GameState playerWinner;
+
 	@BeforeClass
 	public void setUp() {
 		sc = new StrategoController(new Field(10, 10), new PlayerFactory());
 
-		playerOneStart = new PlayerOneStart(sc);
-		playerTwoStart = new PlayerTwoStart(sc);
-		playerOneTurn = new PlayerOneTurn(sc);
-		playerTwoTurn = new PlayerTwoTurn(sc);
-		playerOneWinner = new PlayerOneWinner(sc);
-		playerTwoWinner = new PlayerTwoWinner(sc);
+		playerStart = new PlayerStart(sc.getCurrentPlayer(), sc);
+		playerTurn = new PlayerTurn(sc.getCurrentPlayer(), sc);
+		playerWinner = new PlayerWinner(sc.getCurrentPlayer());
 	}
-	
-	@Test
-	public void testGetCurrentPlayer() {
-		assertEquals(playerOneStart.getCurrentPlayer(), sc.getPlayerOne());
-		assertEquals(playerOneTurn.getCurrentPlayer(), sc.getPlayerOne());
-		assertEquals(playerTwoStart.getCurrentPlayer(), sc.getPlayerTwo());
-		assertEquals(playerTwoTurn.getCurrentPlayer(), sc.getPlayerTwo());
-		assertNull(playerOneWinner.getCurrentPlayer());
-		assertNull(playerTwoWinner.getCurrentPlayer());
-	}
-	
+
 	@Test
 	public void testIsMoveAllowed() {
-		assertFalse(playerOneStart.isMoveAllowed());
-		assertTrue(playerOneTurn.isMoveAllowed());
-		assertFalse(playerTwoStart.isMoveAllowed());
-		assertTrue(playerTwoTurn.isMoveAllowed());
-		assertFalse(playerOneWinner.isMoveAllowed());
-		assertFalse(playerTwoWinner.isMoveAllowed());
+		assertFalse(playerStart.isMoveAllowed());
+		assertTrue(playerTurn.isMoveAllowed());
+		assertFalse(playerWinner.isMoveAllowed());
 	}
-	
+
 	@Test
 	public void testIsAddAllowed() {
-		assertTrue(playerOneStart.isAddAllowed());
-		assertFalse(playerOneTurn.isAddAllowed());
-		assertTrue(playerTwoStart.isAddAllowed());
-		assertFalse(playerTwoTurn.isAddAllowed());
-		assertFalse(playerOneWinner.isAddAllowed());
-		assertFalse(playerTwoWinner.isAddAllowed());
+		assertTrue(playerStart.isAddAllowed());
+		assertFalse(playerTurn.isAddAllowed());
+		assertFalse(playerWinner.isAddAllowed());
 	}
-	
+
 	@Test
 	public void testIsRemoveAllowed() {
-		assertTrue(playerOneStart.isRemoveAllowed());
-		assertFalse(playerOneTurn.isRemoveAllowed());
-		assertTrue(playerTwoStart.isRemoveAllowed());
-		assertFalse(playerTwoTurn.isRemoveAllowed());
-		assertFalse(playerOneWinner.isRemoveAllowed());
-		assertFalse(playerTwoWinner.isRemoveAllowed());
+		assertTrue(playerStart.isRemoveAllowed());
+		assertFalse(playerTurn.isRemoveAllowed());
+		assertFalse(playerWinner.isRemoveAllowed());
 	}
-	
+
 	@Test
 	public void testToStringPlayerStatus() {
-		assertEquals(playerOneStart.toStringPlayerStatus(), "Set your characters, player 1!");
-		assertEquals(playerOneTurn.toStringPlayerStatus(), "It's your turn, player 1!");
-		assertEquals(playerTwoStart.toStringPlayerStatus(), "Set your characters, player 2!");
-		assertEquals(playerTwoTurn.toStringPlayerStatus(), "It's your turn, player 2!");
-		assertEquals(playerOneWinner.toStringPlayerStatus(), "Player 1 won!");
-		assertEquals(playerTwoWinner.toStringPlayerStatus(), "Player 2 won!");
+		assertEquals(playerStart.toStringPlayerStatus(), "Set your characters, player " + sc.getCurrentPlayer() + "!");
+		assertEquals(playerTurn.toStringPlayerStatus(), "It's your turn, player " + sc.getCurrentPlayer() + "!");
+		assertEquals(playerWinner.toStringPlayerStatus(), "Player " + sc.getCurrentPlayer() + " won!");
 	}
-	
+
 	@Test
 	public void testChangeState() {
-		playerOneStart.changeState();
-		assertTrue(sc.getGameState() instanceof PlayerTwoStart);
-		playerOneTurn.changeState();
-		assertTrue(sc.getGameState() instanceof PlayerTwoTurn);
-		playerTwoStart.changeState();
-		assertTrue(sc.getGameState() instanceof PlayerOneTurn);
-		playerTwoTurn.changeState();
-		assertTrue(sc.getGameState() instanceof PlayerOneTurn);
+		playerStart.changeState();
+		assertTrue(sc.getGameState() instanceof PlayerStart);
+		playerTurn.changeState();
+		assertTrue(sc.getGameState() instanceof PlayerTurn);
 	}
-	
+
 }
