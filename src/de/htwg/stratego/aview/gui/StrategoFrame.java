@@ -31,7 +31,7 @@ public class StrategoFrame extends JFrame implements IObserver {
 	private JMenuItem undoMenuItem;
 	private JMenuItem exitMenuItem;
 	
-	public StrategoFrame(IStrategoController sc) {
+	public StrategoFrame(final IStrategoController sc) {
 		this.sc = sc;
 		sc.addObserver(this);
 		
