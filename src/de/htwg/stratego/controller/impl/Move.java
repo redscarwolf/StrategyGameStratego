@@ -13,7 +13,8 @@ public class Move implements Command {
 	private ICharacter toCharacter;
 	private StrategoController sc;
 	private GameState oldGameState;
-	
+	private String statusMove = "Your move was not possible. Try again.";
+
 	public Move(int fromX, int fromY, int toX, int toY, StrategoController sc) {
 		this.sc = sc;
 		fromCell = sc.getIField().getCell(fromX, fromY);
@@ -22,68 +23,86 @@ public class Move implements Command {
 		toCharacter = toCell.getCharacter();
 		oldGameState = sc.getGameState();
 	}
-	
+
+	public String getMoveStatusString() {
+		return statusMove;
+	}
+
+	private String movedFromToString() {
+		return "You moved from (" + fromCell.getX() + "," + fromCell.getY() + ") to (" + toCell.getX() + ","
+				+ toCell.getY() + ")";
+	}
+
+	private String foughtWithString(String fightResultSymbol) {
+		return String.format("%s%s%s%s%s", fromCharacter.getPlayer(), fromCharacter.getRank(), fightResultSymbol,
+				toCharacter.getPlayer(), toCharacter.getRank());
+	}
+
 	public boolean execute() {
 		if (!isValid()) {
 			return false;
 		}
 
-		//Conditions of toCharacter
+		// Conditions of toCharacter
 		if (toCharacter == null) {
 			// if Cell is empty move Character to new position
 			fromCell.setCharacter(null);
 			toCell.setCharacter(fromCharacter);
+			statusMove = movedFromToString();
 		} else {
 			// if Cell is not empty fight with toCharacter
-			// only if toCharacter.getPlayer() is not equal to fromCharacter.getPlayer() 
+			// only if toCharacter.getPlayer() is not equal to
+			// fromCharacter.getPlayer()
 			if (toCharacter.getPlayer() == fromCharacter.getPlayer()) {
 				return false;
 			}
-			
-			int result = fight(fromCharacter, toCharacter);
-			if (result > 0) {  // success
+
+			int fightResult = fight(fromCharacter, toCharacter);
+			if (fightResult > 0) { // success
+				statusMove = movedFromToString() + foughtWithString(">");
 				sc.remove(toCell.getX(), toCell.getY(), toCharacter.getPlayer());
 				fromCell.setCharacter(null);
 				toCell.setCharacter(fromCharacter);
-			} else if (result < 0) { // lost
+			} else if (fightResult < 0) { // lost
+				statusMove = movedFromToString() + foughtWithString("<");
 				sc.remove(fromCell.getX(), fromCell.getY(), fromCharacter.getPlayer());
 			} else { // equal
+				statusMove = movedFromToString() + foughtWithString("=");
 				sc.remove(fromCell.getX(), fromCell.getY(), fromCharacter.getPlayer());
 				sc.remove(toCell.getX(), toCell.getY(), toCharacter.getPlayer());
 			}
 		}
-		
+
 		return true;
 	}
-	
-	private boolean isValid() {
-		// check is move inside of Field 
 
-				
-		//Conditions of fromCharacter
+	private boolean isValid() {
+		// check is move inside of Field
+
+		// Conditions of fromCharacter
 		// does selected cell contain a character
 		if (fromCharacter == null) {
 			return false;
 		}
-		
-		// is Char moveable 
+
+		// is Char moveable
 		if (!fromCharacter.isMoveable()) {
 			return false;
 		}
-		
+
 		// is character a char of the player
 		if (!fromCharacter.belongsTo(sc.getCurrentPlayer())) {
 			return false;
 		}
-		
-		//isCell passable
+
+		// isCell passable
 		if (!toCell.isPassable()) {
 			return false;
 		}
-	
+
 		// correct range of move
 		if (fromCharacter.getRank() == Rank.SCOUT) {
-			if(!correctScoutMove()) {
+			if (!correctScoutMove()) {
 				return false;
 			}
 		} else {
@@ -91,22 +110,22 @@ public class Move implements Command {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	private boolean correctScoutMove() {
 		int fromX = fromCell.getX();
 		int fromY = fromCell.getY();
 		int toX = toCell.getX();
 		int toY = toCell.getY();
-		
+
 		int dx = toX - fromX;
 		int dy = toY - fromY;
 		if (dx != 0 && dy != 0 || dx == dy) {
 			return false;
 		}
-		
+
 		if (dx == 0) {
 			// normieren
 			int absdy = Math.abs(dy);
@@ -145,17 +164,17 @@ public class Move implements Command {
 		// get Character rank
 		int rankAttacker = chAttacker.getRank();
 		int rankDefender = chDefender.getRank();
-		
+
 		if (rankAttacker == Rank.MINER && rankDefender == Rank.BOMB) {
 			return 1;
 		}
-		
+
 		if (rankAttacker == Rank.SPY && rankDefender == Rank.MARSHAL) {
 			return 1;
 		}
-		
+
 		if (rankAttacker > rankDefender) {
-			//success
+			// success
 			return 1;
 		} else if (rankAttacker < rankDefender) {
 			// lost
