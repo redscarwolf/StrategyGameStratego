@@ -162,8 +162,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 			if (moveSuccess) {
 				undoManager.doCommand(move);
 				changeState();
-				statusController = "You moved from (" + fromX + "," + fromY + ") to ("
-								 + toX + "," + toY + ")";
+				statusController = move.getMoveStatusString();
 				if (lost(getCurrentPlayer())) {
 					gameOver();
 				}
