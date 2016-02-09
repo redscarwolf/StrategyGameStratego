@@ -13,6 +13,7 @@ public class GameStateTest extends TestCase {
 
 	private GameState playerStart;
 	private GameState playerTurn;
+	private GameState playerTransfer;
 	private GameState playerWinner;
 
 	@BeforeClass
@@ -20,6 +21,7 @@ public class GameStateTest extends TestCase {
 		sc = new StrategoController(new Field(10, 10), new PlayerFactory());
 
 		playerStart = new PlayerStart(sc.getCurrentPlayer(), sc);
+		playerTransfer = new PlayerTransfer(sc.getCurrentPlayer(), sc);
 		playerTurn = new PlayerTurn(sc.getCurrentPlayer(), sc);
 		playerWinner = new PlayerWinner(sc.getCurrentPlayer());
 	}
@@ -27,6 +29,7 @@ public class GameStateTest extends TestCase {
 	@Test
 	public void testIsMoveAllowed() {
 		assertFalse(playerStart.isMoveAllowed());
+		assertFalse(playerTransfer.isMoveAllowed());
 		assertTrue(playerTurn.isMoveAllowed());
 		assertFalse(playerWinner.isMoveAllowed());
 	}
@@ -34,6 +37,7 @@ public class GameStateTest extends TestCase {
 	@Test
 	public void testIsAddAllowed() {
 		assertTrue(playerStart.isAddAllowed());
+		assertFalse(playerTransfer.isAddAllowed());
 		assertFalse(playerTurn.isAddAllowed());
 		assertFalse(playerWinner.isAddAllowed());
 	}
@@ -41,6 +45,7 @@ public class GameStateTest extends TestCase {
 	@Test
 	public void testIsRemoveAllowed() {
 		assertTrue(playerStart.isRemoveAllowed());
+		assertFalse(playerTransfer.isRemoveAllowed());
 		assertFalse(playerTurn.isRemoveAllowed());
 		assertFalse(playerWinner.isRemoveAllowed());
 	}
@@ -48,6 +53,7 @@ public class GameStateTest extends TestCase {
 	@Test
 	public void testToStringPlayerStatus() {
 		assertEquals(playerStart.toStringPlayerStatus(), "Set your characters, player " + sc.getCurrentPlayer() + "!");
+		assertEquals(playerTransfer.toStringPlayerStatus(), sc.getCurrentPlayer() + " please press Button to continue.");
 		assertEquals(playerTurn.toStringPlayerStatus(), "It's your turn, player " + sc.getCurrentPlayer() + "!");
 		assertEquals(playerWinner.toStringPlayerStatus(), "Player " + sc.getCurrentPlayer() + " won!");
 	}
@@ -56,8 +62,10 @@ public class GameStateTest extends TestCase {
 	public void testChangeState() {
 		playerStart.changeState();
 		assertTrue(sc.getGameState() instanceof PlayerStart);
-		playerTurn.changeState();
+		playerTransfer.changeState();
 		assertTrue(sc.getGameState() instanceof PlayerTurn);
+		playerTurn.changeState();
+		assertTrue(sc.getGameState() instanceof PlayerTransfer);
 	}
 
 }

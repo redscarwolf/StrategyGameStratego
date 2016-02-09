@@ -36,11 +36,12 @@ public class PlayerStart implements GameState {
 	public void changeState() {
 		IPlayer[] player = sc.getPlayer();
 		if (sc.getCurrentPlayer() == player[player.length - 1]) {
-			sc.setState(new PlayerTurn(sc.nextPlayer(), sc));
+			sc.setState(new PlayerTransfer(sc.nextPlayer(), sc));
+			sc.setVisibilityOfAllCharacters(false);
 		} else {
 			sc.setState(new PlayerStart(sc.nextPlayer(), sc));
+			sc.toggleVisibilityOfCharacters(sc.getCurrentPlayer(), true);
 		}
-		sc.toggleVisibilityOfCharacters(sc.getCurrentPlayer(), true);
 	}
 
 }

@@ -34,8 +34,8 @@ public class PlayerTurn implements GameState {
 
 	@Override
 	public void changeState() {
-		sc.setState(new PlayerTurn(sc.nextPlayer(), sc));
-		sc.toggleVisibilityOfCharacters(sc.getCurrentPlayer(), true);
+		sc.setState(new PlayerTransfer(sc.nextPlayer(), sc));
+		sc.setVisibilityOfAllCharacters(false);
 	}
 	
 }
