@@ -71,7 +71,7 @@ public class TextUI implements IObserver {
 		sb.append("a [x] [y] [rank] - Adds a character to the field\n");
 		sb.append("r [x] [y] - Removes a character from the field\n");
 		sb.append("m [x1] [y1] [x2] [y2] - Moves a character from (x1,y1) to (x2,y2)\n");
-		sb.append("f - Finish your construction phase\n");
+		sb.append("f - Finish your construction phase, or start next turn\n");
 		sb.append("q - Quit game\n");
 		logger.info(sb);
 		logger.info("Command (Type \"h\" for help): ");

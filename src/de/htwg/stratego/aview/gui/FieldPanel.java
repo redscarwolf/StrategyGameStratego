@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import de.htwg.stratego.controller.IStrategoController;
@@ -45,6 +46,19 @@ public class FieldPanel extends JPanel implements MouseListener {
 			}
 		}
 	}
+	
+	private void transferPane(boolean moveSuccessful) {
+		JOptionPane.showMessageDialog(this, sc.getStatusString());
+		if (moveSuccessful) {
+			sc.changeStateNotify();
+		}
+	}
+	
+	private void allertPane(boolean addSuccessful) {
+		if (!addSuccessful) {
+			JOptionPane.showMessageDialog(this, sc.getStatusString());
+		}
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -53,12 +67,14 @@ public class FieldPanel extends JPanel implements MouseListener {
 		int y = cellPanel.getRow();
 		
 		if (selectPanel.getSelectedMethod() == ADD) {
-			sc.add(x, y, selectPanel.getSelectedCharacterRank());
+			boolean addSuccessful = sc.add(x, y, selectPanel.getSelectedCharacterRank());
+			allertPane(addSuccessful);
 			return;
 		}
 		
 		if (selectPanel.getSelectedMethod() == REMOVE) {
-			sc.removeNotify(x, y);
+			boolean removeSuccessful = sc.removeNotify(x, y);
+			allertPane(removeSuccessful);
 			return;
 		}
 		
@@ -69,8 +85,9 @@ public class FieldPanel extends JPanel implements MouseListener {
 			return;
 		}
 		if (selectPanel.getSelectedMethod() == MOVE && !isFirstClick){
-			sc.move(fromX, fromY, x, y);
+			boolean moveSuccessful = sc.move(fromX, fromY, x, y);
 			isFirstClick = true;
+			transferPane(moveSuccessful);
 			return;
 		}
 	}

@@ -36,7 +36,7 @@ public class MoveTest extends TestCase {
 	public void testCharacterBelongsNotToCurrentPlayer() {
 		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
 		sc.add(0, 0, Rank.SCOUT);
-		sc.setState(new PlayerTurn(sc.nextPlayer(), sc));
+		sc.setState(new PlayerTurn(sc.nextChangePlayer(), sc));
 		assertFalse(new Move(0, 0, 0, 1, sc).execute());
 	}
 	

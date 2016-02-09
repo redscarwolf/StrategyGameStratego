@@ -84,7 +84,7 @@ public class StrategoControllerTest extends TestCase {
 		// illegal state, move not allowed
 		sc.setState(playerOneStart);
 		sc.setCurrentPlayer(0);
-		sc.move(1, 0, 2, 0);
+		assertFalse(sc.move(1, 0, 2, 0));
 		assertFalse(sc.getIField().getCell(2, 0).containsCharacter());
 		assertEquals("Moving of Characters is not allowed.",
 				sc.getStatusString());
@@ -92,26 +92,26 @@ public class StrategoControllerTest extends TestCase {
 		// correct move
 		sc.setState(playerOneTurn);
 		sc.setCurrentPlayer(0);
-		sc.move(1, 0, 1, 1);
+		assertTrue(sc.move(1, 0, 1, 1));
 		assertTrue(sc.getIField().getCell(1, 1).containsCharacter());
 
 		// wrong move
 		sc.setState(playerTwoTurn);
 		sc.setCurrentPlayer(1);
-		sc.move(0, 2, 0, 5);
+		assertFalse(sc.move(0, 2, 0, 5));
 		assertEquals("Your move was not possible. Try again.",
 				sc.getStatusString());
 
 		// correct move, game over, player one win
 		sc.setState(playerOneTurn);
 		sc.setCurrentPlayer(0);
-		sc.move(1, 1, 2, 1);
+		assertTrue(sc.move(1, 1, 2, 1));
 		assertEquals("GAME OVER!", sc.getStatusString());
 
 		// correct move, game over, player two win
 		sc.setCurrentPlayer(1);
 		sc.setState(playerTwoTurn);
-		sc.move(5, 2, 5, 1);
+		assertTrue(sc.move(5, 2, 5, 1));
 		assertEquals("GAME OVER!", sc.getStatusString());
 	}
 
@@ -119,25 +119,25 @@ public class StrategoControllerTest extends TestCase {
 	public void testAdd() {
 		// illegal state, add not allowed
 		sc.setState(playerOneTurn);
-		sc.add(9, 9, Rank.BOMB);
+		assertFalse(sc.add(9, 9, Rank.BOMB));
 		assertFalse(sc.getIField().getCell(9, 9).containsCharacter());
 
 		// character not in player list
 		sc.setState(playerOneStart);
-		sc.add(9, 9, Rank.FLAG);
+		assertFalse(sc.add(9, 9, Rank.FLAG));
 		assertFalse(sc.getIField().getCell(9, 9).containsCharacter());
 
 		// cell contains already a character
-		sc.add(5, 1, Rank.BOMB);
+		assertFalse(sc.add(5, 1, Rank.BOMB));
 		assertEquals(sc.getIField().getCell(5, 1).getCharacter().getRank(),
 				Rank.FLAG);
 
 		// cell not passable
-		sc.add(2, 4, Rank.BOMB);
+		assertFalse(sc.add(2, 4, Rank.BOMB));
 		assertFalse(sc.getIField().getCell(2, 4).containsCharacter());
 
 		// correct add
-		sc.add(9, 9, Rank.BOMB);
+		assertTrue(sc.add(9, 9, Rank.BOMB));
 		assertEquals(sc.getIField().getCell(9, 9).getCharacter().getRank(),
 				Rank.BOMB);
 	}
@@ -147,25 +147,25 @@ public class StrategoControllerTest extends TestCase {
 		// illegal state, remove not allowed
 		sc.setState(playerOneTurn);
 		sc.setCurrentPlayer(0);
-		sc.removeNotify(5, 1);
+		assertFalse(sc.removeNotify(5, 1));
 		assertTrue(sc.getIField().getCell(5, 1).containsCharacter());
 
 		// character belongs not to current player
 		sc.setState(playerOneStart);
 		sc.setCurrentPlayer(0);
-		sc.removeNotify(0, 2);
+		assertTrue(sc.removeNotify(0, 2));
 		assertTrue(sc.getIField().getCell(0, 2).containsCharacter());
 
 		// cell contains no character
 		sc.setState(playerOneStart);
 		sc.setCurrentPlayer(0);
-		sc.removeNotify(9, 9);
+		assertTrue(sc.removeNotify(9, 9));
 		assertEquals("There is no character or "
 					+ "you are not allowed to remove this character.",
 				sc.getStatusString());
 
-		// coccerct remove
-		sc.removeNotify(5, 1);
+		// correct remove
+		assertTrue(sc.removeNotify(5, 1));
 		assertFalse(sc.getIField().getCell(5, 1).containsCharacter());
 	}
 

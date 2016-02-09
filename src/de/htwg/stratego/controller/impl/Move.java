@@ -29,12 +29,13 @@ public class Move implements Command {
 	}
 
 	private String movedFromToString() {
-		return "Player <" + fromCharacter.getPlayer().toString() + "> moved from (" + fromCell.getX() + ","
+		String turn = "It is your turn Player " + sc.getPlayer()[sc.nextPlayer()] + " .\n";
+		return turn + "Player " + fromCharacter.getPlayer().toString() + " moved from (" + fromCell.getX() + ","
 				+ fromCell.getY() + ") to (" + toCell.getX() + "," + toCell.getY() + ")";
 	}
 
 	private String foughtWithString(String fightResultSymbol) {
-		return String.format("%s%s%s%s%s", fromCharacter.getPlayer(), fromCharacter.getRank(), fightResultSymbol,
+		return String.format("\nResult of Fight: %s%s %s %s%s", fromCharacter.getPlayer(), fromCharacter.getRank(), fightResultSymbol,
 				toCharacter.getPlayer(), toCharacter.getRank());
 	}
 

@@ -115,9 +115,13 @@ public class StrategoController extends Observable implements IStrategoControlle
 	public void setCurrentPlayer(int p) {
 		currentPlayer = p;
 	}
+	
+	public int nextPlayer() {
+		return (currentPlayer + 1) % player.length;
+	}
 
-	public IPlayer nextPlayer() {
-		currentPlayer = (currentPlayer + 1) % player.length;
+	public IPlayer nextChangePlayer() {
+		currentPlayer = nextPlayer();
 		return player[currentPlayer];
 	}
 	
@@ -140,7 +144,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 
 	private void gameOver() {
 		statusController = "GAME OVER!";
-		setState(new PlayerWinner(nextPlayer()));
+		setState(new PlayerWinner(nextChangePlayer()));
 		setVisibilityOfAllCharacters(true);
 	}
 
@@ -153,9 +157,11 @@ public class StrategoController extends Observable implements IStrategoControlle
 	}
 	
 	@Override
-	public void move(int fromX, int fromY, int toX, int toY) {
+	public boolean move(int fromX, int fromY, int toX, int toY) {
 		if (!isMoveAllowed()) {
 			statusController = "Moving of Characters is not allowed.";
+			notifyObservers();
+			return false;
 		} else {
 			Move move = new Move(fromX, fromY, toX, toY, this);
 			boolean moveSuccess = move.execute();
@@ -166,11 +172,14 @@ public class StrategoController extends Observable implements IStrategoControlle
 				if (lost(getCurrentPlayer())) {
 					gameOver();
 				}
+				notifyObservers();
+				return true; 
 			} else {
 				statusController = "Your move was not possible. Try again.";
+				notifyObservers();
+				return false;
 			}
 		}
-		notifyObservers();
 	}
 
 	public boolean lost(IPlayer player) {
@@ -178,11 +187,11 @@ public class StrategoController extends Observable implements IStrategoControlle
 	}
 
 	@Override
-	public void add(int x, int y, int rank) {
+	public boolean add(int x, int y, int rank) {
 		if (!isAddAllowed()) {
 			statusController = "Add is not allowed";
 			notifyObservers();
-			return;
+			return false;
 		}
 		
 		IPlayer p = getCurrentPlayer();
@@ -190,7 +199,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 		if (character == null) {
 			statusController = "all Characters of type <" + rank + "> are on the field.";
 			notifyObservers();
-			return;
+			return false;
 		}
 
 		ICell cell = field.getCell(x, y);
@@ -198,29 +207,31 @@ public class StrategoController extends Observable implements IStrategoControlle
 			// field already has a char
 			statusController = "field already has a char";
 			notifyObservers();
-			return;
+			return false;
 		}
 
 		if (!cell.isPassable()) {
 			statusController = "cell (" + x + "," + y + ") is not passable";
 			notifyObservers();
-			return;
+			return false;
 		}
 
 		undoManager.doCommand(new AddCommand(cell, p, character, this));
 		statusController = "added Character <<" + character.getRank() + ">> to (" + x + "," + y + ")";
 		notifyObservers();
+		return true;
 	}
 
 	@Override
-	public void removeNotify(int x, int y) {
+	public boolean removeNotify(int x, int y) {
 		if (!isRemoveAllowed()) {
 			statusController = "remove is not allowed.";
 			notifyObservers();
-			return;
+			return false;
 		}
 		remove(x, y);
 		notifyObservers();
+		return true;
 	}
 
 	public void remove(int x, int y) {
