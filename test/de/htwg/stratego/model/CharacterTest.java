@@ -1,5 +1,7 @@
 package de.htwg.stratego.model;
 
+import java.awt.Color;
+
 import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese weiter
 import org.junit.Test;
 
@@ -27,8 +29,8 @@ public class CharacterTest extends TestCase {
 
 	@BeforeClass
 	public void setUp() {
-		playerOne = new Player("#");
-		playerTwo = new Player("!");
+		playerOne = new Player("#", Color.BLUE);
+		playerTwo = new Player("!", Color.RED);
 		
 		flag = new Flag(playerOne);
 		sergeant = new Sergeant(playerTwo);
@@ -93,6 +95,16 @@ public class CharacterTest extends TestCase {
 	public void testBelongsTo() {
 		assertTrue(flag.belongsTo(playerOne));
 		assertFalse(sergeant.belongsTo(playerOne));
+	}
+	
+	@Test
+	public void testgetColor() {
+		assertEquals(playerOne.getColor(), flag.getColor());
+	}
+	
+	@Test
+	public void testgetImage() {
+		assertEquals(flag.getImage(), flag.getImage());
 	}
 
 }

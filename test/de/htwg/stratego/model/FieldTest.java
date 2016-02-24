@@ -1,5 +1,7 @@
 package de.htwg.stratego.model;
 
+import java.awt.Color;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -20,8 +22,8 @@ public class FieldTest extends TestCase {
 	@BeforeClass
 	public void setUp() {
 		field = new Field(3, 2);
-		playerOne = new Player("#");
-		playerTwo = new Player("!");
+		playerOne = new Player("#", Color.BLUE);
+		playerTwo = new Player("!", Color.RED);
 		character1 = new Sergeant(playerOne);
 		character2 = new Sergeant(playerTwo);
 		

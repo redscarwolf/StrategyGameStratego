@@ -1,5 +1,7 @@
 package de.htwg.stratego.controller.impl;
 
+import java.awt.Color;
+
 import com.google.inject.Inject;
 
 import de.htwg.stratego.controller.IStrategoController;
@@ -27,8 +29,8 @@ public class StrategoController extends Observable implements IStrategoControlle
 	@Inject
 	public StrategoController(IField field, IPlayerFactory playerFactory) {
 		player = new IPlayer[2];
-		player[0] = playerFactory.create("#");
-		player[1] = playerFactory.create("!");
+		player[0] = playerFactory.create("#", Color.BLUE);
+		player[1] = playerFactory.create("!", Color.RED);
 		currentPlayer = 0;
 		
 		gameState = new PlayerStart(player[currentPlayer], this);

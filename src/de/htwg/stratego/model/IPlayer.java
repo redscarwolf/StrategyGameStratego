@@ -1,5 +1,6 @@
 package de.htwg.stratego.model;
 
+import java.awt.Color;
 import java.util.List;
 
 public interface IPlayer {
@@ -12,5 +13,5 @@ public interface IPlayer {
 	ICharacter removeCharacter(int index);
 	ICharacter getCharacter(int rank);
 	boolean containsCharacter(int rank);
-	
+	Color getColor();
 }

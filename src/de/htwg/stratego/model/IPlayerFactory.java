@@ -1,7 +1,9 @@
 package de.htwg.stratego.model;
 
+import java.awt.Color;
+
 public interface IPlayerFactory {
 
 	IPlayer create();
-	IPlayer create(String symbol);
+	IPlayer create(String symbol, Color color);
 }

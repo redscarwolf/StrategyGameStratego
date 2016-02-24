@@ -2,6 +2,8 @@ package de.htwg.stratego.model;
 
 import junit.framework.TestCase;
 
+import java.awt.Color;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,7 +25,7 @@ public class PlayerFactoryTest extends TestCase {
 
 	@Test
 	public void testCreateWithSymbol() {
-		assertTrue(pf.create("#") instanceof IPlayer);
+		assertTrue(pf.create("#", Color.BLUE) instanceof IPlayer);
 	}
 
 }

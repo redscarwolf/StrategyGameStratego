@@ -1,5 +1,6 @@
 package de.htwg.stratego.model.impl;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class Player implements IPlayer {
 
 	private List<ICharacter> characterList;
 	private String symbol;
+	private Color color;
 	
 	private static final int NUMBER_OF_BOMB = 6;
 	private static final int NUMBER_OF_MARSHAL = 1;
@@ -41,12 +43,13 @@ public class Player implements IPlayer {
 	
 
 	public Player() {
-		this("?");
+		this("?", Color.PINK);
 	}
 	
 	@Inject
-	public Player(@Named("symbolPlayerOne") String symbol) {
+	public Player(@Named("symbolPlayerOne") String symbol, Color color) {
 		characterList = new ArrayList<>();
+		this.color = color;
 		initCharacterList();
 		this.symbol = symbol;
 	}
@@ -106,6 +109,11 @@ public class Player implements IPlayer {
 			sb.append(c.getRank() + "|");
 		}
 		return sb.toString();
+	}
+	
+	@Override
+	public Color getColor() {
+		return color;
 	}
 	
 	@Override

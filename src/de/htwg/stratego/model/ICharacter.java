@@ -1,5 +1,6 @@
 package de.htwg.stratego.model;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 public interface ICharacter {
@@ -11,4 +12,5 @@ public interface ICharacter {
 	IPlayer getPlayer();
 	boolean belongsTo(IPlayer player);
 	BufferedImage getImage();
+	Color getColor();
 }

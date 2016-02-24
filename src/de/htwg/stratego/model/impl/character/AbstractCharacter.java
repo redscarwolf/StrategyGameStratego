@@ -1,5 +1,6 @@
 package de.htwg.stratego.model.impl.character;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,7 @@ public abstract class AbstractCharacter implements ICharacter {
 	protected boolean moveable;
 	protected boolean visible;
 	protected Player player;
+	protected Color color;
 	protected BufferedImage image = null;
 
 	public AbstractCharacter(int rank, boolean moveable, Player player, String imagePath) {
@@ -23,6 +25,7 @@ public abstract class AbstractCharacter implements ICharacter {
 		this.moveable = moveable;
 		this.player = player;
 		visible = true;
+		color = player.getColor();
 		try {
 			image = ImageIO.read(new File("graphics/" + imagePath));
 		} catch (IOException e) {
@@ -67,6 +70,11 @@ public abstract class AbstractCharacter implements ICharacter {
 			return String.format("%s%2s", player, Integer.toString(rank));
 		}
 		return " X ";
+	}
+	
+	@Override
+	public Color getColor() {
+		return color;
 	}
 	
 	@Override

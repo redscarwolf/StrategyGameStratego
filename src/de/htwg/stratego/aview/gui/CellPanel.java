@@ -28,6 +28,8 @@ public class CellPanel extends JPanel {
 		ICharacter character = cell.getCharacter();
 		if (character != null) {
 			if (character.isVisible()) {
+				g.setColor(character.getColor());
+				g.fillRect(0, 0, 50, 50);
 				g.drawImage(character.getImage(), 8, 2, null);
 				g.setColor(Color.WHITE);
 				g.fillRect(2, 25, 20, 12);
