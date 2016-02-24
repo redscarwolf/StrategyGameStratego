@@ -1,5 +1,7 @@
 package de.htwg.stratego.model;
 
+import java.awt.image.BufferedImage;
+
 public interface ICharacter {
 	
 	int getRank();
@@ -8,5 +10,5 @@ public interface ICharacter {
 	boolean isVisible();
 	IPlayer getPlayer();
 	boolean belongsTo(IPlayer player);
-
+	BufferedImage getImage();
 }

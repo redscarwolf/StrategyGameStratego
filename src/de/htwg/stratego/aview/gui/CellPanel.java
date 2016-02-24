@@ -2,7 +2,6 @@ package de.htwg.stratego.aview.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
 import javax.swing.JPanel;
 
 import de.htwg.stratego.controller.IStrategoController;
@@ -29,7 +28,11 @@ public class CellPanel extends JPanel {
 		ICharacter character = cell.getCharacter();
 		if (character != null) {
 			if (character.isVisible()) {
-				g.drawString(character.toString(), 20, 20);
+				g.drawImage(character.getImage(), 8, 2, null);
+				g.setColor(Color.WHITE);
+				g.fillRect(2, 25, 20, 12);
+				g.setColor(Color.BLACK);
+				g.drawString(character.toString(), 2, 35);
 			} else {
 				g.drawString(character.toString(), 20, 20);
 			}

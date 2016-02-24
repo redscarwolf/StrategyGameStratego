@@ -6,7 +6,7 @@ import de.htwg.stratego.model.impl.Rank;
 public class General extends AbstractCharacter {
 
 	public General(Player player) {
-		super(Rank.GENERAL, true, player);
+		super(Rank.GENERAL, true, player, "09general.png");
 	}
 	
 	public static void buildSeveral(int number, Player p) {

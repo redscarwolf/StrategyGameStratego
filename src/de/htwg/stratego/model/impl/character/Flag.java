@@ -6,7 +6,7 @@ import de.htwg.stratego.model.impl.Rank;
 public class Flag extends AbstractCharacter {
 	
 	public Flag(Player player) {
-		super(Rank.FLAG, false, player);
+		super(Rank.FLAG, false, player, "00flag.png");
 	}
 	
 	public static void buildSeveral(int number, Player p) {

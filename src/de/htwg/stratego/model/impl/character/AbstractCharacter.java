@@ -1,5 +1,11 @@
 package de.htwg.stratego.model.impl.character;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.model.impl.Player;
@@ -10,12 +16,19 @@ public abstract class AbstractCharacter implements ICharacter {
 	protected boolean moveable;
 	protected boolean visible;
 	protected Player player;
+	protected BufferedImage image = null;
 
-	public AbstractCharacter(int rank, boolean moveable, Player player) {
+	public AbstractCharacter(int rank, boolean moveable, Player player, String imagePath) {
 		this.rank = rank;
 		this.moveable = moveable;
 		this.player = player;
 		visible = true;
+		try {
+			image = ImageIO.read(new File("graphics/" + imagePath));
+		} catch (IOException e) {
+			//TODO logging?
+			System.out.println("error loading graphic");
+		}
 	}
 
 	@Override
@@ -54,6 +67,11 @@ public abstract class AbstractCharacter implements ICharacter {
 			return String.format("%s%2s", player, Integer.toString(rank));
 		}
 		return " X ";
+	}
+	
+	@Override
+	public BufferedImage getImage() {
+		return image;
 	}
 	
 }
