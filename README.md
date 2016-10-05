@@ -1,3 +1,3 @@
-StrategyGameStratego
+##Strategy Game Stratego
 
-##the ultimative Stratego Game
+Just download and have fun! :)
