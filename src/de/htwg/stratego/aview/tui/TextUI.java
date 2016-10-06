@@ -27,13 +27,13 @@ public class TextUI implements IObserver {
 	public boolean processInputLine(String input) {
 		boolean continu = true;
 
-		boolean correctInput = Pattern.matches("q|h|f|(a \\d \\d \\d\\d?)|(r \\d \\d)|(m \\d \\d \\d \\d)", input);
+		boolean correctInput = Pattern.matches("q|h|f|(a_\\d_\\d_\\d\\d?)|(r_\\d_\\d)|(m_\\d_\\d_\\d_\\d)", input);
 		if (!correctInput) {
 			logger.info("Illegal command!");
 			return continu;
 		}
 
-		String[] inputStrings = input.split(" ");
+		String[] inputStrings = input.split("_");
 
 		switch (inputStrings[0]) {
 		case "q":
@@ -77,14 +77,22 @@ public class TextUI implements IObserver {
 		logger.info("Command (Type \"h\" for help): ");
 	}
 
-	public void printTUI() {
-		logger.info(sc.getStatusString());
-		logger.info(sc.getPlayerStatusString());
-		logger.info("\n" + sc.getFieldString());
-		logger.info("Characters Player1: " + sc.getCharacterListString(sc.getPlayer()[0]));
-		logger.info("Characters Player2: " + sc.getCharacterListString(sc.getPlayer()[1]));
-		logger.info("Command (Type \"h\" for help): ");
-
+	public String printTUI() {
+		String statusString = sc.getStatusString();
+		String playerStatusString = sc.getPlayerStatusString();
+		String fieldString = "\n" + sc.getFieldString();
+		String charactersPlayer1 = "Characters Player1: " + sc.getCharacterListString(sc.getPlayer()[0]);
+		String charactersPlayer2 = "Characters Player2: " + sc.getCharacterListString(sc.getPlayer()[1]);
+		String commandString = "Command (Type \"h\" for help): ";
+		
+		logger.info(statusString);
+		logger.info(playerStatusString);
+		logger.info(fieldString);
+		logger.info(charactersPlayer1);
+		logger.info(charactersPlayer2);
+		logger.info(commandString);
+		
+		return statusString + playerStatusString + fieldString + charactersPlayer1 + charactersPlayer2 + commandString;
 	}
 
 }
