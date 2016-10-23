@@ -48,4 +48,8 @@ public final class StrategoApp {
 	public TextUI getTui() {
 		return tui;
 	}
+	
+	public IStrategoController getIStrategoController() {
+		return sc;
+	}
 }
