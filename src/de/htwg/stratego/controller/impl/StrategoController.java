@@ -110,6 +110,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 		return gameState.toStringPlayerStatus();
 	}
 	
+	@Override
 	public IPlayer getCurrentPlayer() {
 		return player[currentPlayer];
 	}

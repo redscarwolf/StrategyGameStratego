@@ -18,6 +18,7 @@ public interface IStrategoController extends IObservable {
 	String getPlayerStatusString();
 	
 	String getCharacterListString(IPlayer player);
+	IPlayer getCurrentPlayer();
 	IPlayer[] getPlayer();
 	
 	// only for Gui
