@@ -3,7 +3,9 @@ package de.htwg.stratego.model.impl;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
+import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IField;
+import de.htwg.stratego.model.IPlayer;
 
 public class Field implements IField {
 
@@ -43,6 +45,22 @@ public class Field implements IField {
 	@Override
 	public Cell getCell(int x, int y) {
 		return cells[x][y];
+	}
+	
+	@Override
+	public int getNumberOfCharacters(int rank, IPlayer player) {
+		int n = 0;
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				if (cells[x][y].containsCharacter()) {
+					ICharacter c = cells[x][y].getCharacter();
+					if (c.getRank() == rank && c.belongsTo(player)) {
+						n++;
+					}
+				}
+			}
+		}
+		return n;
 	}
 	
 	@Override

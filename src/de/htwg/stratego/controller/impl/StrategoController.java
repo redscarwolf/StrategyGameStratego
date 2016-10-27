@@ -119,6 +119,11 @@ public class StrategoController extends Observable implements IStrategoControlle
 		currentPlayer = p;
 	}
 	
+	@Override
+	public int getNumberOfCharactersOnField(int rank, IPlayer player) {
+		return field.getNumberOfCharacters(rank, player);
+	}
+	
 	public int nextPlayer() {
 		return (currentPlayer + 1) % player.length;
 	}

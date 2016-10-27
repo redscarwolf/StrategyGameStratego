@@ -20,6 +20,7 @@ public interface IStrategoController extends IObservable {
 	String getCharacterListString(IPlayer player);
 	IPlayer getCurrentPlayer();
 	IPlayer[] getPlayer();
+	int getNumberOfCharactersOnField(int rank, IPlayer player);
 	
 	// only for Gui
 	int getFieldHeight();

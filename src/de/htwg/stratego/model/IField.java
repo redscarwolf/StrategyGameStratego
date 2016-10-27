@@ -6,5 +6,6 @@ public interface IField {
 	int getHeight();
 	
 	ICell getCell(int x, int y);
+	int getNumberOfCharacters(int rank, IPlayer player);
 	
 }
