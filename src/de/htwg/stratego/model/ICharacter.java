@@ -13,4 +13,5 @@ public interface ICharacter {
 	boolean belongsTo(IPlayer player);
 	BufferedImage getImage();
 	Color getColor();
+	
 }

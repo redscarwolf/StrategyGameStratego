@@ -1,5 +1,6 @@
 package de.htwg.stratego.controller;
 
+import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.util.observer.IObservable;
@@ -19,8 +20,14 @@ public interface IStrategoController extends IObservable {
 	
 	String getCharacterListString(IPlayer player);
 	IPlayer getCurrentPlayer();
-	IPlayer[] getPlayer();
-	int getNumberOfCharactersOnField(int rank, IPlayer player);
+	IPlayer getPlayerOne();
+	IPlayer getPlayerTwo();
+	
+	int numberOfCharactersOnField(int rank, IPlayer player);
+	boolean containsCharacter(int x, int y);
+	ICharacter getCharacter(int x, int y);
+	String nameOfCharacter(int rank);
+	int maxNumberOfCharactersPerPlayer(int rank);
 	
 	// only for Gui
 	int getFieldHeight();

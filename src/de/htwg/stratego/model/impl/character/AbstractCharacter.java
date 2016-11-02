@@ -9,18 +9,17 @@ import javax.imageio.ImageIO;
 
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IPlayer;
-import de.htwg.stratego.model.impl.Player;
 
 public abstract class AbstractCharacter implements ICharacter {
 
 	protected int rank;
 	protected boolean moveable;
 	protected boolean visible;
-	protected Player player;
+	protected IPlayer player;
 	protected Color color;
 	protected BufferedImage image = null;
 
-	public AbstractCharacter(int rank, boolean moveable, Player player, String imagePath) {
+	public AbstractCharacter(int rank, boolean moveable, IPlayer player, String imagePath) {
 		this.rank = rank;
 		this.moveable = moveable;
 		this.player = player;
@@ -35,7 +34,7 @@ public abstract class AbstractCharacter implements ICharacter {
 	}
 
 	@Override
-	public Player getPlayer() {
+	public IPlayer getPlayer() {
 		return player;
 	}
 	

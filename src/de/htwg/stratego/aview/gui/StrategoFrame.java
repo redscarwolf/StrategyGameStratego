@@ -95,8 +95,8 @@ public class StrategoFrame extends JFrame implements IObserver {
 	public void update(Event e) {
 		statusPanel.setText(sc.getStatusString(), sc.getPlayerStatusString());
 		characterInfoPanel.setText(
-				sc.getCharacterListString(sc.getPlayer()[0]),
-				sc.getCharacterListString(sc.getPlayer()[1]));
+				sc.getCharacterListString(sc.getPlayerOne()),
+				sc.getCharacterListString(sc.getPlayerTwo()));
 		repaint();
 	}
 	

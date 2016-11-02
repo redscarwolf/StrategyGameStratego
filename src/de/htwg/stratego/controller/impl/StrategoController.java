@@ -11,6 +11,18 @@ import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.model.IPlayerFactory;
 import de.htwg.stratego.model.impl.Rank;
+import de.htwg.stratego.model.impl.character.Bomb;
+import de.htwg.stratego.model.impl.character.Captain;
+import de.htwg.stratego.model.impl.character.Colonel;
+import de.htwg.stratego.model.impl.character.Flag;
+import de.htwg.stratego.model.impl.character.General;
+import de.htwg.stratego.model.impl.character.Lieutenant;
+import de.htwg.stratego.model.impl.character.Major;
+import de.htwg.stratego.model.impl.character.Marshal;
+import de.htwg.stratego.model.impl.character.Miner;
+import de.htwg.stratego.model.impl.character.Scout;
+import de.htwg.stratego.model.impl.character.Sergeant;
+import de.htwg.stratego.model.impl.character.Spy;
 import de.htwg.stratego.util.command.UndoManager;
 import de.htwg.stratego.util.observer.Observable;
 
@@ -25,13 +37,22 @@ public class StrategoController extends Observable implements IStrategoControlle
 	private GameState gameState;
 	
 	private UndoManager undoManager = new UndoManager();
+	
+	private static final String[] CHARACTER_NAMES = {"Flag", "Spy", "Scout", "Miner", "Sergeant", 
+													"Lieutenant", "Captain", "Major", "Colonel",
+													"General", "Marshal", "Bomb"};
 
+	private static final int[] NUMBER_OF_CHARACTERS = {1, 1, 8, 5, 4, 4, 4, 3, 2, 1, 1, 6};
+	
 	@Inject
 	public StrategoController(IField field, IPlayerFactory playerFactory) {
 		player = new IPlayer[2];
 		player[0] = playerFactory.create("#", Color.BLUE);
 		player[1] = playerFactory.create("!", Color.RED);
 		currentPlayer = 0;
+		
+		initPlayerCharecterList(getPlayerOne());
+		initPlayerCharecterList(getPlayerTwo());
 		
 		gameState = new PlayerStart(player[currentPlayer], this);
 
@@ -120,7 +141,32 @@ public class StrategoController extends Observable implements IStrategoControlle
 	}
 	
 	@Override
-	public int getNumberOfCharactersOnField(int rank, IPlayer player) {
+	public IPlayer getPlayerOne() {
+		return player[0];
+	}
+	
+	@Override
+	public IPlayer getPlayerTwo() {
+		return player[1];
+	}
+	
+	private void initPlayerCharecterList(IPlayer player) {
+		Bomb.buildSeveral(NUMBER_OF_CHARACTERS[Rank.BOMB], player);
+		Marshal.buildSeveral(NUMBER_OF_CHARACTERS[Rank.MARSHAL], player);
+		General.buildSeveral(NUMBER_OF_CHARACTERS[Rank.GENERAL], player);
+		Colonel.buildSeveral(NUMBER_OF_CHARACTERS[Rank.COLONEL], player);
+		Major.buildSeveral(NUMBER_OF_CHARACTERS[Rank.MAJOR], player);
+		Captain.buildSeveral(NUMBER_OF_CHARACTERS[Rank.CAPTAIN], player);
+		Lieutenant.buildSeveral(NUMBER_OF_CHARACTERS[Rank.LIEUTENANT], player);
+		Sergeant.buildSeveral(NUMBER_OF_CHARACTERS[Rank.SERGEANT], player);
+		Miner.buildSeveral(NUMBER_OF_CHARACTERS[Rank.MINER], player);
+		Scout.buildSeveral(NUMBER_OF_CHARACTERS[Rank.SCOUT], player);
+		Spy.buildSeveral(NUMBER_OF_CHARACTERS[Rank.SPY], player);
+		Flag.buildSeveral(NUMBER_OF_CHARACTERS[Rank.FLAG], player);
+	}
+	
+	@Override
+	public int numberOfCharactersOnField(int rank, IPlayer player) {
 		return field.getNumberOfCharacters(rank, player);
 	}
 	
@@ -132,6 +178,30 @@ public class StrategoController extends Observable implements IStrategoControlle
 		currentPlayer = nextPlayer();
 		return player[currentPlayer];
 	}
+	
+	@Override
+	public boolean containsCharacter(int x, int y) {
+		return field.getCell(x, y).containsCharacter();
+	}
+
+	@Override
+	public ICharacter getCharacter(int x, int y) {
+		return field.getCell(x, y).getCharacter();
+	}
+
+	@Override
+	public String nameOfCharacter(int rank) {
+		if (rank < 0 || rank >= CHARACTER_NAMES.length) {
+			return "noname";
+		}
+		return CHARACTER_NAMES[rank];
+	}
+
+	@Override
+	public int maxNumberOfCharactersPerPlayer(int rank) {
+		return NUMBER_OF_CHARACTERS[rank];
+	}
+
 	
 	public boolean isMoveAllowed() {
 		return gameState.isMoveAllowed();

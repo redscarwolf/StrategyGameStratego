@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import de.htwg.stratego.model.impl.Player;
 import de.htwg.stratego.model.impl.Rank;
+import de.htwg.stratego.model.impl.character.Bomb;
+import de.htwg.stratego.model.impl.character.Flag;
+import de.htwg.stratego.model.impl.character.Scout;
 import de.htwg.stratego.model.impl.character.Sergeant;
 import junit.framework.TestCase;
 
@@ -47,6 +50,8 @@ public class PlayerTest extends TestCase {
 	
 	@Test
 	public void testContainsCharacter() {
+		player.addCharacter(new Bomb(player));
+		player.addCharacter(new Flag(player));
 		assertTrue(player.containsCharacter(Rank.BOMB));
 		player.removeCharacter(player.getCharacter(Rank.FLAG));
 		assertFalse(player.containsCharacter(Rank.FLAG));
@@ -54,8 +59,11 @@ public class PlayerTest extends TestCase {
 	
 	@Test
 	public void testGetCharacterListAsString() {
-		String listStr = "|11|11|11|11|11|11|10|9|8|8|7|7|7|6|6|6|6|5|5|5|5|"
-				+ "4|4|4|4|3|3|3|3|3|2|2|2|2|2|2|2|2|1|0|";
+		Bomb.buildSeveral(6, player);
+		Scout.buildSeveral(4, player);
+		Flag.buildSeveral(1, player);
+		
+		String listStr = "|11|11|11|11|11|11|2|2|2|2|0|";
 		assertEquals(listStr, player.getCharacterListAsString());
 	}
 	
