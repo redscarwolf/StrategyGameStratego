@@ -2,10 +2,10 @@ package de.htwg.stratego.aview.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
 import javax.swing.JPanel;
 
 import de.htwg.stratego.controller.IStrategoController;
-import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 
 public class CellPanel extends JPanel {
@@ -24,9 +24,9 @@ public class CellPanel extends JPanel {
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		ICell cell = sc.getIField().getCell(column, row);
-		ICharacter character = cell.getCharacter();
-		if (character != null) {
+		if (sc.containsCharacter(column, row)) {
+			ICharacter character = sc.getCharacter(column, row);
+			
 			if (character.isVisible()) {
 				g.setColor(character.getColor());
 				g.fillRect(0, 0, 50, 50);
@@ -39,7 +39,7 @@ public class CellPanel extends JPanel {
 				g.drawString(character.toString(), 20, 20);
 			}
 		}
-		if (cell.isPassable()) {
+		if (sc.isPassable(column, row)) {
 			g.setColor(Color.BLACK);
 			g.drawRect(0, 0, getSize().width - 1, getSize().height - 1);
 		}

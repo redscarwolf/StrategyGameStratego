@@ -202,6 +202,10 @@ public class StrategoController extends Observable implements IStrategoControlle
 		return NUMBER_OF_CHARACTERS[rank];
 	}
 
+	@Override
+	public boolean isPassable(int x, int y) {
+		return field.getCell(x, y).isPassable();
+	}
 	
 	public boolean isMoveAllowed() {
 		return gameState.isMoveAllowed();
@@ -215,7 +219,6 @@ public class StrategoController extends Observable implements IStrategoControlle
 		return gameState.isRemoveAllowed();
 	}
 	
-	@Override
 	public IField getIField() {
 		return field;
 	}
