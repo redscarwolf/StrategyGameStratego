@@ -375,31 +375,43 @@ public class StrategoController extends Observable implements IStrategoControlle
 	public String toJson() {
 		String result= "";
 
-		Map<String, Object> stratego = new HashMap<String,Object>();
-		stratego.put("currentPlayer", "TODO");
-		stratego.put("playerOne", getPlayerOne().getName());
-		stratego.put("playerTwo", getPlayerTwo().getName());
-
+		HashMap<String, Object> selectJson = new HashMap<>();
+		List<HashMap<String, Object>> characterList = new ArrayList<HashMap<String, Object>>();
+		for (ICharacter character : getCurrentPlayer().getCharacterList()) {
+			HashMap<String, Object> characterJson = new HashMap<>();
+			characterJson.put("rank", character.getRank());
+			characterJson.put("player", character.getPlayer().getName());
+			characterList.add(characterJson);
+		}
+		selectJson.put("characterList", characterList);
+		
 		Map<String, Object> fieldJson = new HashMap<String,Object>();
 
-		List<HashMap<String,Object>> innerfield = new ArrayList<HashMap<String,Object>>();
+		List<HashMap<String, Object>> innerField = new ArrayList<HashMap<String, Object>>();
 		for (int column = 0; column < field.getWidth(); column++) {
 			for (int row = 0; row < field.getHeight(); row++) {
-				innerfield.add(getCellMap(column, row));
+				innerField.add(getCellMap(column, row));
 			}
 		}
-		fieldJson.put("innerField", innerfield);
-		stratego.put("field", fieldJson);
+		fieldJson.put("innerField", innerField);
 
+		HashMap<String, Object> infoJson = new HashMap<>();
+		infoJson.put("TODO", "todo");
+		
+		Map<String, Object> strategoJson = new HashMap<String,Object>();
+		strategoJson.put("playerOne", getPlayerOne().getName());
+		strategoJson.put("playerTwo", getPlayerTwo().getName());
+		strategoJson.put("select", selectJson);
+		strategoJson.put("field", fieldJson);
+		strategoJson.put("info", infoJson);
 
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
-			result = mapper.writeValueAsString(stratego);
+			result = mapper.writeValueAsString(strategoJson);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-
 
 		return result;
 	}
