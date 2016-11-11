@@ -21,6 +21,7 @@ public interface IStrategoController extends IObservable {
 	IPlayer getCurrentPlayer();
 	IPlayer getPlayerOne();
 	IPlayer getPlayerTwo();
+	String toJson();
 	
 	int numberOfCharactersOnField(int rank, IPlayer player);
 	boolean containsCharacter(int x, int y);

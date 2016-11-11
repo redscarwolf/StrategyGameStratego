@@ -15,7 +15,8 @@ public class Player implements IPlayer {
 	private List<ICharacter> characterList;
 	private String symbol;
 	private Color color;
-
+	private String name;
+	
 	public Player() {
 		this("?", Color.PINK);
 	}
@@ -25,6 +26,7 @@ public class Player implements IPlayer {
 		characterList = new ArrayList<>();
 		this.color = color;
 		this.symbol = symbol;
+		this.name = symbol;
 	}
 
 	@Override
@@ -77,6 +79,11 @@ public class Player implements IPlayer {
 	@Override
 	public String toString() {
 		return symbol;
+	}
+	
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	@Override

@@ -1,7 +1,13 @@
 package de.htwg.stratego.controller.impl;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.databind.*;
 import com.google.inject.Inject;
 
 import de.htwg.stratego.controller.IStrategoController;
@@ -366,4 +372,57 @@ public class StrategoController extends Observable implements IStrategoControlle
 		return field.toString();
 	}
 
+	public String toJson() {
+		String result= "";
+
+		Map<String, Object> stratego = new HashMap<String,Object>();
+		stratego.put("currentPlayer", "TODO");
+		stratego.put("playerOne", getPlayerOne().getName());
+		stratego.put("playerTwo", getPlayerTwo().getName());
+
+		Map<String, Object> fieldJson = new HashMap<String,Object>();
+
+		List<HashMap<String,Object>> innerfield = new ArrayList<HashMap<String,Object>>();
+		for (int column = 0; column < field.getWidth(); column++) {
+			for (int row = 0; row < field.getHeight(); row++) {
+				innerfield.add(getCellMap(column, row));
+			}
+		}
+		fieldJson.put("innerField", innerfield);
+		stratego.put("field", fieldJson);
+
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+			result = mapper.writeValueAsString(stratego);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+
+
+		return result;
+	}
+
+	private HashMap<String, Object> getCellMap(int column, int row) {
+		HashMap<String, Object> cellMap = new HashMap<String, Object>();
+
+		ICell cell = field.getCell(column, row);
+		cellMap.put("row", cell.getY());
+		cellMap.put("column", cell.getX());
+		cellMap.put("isPassable", cell.isPassable());
+		boolean containsChar = cell.containsCharacter();
+		cellMap.put("containsCharacter", containsChar);
+		
+		if (containsChar) {			
+			Map<String, Object> characterMap = new HashMap<String,Object>();
+			ICharacter character = cell.getCharacter();
+			characterMap.put("rank", character.getRank());
+			characterMap.put("player", character.getPlayer().getName());
+			characterMap.put("isVisible", character.isVisible());
+			
+			cellMap.put("character", characterMap);
+		}
+		return cellMap;
+	}
 }

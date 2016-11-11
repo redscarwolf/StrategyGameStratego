@@ -29,7 +29,6 @@ public final class StrategoApp {
 	
 	public static void main(String[] args) {
 		StrategoApp strategoApp = StrategoApp.getInstance();
-		
 		strategoApp.tui.printTUI();
 		boolean continu = true;
 		scanner = new Scanner(System.in);
