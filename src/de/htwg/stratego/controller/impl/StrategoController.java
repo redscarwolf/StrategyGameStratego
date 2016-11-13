@@ -53,8 +53,8 @@ public class StrategoController extends Observable implements IStrategoControlle
 	@Inject
 	public StrategoController(IField field, IPlayerFactory playerFactory) {
 		player = new IPlayer[2];
-		player[0] = playerFactory.create("#", Color.BLUE);
-		player[1] = playerFactory.create("!", Color.RED);
+		player[0] = playerFactory.create("PlayerOne", "#", Color.BLUE);
+		player[1] = playerFactory.create("PlayerTwo", "!", Color.RED);
 		currentPlayer = 0;
 		
 		initPlayerCharecterList(getPlayerOne());
@@ -154,6 +154,26 @@ public class StrategoController extends Observable implements IStrategoControlle
 	@Override
 	public IPlayer getPlayerTwo() {
 		return player[1];
+	}
+	
+	@Override
+	public void setNameOfPlayerOne(String name) {
+		getPlayerOne().setName(name);
+	}
+
+	@Override
+	public void setNameOfPlayerTwo(String name) {
+		getPlayerTwo().setName(name);
+	}
+
+	@Override
+	public String getNameOfPlayerOne() {
+		return getPlayerOne().getName();
+	}
+
+	@Override
+	public String getNameOfPlayerTwo() {
+		return getPlayerTwo().getName();
 	}
 	
 	private void initPlayerCharecterList(IPlayer player) {
@@ -399,8 +419,8 @@ public class StrategoController extends Observable implements IStrategoControlle
 		infoJson.put("TODO", "todo");
 		
 		Map<String, Object> strategoJson = new HashMap<String,Object>();
-		strategoJson.put("playerOne", getPlayerOne().getName());
-		strategoJson.put("playerTwo", getPlayerTwo().getName());
+		strategoJson.put("playerOne", getNameOfPlayerOne());
+		strategoJson.put("playerTwo", getNameOfPlayerTwo());
 		strategoJson.put("select", selectJson);
 		strategoJson.put("field", fieldJson);
 		strategoJson.put("info", infoJson);
@@ -437,4 +457,5 @@ public class StrategoController extends Observable implements IStrategoControlle
 		}
 		return cellMap;
 	}
+
 }

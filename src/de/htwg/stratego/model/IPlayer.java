@@ -14,5 +14,7 @@ public interface IPlayer {
 	ICharacter getCharacter(int rank);
 	boolean containsCharacter(int rank);
 	Color getColor();
+	
+	void setName(String name);
 	String getName();
 }

@@ -18,15 +18,15 @@ public class Player implements IPlayer {
 	private String name;
 	
 	public Player() {
-		this("?", Color.PINK);
+		this("noname", "?", Color.PINK);
 	}
 
 	@Inject
-	public Player(@Named("symbolPlayerOne") String symbol, Color color) {
+	public Player(String name, @Named("symbolPlayerOne") String symbol, Color color) {
 		characterList = new ArrayList<>();
 		this.color = color;
 		this.symbol = symbol;
-		this.name = symbol;
+		this.name = name;
 	}
 
 	@Override
@@ -79,6 +79,11 @@ public class Player implements IPlayer {
 	@Override
 	public String toString() {
 		return symbol;
+	}
+	
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	@Override

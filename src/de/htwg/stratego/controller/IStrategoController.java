@@ -17,6 +17,10 @@ public interface IStrategoController extends IObservable {
 	String getFieldString();
 	String getPlayerStatusString();
 	
+	void setNameOfPlayerOne(String name);
+	void setNameOfPlayerTwo(String name);
+	String getNameOfPlayerOne();
+	String getNameOfPlayerTwo();
 	String getCharacterListString(IPlayer player);
 	IPlayer getCurrentPlayer();
 	IPlayer getPlayerOne();

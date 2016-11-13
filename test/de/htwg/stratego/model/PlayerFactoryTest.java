@@ -25,7 +25,7 @@ public class PlayerFactoryTest extends TestCase {
 
 	@Test
 	public void testCreateWithSymbol() {
-		assertTrue(pf.create("#", Color.BLUE) instanceof IPlayer);
+		assertTrue(pf.create("Player", "#", Color.BLUE) instanceof IPlayer);
 	}
 
 }
