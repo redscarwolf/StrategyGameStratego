@@ -166,6 +166,9 @@ public class StrategoControllerTest extends TestCase {
 		assertEquals(sc.getCharacter(5, 1).getRank(), Rank.SERGEANT);
 		assertEquals(sc.getCharacter(1, 0).getRank(), Rank.FLAG);
 		
+		assertTrue(sc.swap(5, 1, 9, 9));
+		assertEquals(sc.getCharacter(9, 9).getRank(), Rank.SERGEANT);
+		assertFalse(sc.containsCharacter(5, 1));
 	}
 	
 	@Test

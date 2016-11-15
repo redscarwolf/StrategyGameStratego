@@ -358,7 +358,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 		ICell cell1 = field.getCell(x1, y1);
 		ICell cell2 = field.getCell(x2, y2);
 		
-		if (!(cell1.containsCharacter() && cell2.containsCharacter())) {
+		if (!(cell1.containsCharacter())) {
 			statusController = "There is no character to swap.";
 			notifyObservers();
 			return false;
@@ -370,15 +370,23 @@ public class StrategoController extends Observable implements IStrategoControlle
 			return false;
 		}
 		
-		if (!(cell1.getCharacter().belongsTo(getCurrentPlayer()) && cell2.getCharacter().belongsTo(getCurrentPlayer()))) {
-			statusController = "One character does not belong to you.";
+		if (!(cell1.getCharacter().belongsTo(getCurrentPlayer()))) {
+			statusController = "Selected character does not belong to you.";
 			notifyObservers();
 			return false;
 		}
 		
+		if (cell2.containsCharacter()) {
+			if (!(cell2.getCharacter().belongsTo(getCurrentPlayer()))) {
+				statusController = "Second character does not belong to you.";
+				notifyObservers();
+				return false;
+			}
+		}
+		
 		undoManager.doCommand(new SwapCommand(cell1, cell2, this));
-		statusController = "swaped Characters <<" + cell1.getCharacter().getRank() + ">> and <<" + 
-								cell2.getCharacter().getRank() + ">>";
+		statusController = "swaped Characters <<" + cell1.getX() + "," + cell1.getY() + ">> and <<" + 
+								cell2.getX() + "," + cell2.getY() + ">>";
 		notifyObservers();
 		return true;
 	}
