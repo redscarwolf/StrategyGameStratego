@@ -23,6 +23,11 @@ public class PlayerTransfer implements GameState {
 	}
 
 	@Override
+	public boolean isSwapAllowed() {
+		return false;
+	}
+	
+	@Override
 	public boolean isRemoveAllowed() {
 		return false;
 	}
@@ -36,5 +41,10 @@ public class PlayerTransfer implements GameState {
 	public void changeState() {
 		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
 		sc.toggleVisibilityOfCharacters(sc.getCurrentPlayer(), true);
+	}
+
+	@Override
+	public String getName() {
+		return "transfer";
 	}
 }

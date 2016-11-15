@@ -224,8 +224,22 @@ public class StrategoController extends Observable implements IStrategoControlle
 	}
 
 	@Override
+	public int maxNumberOfCharactersPerPlayer() {
+		int number = 0;
+		for (int rank = 0; rank < NUMBER_OF_CHARACTERS.length; rank++) {
+			number += maxNumberOfCharactersPerPlayer(rank);
+		}
+		return number;
+	}
+	
+	@Override
 	public int maxNumberOfCharactersPerPlayer(int rank) {
 		return NUMBER_OF_CHARACTERS[rank];
+	}
+	
+	@Override
+	public int numberOfDifferentCharacterTypes() {
+		return CHARACTER_NAMES.length;
 	}
 
 	@Override
@@ -239,6 +253,10 @@ public class StrategoController extends Observable implements IStrategoControlle
 
 	public boolean isAddAllowed() {
 		return gameState.isAddAllowed();
+	}
+	
+	public boolean isSwapAllowed() {
+		return gameState.isSwapAllowed();
 	}
 
 	public boolean isRemoveAllowed() {
@@ -325,6 +343,42 @@ public class StrategoController extends Observable implements IStrategoControlle
 
 		undoManager.doCommand(new AddCommand(cell, p, character, this));
 		statusController = "added Character <<" + character.getRank() + ">> to (" + x + "," + y + ")";
+		notifyObservers();
+		return true;
+	}
+	
+	@Override
+	public boolean swap(int x1, int y1, int x2, int y2) {
+		if (!isSwapAllowed()) {
+			statusController = "Swap is not allowed";
+			notifyObservers();
+			return false;
+		}
+		
+		ICell cell1 = field.getCell(x1, y1);
+		ICell cell2 = field.getCell(x2, y2);
+		
+		if (!(cell1.containsCharacter() && cell2.containsCharacter())) {
+			statusController = "There is no character to swap.";
+			notifyObservers();
+			return false;
+		}
+		
+		if (cell1 == cell2) {
+			statusController = "Swap not possible. Selected cells are equal.";
+			notifyObservers();
+			return false;
+		}
+		
+		if (!(cell1.getCharacter().belongsTo(getCurrentPlayer()) && cell2.getCharacter().belongsTo(getCurrentPlayer()))) {
+			statusController = "One character does not belong to you.";
+			notifyObservers();
+			return false;
+		}
+		
+		undoManager.doCommand(new SwapCommand(cell1, cell2, this));
+		statusController = "swaped Characters <<" + cell1.getCharacter().getRank() + ">> and <<" + 
+								cell2.getCharacter().getRank() + ">>";
 		notifyObservers();
 		return true;
 	}
@@ -416,11 +470,23 @@ public class StrategoController extends Observable implements IStrategoControlle
 		fieldJson.put("innerField", innerField);
 
 		HashMap<String, Object> infoJson = new HashMap<>();
-		infoJson.put("TODO", "todo");
+		List<HashMap<String, Object>> infoList = new ArrayList<HashMap<String, Object>>();
+		for (int rank = 0; rank < CHARACTER_NAMES.length; rank++) {
+			HashMap<String, Object> infoItemJson = new HashMap<>();
+			infoItemJson.put("characterName", nameOfCharacter(rank));
+			infoItemJson.put("currentCharactersPlayerOne", numberOfCharactersOnField(rank, getPlayerOne()));
+			infoItemJson.put("currentCharactersPlayerTwo", numberOfCharactersOnField(rank, getPlayerTwo()));
+			infoItemJson.put("maxCharacters", maxNumberOfCharactersPerPlayer(rank));
+			infoList.add(infoItemJson);
+		}
+		infoJson.put("infoList", infoList);
 		
 		Map<String, Object> strategoJson = new HashMap<String,Object>();
 		strategoJson.put("playerOne", getNameOfPlayerOne());
 		strategoJson.put("playerTwo", getNameOfPlayerTwo());
+		strategoJson.put("state", gameState.getName());
+		strategoJson.put("controllerStatus", getStatusString());
+		strategoJson.put("playerStatus", getPlayerStatusString());
 		strategoJson.put("select", selectJson);
 		strategoJson.put("field", fieldJson);
 		strategoJson.put("info", infoJson);

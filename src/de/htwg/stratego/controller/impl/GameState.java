@@ -6,7 +6,11 @@ public interface GameState {
 	
 	boolean isMoveAllowed();
 	boolean isAddAllowed();
+	boolean isSwapAllowed();
 	boolean isRemoveAllowed();
+	
+	String getName();
+	
 	String toStringPlayerStatus();
 
 }

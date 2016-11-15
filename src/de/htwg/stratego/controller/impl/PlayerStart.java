@@ -21,6 +21,11 @@ public class PlayerStart implements GameState {
 	public boolean isAddAllowed() {
 		return true;
 	}
+	
+	@Override
+	public boolean isSwapAllowed() {
+		return true;
+	}
 
 	@Override
 	public boolean isRemoveAllowed() {
@@ -42,6 +47,11 @@ public class PlayerStart implements GameState {
 			sc.setState(new PlayerStart(sc.nextChangePlayer(), sc));
 			sc.toggleVisibilityOfCharacters(sc.getCurrentPlayer(), true);
 		}
+	}
+
+	@Override
+	public String getName() {
+		return "start";
 	}
 
 }

@@ -21,6 +21,11 @@ public class PlayerWinner implements GameState {
 	}
 
 	@Override
+	public boolean isSwapAllowed() {
+		return false;
+	}
+	
+	@Override
 	public boolean isRemoveAllowed() {
 		return false;
 	}
@@ -33,6 +38,11 @@ public class PlayerWinner implements GameState {
 	@Override
 	public void changeState() {
 		return;
+	}
+
+	@Override
+	public String getName() {
+		return "winner";
 	}
 
 }

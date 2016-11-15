@@ -21,6 +21,11 @@ public class PlayerTurn implements GameState {
 	public boolean isAddAllowed() {
 		return false;
 	}
+	
+	@Override
+	public boolean isSwapAllowed() {
+		return false;
+	}
 
 	@Override
 	public boolean isRemoveAllowed() {
@@ -36,6 +41,11 @@ public class PlayerTurn implements GameState {
 	public void changeState() {
 		sc.setState(new PlayerTransfer(sc.nextChangePlayer(), sc));
 		sc.setVisibilityOfAllCharacters(false);
+	}
+
+	@Override
+	public String getName() {
+		return "turn";
 	}
 	
 }

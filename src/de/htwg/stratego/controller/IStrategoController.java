@@ -9,6 +9,7 @@ public interface IStrategoController extends IObservable {
 	void reset();
 	void undo();
 	boolean add(int x, int y, int rank);
+	boolean swap(int x1, int y1, int x2, int y2);
 	boolean move(int fromX, int fromY, int toX, int toY);
 	boolean removeNotify(int x, int y);
 	void changeStateNotify();
@@ -31,6 +32,8 @@ public interface IStrategoController extends IObservable {
 	boolean containsCharacter(int x, int y);
 	ICharacter getCharacter(int x, int y);
 	String nameOfCharacter(int rank);
+	int numberOfDifferentCharacterTypes();
+	int maxNumberOfCharactersPerPlayer();
 	int maxNumberOfCharactersPerPlayer(int rank);
 	
 	boolean isPassable(int x, int y);

@@ -143,6 +143,32 @@ public class StrategoControllerTest extends TestCase {
 	}
 
 	@Test
+	public void testSwap() {
+		sc.setCurrentPlayer(0);
+		
+		// illegal state, swap not allowed
+		sc.setState(playerOneTurn);
+		assertFalse(sc.swap(5, 1, 1, 0));
+		
+		// cell contains no character
+		sc.setState(playerOneStart);
+		assertFalse(sc.swap(9, 9, 8, 8));
+		
+		// cells are euqal
+		assertFalse(sc.swap(5, 1, 5, 1));
+		
+		// one or both character do not belong to current player
+		assertFalse(sc.swap(5, 1, 2, 1));
+		assertFalse(sc.swap(0, 2, 2, 1));
+		
+		// correct swap
+		assertTrue(sc.swap(5, 1, 1, 0));
+		assertEquals(sc.getCharacter(5, 1).getRank(), Rank.SERGEANT);
+		assertEquals(sc.getCharacter(1, 0).getRank(), Rank.FLAG);
+		
+	}
+	
+	@Test
 	public void testRemove() {
 		// illegal state, remove not allowed
 		sc.setState(playerOneTurn);
