@@ -79,10 +79,11 @@ public class StrategoController extends Observable implements IStrategoControlle
 	public void reset() {
 		currentPlayer = 0;
 		gameState = new PlayerStart(getCurrentPlayer(), this);
+		setVisibilityOfAllCharacters(true);
 		for (int x = 0; x < field.getWidth(); x++) {
 			for (int y = 0; y < field.getHeight(); y++) {
-				remove(x, y, player[0]);
-				remove(x, y, player[1]);
+				remove(x, y, getPlayerOne());
+				remove(x, y, getPlayerTwo());
 			}
 		}
 		statusController = "New Game";
