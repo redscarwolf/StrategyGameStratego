@@ -92,7 +92,7 @@ public class Player implements IPlayer {
 	}
 
 	@Override
-	public boolean containsCharacter(int rank) {
+	public boolean hasCharacter(int rank) {
 		return getCharacter(rank) != null;
 	}
 

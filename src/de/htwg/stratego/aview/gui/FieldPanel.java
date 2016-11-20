@@ -73,7 +73,7 @@ public class FieldPanel extends JPanel implements MouseListener {
 		}
 		
 		if (selectPanel.getSelectedMethod() == REMOVE) {
-			boolean removeSuccessful = sc.removeNotify(x, y);
+			boolean removeSuccessful = sc.remove(x, y);
 			allertPane(removeSuccessful);
 			return;
 		}

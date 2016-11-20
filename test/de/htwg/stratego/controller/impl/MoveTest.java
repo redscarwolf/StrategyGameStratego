@@ -1,14 +1,14 @@
 package de.htwg.stratego.controller.impl;
 
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.stratego.controller.rules.impl.DefaultMoveRule;
 import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.PlayerFactory;
 //erstellt nur eine Klasse und verwendet diese weiter
 import de.htwg.stratego.model.impl.Rank;
+import junit.framework.TestCase;
 
 public class MoveTest extends TestCase {
 
@@ -23,13 +23,13 @@ public class MoveTest extends TestCase {
 	
 	@Test
 	public void testSelectedCellContainsNoCharacter() {
-		assertFalse(new Move(0, 0, 0, 1, sc).execute());
+		assertFalse(new DefaultMoveRule(0, 0, 0, 1, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 	}
 	
 	@Test
 	public void testCharacterIsNotMoveable() {
 		sc.add(0, 0, Rank.FLAG);
-		assertFalse(new Move(0, 0, 0, 1, sc).execute());
+		assertFalse(new DefaultMoveRule(0, 0, 0, 1, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 	}
 	
 	@Test
@@ -37,7 +37,7 @@ public class MoveTest extends TestCase {
 		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
 		sc.add(0, 0, Rank.SCOUT);
 		sc.setState(new PlayerTurn(sc.nextChangePlayer(), sc));
-		assertFalse(new Move(0, 0, 0, 1, sc).execute());
+		assertFalse(new DefaultMoveRule(0, 0, 0, 1, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 	}
 	
 	@Test
@@ -45,7 +45,7 @@ public class MoveTest extends TestCase {
 		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
 		sc.add(1, 4, Rank.SCOUT);
 		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
-		assertFalse(new Move(1, 4, 2, 4, sc).execute());
+		assertFalse(new DefaultMoveRule(1, 4, 2, 4, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 	}
 	
 	@Test
@@ -58,18 +58,18 @@ public class MoveTest extends TestCase {
 		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
 		
 		// illegal range of move
-		assertFalse(new Move(1, 4, 0, 2, sc).execute());
-		assertFalse(new Move(1, 4, 1, 4, sc).execute());
+		assertFalse(new DefaultMoveRule(1, 4, 0, 2, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
+		assertFalse(new DefaultMoveRule(1, 4, 1, 4, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 		
 		// something is blocking the path
-		assertFalse(new Move(1, 4, 1, 9, sc).execute());
-		assertFalse(new Move(2, 2, 2, 9, sc).execute());
-		assertFalse(new Move(1, 4, 9, 4, sc).execute());
-		assertFalse(new Move(2, 2, 7, 2, sc).execute());
+		assertFalse(new DefaultMoveRule(1, 4, 1, 9, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
+		assertFalse(new DefaultMoveRule(2, 2, 2, 9, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
+		assertFalse(new DefaultMoveRule(1, 4, 9, 4, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
+		assertFalse(new DefaultMoveRule(2, 2, 7, 2, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 		
 		// correct range of move
-		assertTrue(new Move(1, 4, 1, 0, sc).execute());
-		assertTrue(new Move(1, 0, 9, 0, sc).execute());
+		assertTrue(new DefaultMoveRule(1, 4, 1, 0, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
+		assertTrue(new DefaultMoveRule(1, 4, 0, 4, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 	}
 	
 	@Test
@@ -79,13 +79,13 @@ public class MoveTest extends TestCase {
 		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
 		
 		// illegal range of move
-		assertFalse(new Move(1, 1, 1, 1, sc).execute());
-		assertFalse(new Move(1, 1, 0, 0, sc).execute());
-		assertFalse(new Move(1, 1, 6, 1, sc).execute());
-		assertFalse(new Move(1, 1, 1, 5, sc).execute());
+		assertFalse(new DefaultMoveRule(1, 1, 1, 1, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
+		assertFalse(new DefaultMoveRule(1, 1, 0, 0, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
+		assertFalse(new DefaultMoveRule(1, 1, 6, 1, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
+		assertFalse(new DefaultMoveRule(1, 1, 1, 5, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 		
 		// correct range of move
-		assertTrue(new Move(1, 1, 2, 1, sc).execute());
+		assertTrue(new DefaultMoveRule(1, 1, 2, 1, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 	}
 	
 	@Test
@@ -95,7 +95,7 @@ public class MoveTest extends TestCase {
 		sc.add(2, 1, Rank.SERGEANT);
 		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
 		
-		assertFalse(new Move(1, 1, 2, 1, sc).execute());
+		assertFalse(new DefaultMoveRule(1, 1, 2, 1, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 	}
 	
 	@Test
@@ -105,7 +105,7 @@ public class MoveTest extends TestCase {
 		sc.add(2, 1, Rank.SERGEANT);
 		sc.changeState();
 		
-		new Move(1, 1, 2, 1, sc).execute();
+		new MoveCommand(1, 1, 2, 1, sc).doCommand();
 		assertFalse(field.getCell(1, 1).containsCharacter());
 		assertFalse(field.getCell(2, 1).containsCharacter());
 	}
@@ -117,7 +117,7 @@ public class MoveTest extends TestCase {
 		sc.add(2, 1, Rank.SPY);
 		sc.changeState();
 		
-		new Move(1, 1, 2, 1, sc).execute();
+		new MoveCommand(1, 1, 2, 1, sc).doCommand();
 		assertEquals(Rank.SERGEANT, field.getCell(2, 1).getCharacter().getRank());
 	}
 	
@@ -128,7 +128,7 @@ public class MoveTest extends TestCase {
 		sc.add(2, 1, Rank.SERGEANT);
 		sc.changeState();
 		
-		new Move(1, 1, 2, 1, sc).execute();
+		new MoveCommand(1, 1, 2, 1, sc).doCommand();
 		assertEquals(Rank.SERGEANT, field.getCell(2, 1).getCharacter().getRank());
 	}
 
@@ -139,7 +139,7 @@ public class MoveTest extends TestCase {
 		sc.add(2, 1, Rank.BOMB);
 		sc.changeState();
 		
-		new Move(1, 1, 2, 1, sc).execute();
+		new MoveCommand(1, 1, 2, 1, sc).doCommand();
 		assertEquals(Rank.MINER, field.getCell(2, 1).getCharacter().getRank());
 	}
 	
@@ -150,7 +150,7 @@ public class MoveTest extends TestCase {
 		sc.add(2, 1, Rank.MARSHAL);
 		sc.changeState();
 		
-		new Move(1, 1, 2, 1, sc).execute();
+		new MoveCommand(1, 1, 2, 1, sc).doCommand();
 		assertEquals(Rank.SPY, field.getCell(2, 1).getCharacter().getRank());
 	}
 	
@@ -161,15 +161,15 @@ public class MoveTest extends TestCase {
 		sc.add(2, 1, Rank.SPY);
 		sc.changeState();
 		
-		Move move = new Move(1, 1, 2, 1, sc);
-		move.execute();
+		MoveCommand move = new MoveCommand(1, 1, 2, 1, sc);
+		move.doCommand();
 		move.undoCommand();
 
 		assertEquals(Rank.SERGEANT, field.getCell(1, 1).getCharacter().getRank());
 		assertEquals(Rank.SPY, field.getCell(2, 1).getCharacter().getRank());
 		
-		move = new Move(1, 1, 1, 0, sc);
-		move.execute();
+		move = new MoveCommand(1, 1, 1, 0, sc);
+		move.doCommand();
 		move.undoCommand();
 		assertEquals(Rank.SERGEANT, field.getCell(1, 1).getCharacter().getRank());
 	}

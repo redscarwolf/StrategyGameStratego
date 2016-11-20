@@ -52,9 +52,9 @@ public class PlayerTest extends TestCase {
 	public void testContainsCharacter() {
 		player.addCharacter(new Bomb(player));
 		player.addCharacter(new Flag(player));
-		assertTrue(player.containsCharacter(Rank.BOMB));
+		assertTrue(player.hasCharacter(Rank.BOMB));
 		player.removeCharacter(player.getCharacter(Rank.FLAG));
-		assertFalse(player.containsCharacter(Rank.FLAG));
+		assertFalse(player.hasCharacter(Rank.FLAG));
 	}
 	
 	@Test

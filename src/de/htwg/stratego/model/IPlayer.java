@@ -12,7 +12,7 @@ public interface IPlayer {
 	boolean removeCharacter(ICharacter c);
 	ICharacter removeCharacter(int index);
 	ICharacter getCharacter(int rank);
-	boolean containsCharacter(int rank);
+	boolean hasCharacter(int rank);
 	Color getColor();
 	
 	void setName(String name);

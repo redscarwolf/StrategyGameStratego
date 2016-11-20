@@ -6,11 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.*;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 
 import de.htwg.stratego.controller.IStrategoController;
+import de.htwg.stratego.controller.rules.IRuleSystem;
+import de.htwg.stratego.controller.rules.impl.DefaultRuleSystem;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IField;
@@ -39,10 +41,12 @@ public class StrategoController extends Observable implements IStrategoControlle
 	private IPlayer[] player;
 	private int currentPlayer;
 
-	private String statusController = "Welcome to HTWG Stratego!";
+	private String statusMessage = "Welcome to HTWG Stratego!";
 	private GameState gameState;
 	
 	private UndoManager undoManager = new UndoManager();
+	
+	private IRuleSystem ruleSystem;
 	
 	private static final String[] CHARACTER_NAMES = {"Flag", "Spy", "Scout", "Miner", "Sergeant", 
 													"Lieutenant", "Captain", "Major", "Colonel",
@@ -61,7 +65,8 @@ public class StrategoController extends Observable implements IStrategoControlle
 		initPlayerCharecterList(getPlayerTwo());
 		
 		gameState = new PlayerStart(player[currentPlayer], this);
-
+		this.ruleSystem = new DefaultRuleSystem(field);
+		
 		this.field = field;
 		// some cells are not passable
 		field.getCell(2, 4).setPassable(false);
@@ -82,11 +87,10 @@ public class StrategoController extends Observable implements IStrategoControlle
 		setVisibilityOfAllCharacters(true);
 		for (int x = 0; x < field.getWidth(); x++) {
 			for (int y = 0; y < field.getHeight(); y++) {
-				remove(x, y, getPlayerOne());
-				remove(x, y, getPlayerTwo());
+				removeCharacterToPlayer(x, y);
 			}
 		}
-		statusController = "New Game";
+		statusMessage = "New Game";
 		undoManager.clear();
 		notifyObservers();
 	}
@@ -103,7 +107,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 	
 	@Override
 	public String getStatusString() {
-		return statusController;
+		return statusMessage;
 	}
 
 	public IPlayer[] getPlayer() {
@@ -269,7 +273,7 @@ public class StrategoController extends Observable implements IStrategoControlle
 	}
 
 	private void gameOver() {
-		statusController = "GAME OVER!";
+		statusMessage = "GAME OVER!";
 		setState(new PlayerWinner(nextChangePlayer()));
 		setVisibilityOfAllCharacters(true);
 	}
@@ -278,149 +282,95 @@ public class StrategoController extends Observable implements IStrategoControlle
 	public void undo() {
 		undoManager.undoCommand();
 		toggleVisibilityOfCharacters(getCurrentPlayer(), true);
-		statusController = "Undo.";
+		statusMessage = "Undo.";
 		notifyObservers();
 	}
 	
-	@Override
-	public boolean move(int fromX, int fromY, int toX, int toY) {
-		if (!isMoveAllowed()) {
-			statusController = "Moving of Characters is not allowed.";
-			notifyObservers();
-			return false;
-		} else {
-			Move move = new Move(fromX, fromY, toX, toY, this);
-			boolean moveSuccess = move.execute();
-			if (moveSuccess) {
-				undoManager.doCommand(move);
-				changeState();
-				statusController = move.getMoveStatusString();
-				if (lost(getCurrentPlayer())) {
-					gameOver();
-				}
-				notifyObservers();
-				return true; 
-			} else {
-				statusController = "Your move was not possible. Try again.";
-				notifyObservers();
-				return false;
-			}
-		}
-	}
-
 	public boolean lost(IPlayer player) {
-		return player.containsCharacter(Rank.FLAG);
+		return player.hasCharacter(Rank.FLAG);
 	}
 
 	@Override
 	public boolean add(int x, int y, int rank) {
-		if (!isAddAllowed()) {
-			statusController = "Add is not allowed";
-			notifyObservers();
-			return false;
+		boolean result;
+		IPlayer player = getCurrentPlayer();
+		
+		if (ruleSystem.verifyAdd(x, y, rank, player, getGameState())) {
+			undoManager.doCommand(new AddCommand(field.getCell(x, y), player, player.getCharacter(rank), this));
+			statusMessage = "Added character <" + nameOfCharacter(rank) + "> to " + x + "," + y + ".";
+			result = true;
+		} else {
+			statusMessage = ruleSystem.message();
+			result = false;
 		}
 		
-		IPlayer p = getCurrentPlayer();
-		ICharacter character = p.getCharacter(rank);
-		if (character == null) {
-			statusController = "all Characters of type <" + rank + "> are on the field.";
-			notifyObservers();
-			return false;
-		}
-
-		ICell cell = field.getCell(x, y);
-		if (cell.containsCharacter()) {
-			// field already has a char
-			statusController = "field already has a char";
-			notifyObservers();
-			return false;
-		}
-
-		if (!cell.isPassable()) {
-			statusController = "cell (" + x + "," + y + ") is not passable";
-			notifyObservers();
-			return false;
-		}
-
-		undoManager.doCommand(new AddCommand(cell, p, character, this));
-		statusController = "added Character <<" + character.getRank() + ">> to (" + x + "," + y + ")";
 		notifyObservers();
-		return true;
+		return result;
 	}
 	
 	@Override
 	public boolean swap(int x1, int y1, int x2, int y2) {
-		if (!isSwapAllowed()) {
-			statusController = "Swap is not allowed";
-			notifyObservers();
-			return false;
+		boolean result;
+		
+		if (ruleSystem.verifySwap(x1, y1, x2, y2, getCurrentPlayer(), getGameState())) {
+			undoManager.doCommand(new SwapCommand(field.getCell(x1, y1), field.getCell(x2, y2), this));
+			statusMessage = "Swaped characters from " + x1 + "," + y1 + " to" + x2 + "," + y2 + ".";
+			result = true;
+		} else {
+			statusMessage = ruleSystem.message();
+			result = false;
 		}
 		
-		ICell cell1 = field.getCell(x1, y1);
-		ICell cell2 = field.getCell(x2, y2);
-		
-		if (!(cell1.containsCharacter())) {
-			statusController = "There is no character to swap.";
-			notifyObservers();
-			return false;
-		}
-		
-		if (cell1 == cell2) {
-			statusController = "Swap not possible. Selected cells are equal.";
-			notifyObservers();
-			return false;
-		}
-		
-		if (!(cell1.getCharacter().belongsTo(getCurrentPlayer()))) {
-			statusController = "Selected character does not belong to you.";
-			notifyObservers();
-			return false;
-		}
-		
-		if (cell2.containsCharacter()) {
-			if (!(cell2.getCharacter().belongsTo(getCurrentPlayer()))) {
-				statusController = "Second character does not belong to you.";
-				notifyObservers();
-				return false;
-			}
-		}
-		
-		undoManager.doCommand(new SwapCommand(cell1, cell2, this));
-		statusController = "swaped Characters <<" + cell1.getX() + "," + cell1.getY() + ">> and <<" + 
-								cell2.getX() + "," + cell2.getY() + ">>";
 		notifyObservers();
-		return true;
+		return result;
 	}
 
 	@Override
-	public boolean removeNotify(int x, int y) {
-		if (!isRemoveAllowed()) {
-			statusController = "remove is not allowed.";
-			notifyObservers();
-			return false;
-		}
-		remove(x, y);
-		notifyObservers();
-		return true;
-	}
-
-	public void remove(int x, int y) {
-		remove(x, y, getCurrentPlayer());
-	}
-
-	public void remove(int x, int y, IPlayer player) {
-		ICell cell = field.getCell(x, y);
-		ICharacter character = field.getCell(x, y).getCharacter();
-		if (cell.containsCharacter() && character.belongsTo(player)) {
-			undoManager.doCommand(new RemoveCommand(cell, player, character, this));
+	public boolean remove(int x, int y) {
+		boolean result;
+		
+		if (ruleSystem.verifyRemove(x, y, getCurrentPlayer(), getGameState())) {
+			undoManager.doCommand(new RemoveCommand(field.getCell(x, y), this));
+			statusMessage = "Removed character from " + x + "," + y + ".";
+			result = true;
 		} else {
-			statusController = "There is no character or "
-					+ "you are not allowed to remove this character.";
-			return;
+			statusMessage = ruleSystem.message();
+			result = false;
 		}
-		statusController = "removed Character from (" + x + "," + y + ")";
+		
+		notifyObservers();
+		return result;
 	}
+	
+	public void removeCharacterToPlayer(int x, int y) {
+		if (containsCharacter(x, y)) {
+			ICharacter character = field.getCell(x, y).removeCharacter();
+			character.getPlayer().addCharacter(character);
+		}
+	}
+	
+	@Override
+	public boolean move(int fromX, int fromY, int toX, int toY) {
+		boolean result;
+		
+		if (ruleSystem.verifyMove(fromX, fromY, toX, toY, getCurrentPlayer(), getGameState())) {
+			MoveCommand moveCommand = new MoveCommand(fromX, fromY, toX, toY, this);
+			undoManager.doCommand(moveCommand);
+			changeState();
+			statusMessage = moveCommand.getMoveStatusString();
+			if (lost(getCurrentPlayer())) {
+				gameOver();
+			}
+			result = true;
+		} else {
+			statusMessage = ruleSystem.message();
+			result = false;
+		}
 
+		notifyObservers();
+		return result;
+	}
+	
 	public void toggleVisibilityOfCharacters(IPlayer player, boolean visible) {
 		for (int y = 0; y < field.getHeight(); y++) {
 			for (int x = 0; x < field.getWidth(); x++) {
