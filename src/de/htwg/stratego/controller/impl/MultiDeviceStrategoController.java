@@ -17,7 +17,9 @@ public class MultiDeviceStrategoController extends AbstractStrategoController im
     public boolean move(int fromX, int fromY, int toX, int toY, IPlayer player) {
         if (player == getCurrentPlayer()) {
             boolean isMoveSuccessful = super.move(fromX, fromY, toX, toY, player);
-            changeState();
+            if (isMoveSuccessful) {
+                changeState();
+            }
             notifyObservers();
             return isMoveSuccessful;
         } else {
