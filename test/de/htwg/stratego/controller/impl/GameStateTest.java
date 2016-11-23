@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 public class GameStateTest extends TestCase {
 
-	private StrategoController sc;
+	private SingleDeviceStrategoController sc;
 
 	private GameState playerStart;
 	private GameState playerTurn;
@@ -18,7 +18,7 @@ public class GameStateTest extends TestCase {
 
 	@BeforeClass
 	public void setUp() {
-		sc = new StrategoController(new Field(10, 10), new PlayerFactory());
+		sc = new SingleDeviceStrategoController(new Field(10, 10), new PlayerFactory());
 
 		playerStart = new PlayerStart(sc.getCurrentPlayer(), sc);
 		playerTransfer = new PlayerTransfer(sc.getCurrentPlayer(), sc);

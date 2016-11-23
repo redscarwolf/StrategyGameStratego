@@ -11,14 +11,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import de.htwg.stratego.controller.IStrategoController;
+import de.htwg.stratego.controller.ISingelDeviceStrategoController;
 import de.htwg.stratego.util.observer.Event;
 import de.htwg.stratego.util.observer.IObserver;
 
 public class StrategoFrame extends JFrame implements IObserver {
 	private static final long serialVersionUID = 1L;
 
-	private IStrategoController sc;
+	private ISingelDeviceStrategoController sc;
 
 	private FieldPanel fieldPanel;
 	private CharacterInfoPanel characterInfoPanel;
@@ -31,7 +31,7 @@ public class StrategoFrame extends JFrame implements IObserver {
 	private JMenuItem undoMenuItem;
 	private JMenuItem exitMenuItem;
 	
-	public StrategoFrame(final IStrategoController sc) {
+	public StrategoFrame(final ISingelDeviceStrategoController sc) {
 		this.sc = sc;
 		sc.addObserver(this);
 		

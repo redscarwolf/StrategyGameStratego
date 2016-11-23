@@ -12,13 +12,13 @@ import junit.framework.TestCase;
 
 public class MoveTest extends TestCase {
 
-	private StrategoController sc;
+	private SingleDeviceStrategoController sc;
 	private Field field;
 	
 	@Before
 	public void setUp() {
 		field = new Field(10, 10);
-		sc = new StrategoController(field, new PlayerFactory());
+		sc = new SingleDeviceStrategoController(field, new PlayerFactory());
 	}
 	
 	@Test

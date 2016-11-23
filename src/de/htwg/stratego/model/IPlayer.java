@@ -17,4 +17,6 @@ public interface IPlayer {
 	
 	void setName(String name);
 	String getName();
+	boolean hasSetupFinished();
+	void setSetupFinished(boolean setupFinished);
 }

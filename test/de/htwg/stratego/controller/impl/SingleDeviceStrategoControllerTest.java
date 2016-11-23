@@ -12,8 +12,8 @@ import de.htwg.stratego.model.impl.PlayerFactory;
 import de.htwg.stratego.model.impl.Rank;
 import junit.framework.TestCase;
 
-public class StrategoControllerTest extends TestCase {
-	private StrategoController sc;
+public class SingleDeviceStrategoControllerTest extends TestCase {
+	private SingleDeviceStrategoController sc;
 	private IField field;
 
 	private IPlayer playerOne;
@@ -26,7 +26,7 @@ public class StrategoControllerTest extends TestCase {
 
 	@BeforeClass
 	public void setUp() {
-		sc = new StrategoController(new Field(10, 10), new PlayerFactory());
+		sc = new SingleDeviceStrategoController(new Field(10, 10), new PlayerFactory());
 		field = sc.getIField();
 
 		playerOne = sc.getPlayer()[0];
@@ -252,10 +252,10 @@ public class StrategoControllerTest extends TestCase {
 	}
 	
 	@Test
-	public void testChangeStateNotify() {
+	public void testFinished() {
 		sc.setState(playerOneStart);
 		sc.setCurrentPlayer(0);
-		sc.changeStateNotify();
+		sc.finish();
 		assertTrue(sc.getGameState() instanceof PlayerStart);
 	}
 	

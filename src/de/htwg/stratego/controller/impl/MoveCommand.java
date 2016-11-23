@@ -11,11 +11,11 @@ public class MoveCommand implements Command {
 	private ICell toCell;
 	private ICharacter fromCharacter;
 	private ICharacter toCharacter;
-	private StrategoController sc;
+	private AbstractStrategoController sc;
 	private GameState oldGameState;
 	private String statusMove = "Your move was not possible. Try again.";
 
-	public MoveCommand(int fromX, int fromY, int toX, int toY, StrategoController sc) {
+	public MoveCommand(int fromX, int fromY, int toX, int toY, AbstractStrategoController sc) {
 		this.sc = sc;
 		fromCell = sc.getIField().getCell(fromX, fromY);
 		toCell = sc.getIField().getCell(toX, toY);

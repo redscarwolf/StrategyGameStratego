@@ -3,7 +3,8 @@ package de.htwg.stratego;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 
-import de.htwg.stratego.controller.IStrategoController;
+import de.htwg.stratego.controller.IMultiDeviceStrategoController;
+import de.htwg.stratego.controller.ISingelDeviceStrategoController;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayerFactory;
 
@@ -13,9 +14,11 @@ public class StrategoModule extends AbstractModule {
 	
 	@Override
 	protected void configure() {
-		// IStrategoController
-		bind(IStrategoController.class)
-		.to(de.htwg.stratego.controller.impl.StrategoController.class);
+		bind(ISingelDeviceStrategoController.class)
+		.to(de.htwg.stratego.controller.impl.SingleDeviceStrategoController.class);
+
+		bind(IMultiDeviceStrategoController.class)
+				.to(de.htwg.stratego.controller.impl.MultiDeviceStrategoController.class);
 		
 		// IField
 		bind(Integer.class)

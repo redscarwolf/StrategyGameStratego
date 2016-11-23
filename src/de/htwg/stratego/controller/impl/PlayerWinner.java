@@ -29,7 +29,12 @@ public class PlayerWinner implements GameState {
 	public boolean isRemoveAllowed() {
 		return false;
 	}
-	
+
+	@Override
+	public boolean isFinishAllowed() {
+		return false;
+	}
+
 	@Override
 	public String toStringPlayerStatus() {
 		return "Player " + player + " won!";

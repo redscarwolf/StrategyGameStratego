@@ -8,12 +8,6 @@ public interface IStrategoController extends IObservable {
 
 	void reset();
 	void undo();
-	boolean add(int x, int y, int rank);
-	boolean swap(int x1, int y1, int x2, int y2);
-	boolean remove(int x, int y);
-	boolean move(int fromX, int fromY, int toX, int toY);
-	void changeStateNotify();
-
 	String getStatusString();
 	String getFieldString();
 	String getPlayerStatusString();
@@ -26,7 +20,7 @@ public interface IStrategoController extends IObservable {
 	IPlayer getCurrentPlayer();
 	IPlayer getPlayerOne();
 	IPlayer getPlayerTwo();
-	String toJson();
+
 	
 	int numberOfCharactersOnField(int rank, IPlayer player);
 	boolean containsCharacter(int x, int y);

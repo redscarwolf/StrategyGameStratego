@@ -25,6 +25,11 @@ public class DefaultSwapRule extends AbstractRule {
 			message = "Swap is not allowed.";
 			return false;
 		}
+
+		if (player.hasSetupFinished()) {
+			message = "Please wait the other Player isn't finished with setup.";
+			return false;
+		}
 		
 		if (!(fromCell.containsCharacter())) {
 			message = "There is no character to swap.";

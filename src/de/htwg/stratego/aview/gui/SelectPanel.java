@@ -8,19 +8,19 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import de.htwg.stratego.controller.IStrategoController;
+import de.htwg.stratego.controller.ISingelDeviceStrategoController;
 
 public class SelectPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private IStrategoController sc;
+	private ISingelDeviceStrategoController sc;
 	private String[] strSelectCharacterRank = {"Flag","Spy","Scout","Miner",
 			"Sergeant","Lieutenant","Captain","Major","Colonel","General","Marshal","Bomb"};
 	private String[] strSelectMethod = {"add","remove","move"};
 	private JComboBox<String> selectCharRankComboBox;
 	private JComboBox<String> selectMethodComboBox;
 	
-	public SelectPanel(IStrategoController sc) {
+	public SelectPanel(ISingelDeviceStrategoController sc) {
 		this.sc = sc;
 		setBackground(Color.BLUE);
 		
@@ -47,9 +47,6 @@ public class SelectPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		sc.changeStateNotify();
+		sc.finish();
 	}
-	
-	
-	
 }

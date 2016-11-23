@@ -8,10 +8,10 @@ public class SwapCommand implements Command {
 
 	private ICell cell1;
 	private ICell cell2;
-	private StrategoController sc;
+	private AbstractStrategoController sc;
 	private GameState oldGameState;
 
-	public SwapCommand(ICell cell1, ICell cell2, StrategoController sc) {
+	public SwapCommand(ICell cell1, ICell cell2, AbstractStrategoController sc) {
 		this.cell1 = cell1;
 		this.cell2 = cell2;
 		this.sc = sc;

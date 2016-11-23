@@ -4,10 +4,10 @@ import de.htwg.stratego.model.IPlayer;
 
 public class PlayerTransfer implements GameState {
 	
-	private StrategoController sc;
+	private AbstractStrategoController sc;
 	private IPlayer player;
 	
-	public PlayerTransfer(IPlayer player, StrategoController sc) {
+	public PlayerTransfer(IPlayer player, AbstractStrategoController sc) {
 		this.sc = sc;
 		this.player = player;
 	}
@@ -30,6 +30,11 @@ public class PlayerTransfer implements GameState {
 	@Override
 	public boolean isRemoveAllowed() {
 		return false;
+	}
+
+	@Override
+	public boolean isFinishAllowed() {
+		return true;
 	}
 
 	@Override

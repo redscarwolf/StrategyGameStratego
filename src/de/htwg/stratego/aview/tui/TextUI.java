@@ -2,19 +2,19 @@ package de.htwg.stratego.aview.tui;
 
 import java.util.regex.Pattern;
 
+import de.htwg.stratego.controller.ISingelDeviceStrategoController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.util.observer.Event;
 import de.htwg.stratego.util.observer.IObserver;
 
 public class TextUI implements IObserver {
 
-	private IStrategoController sc;
+	private ISingelDeviceStrategoController sc;
 	private Logger logger = LogManager.getLogger(TextUI.class.getName());
 
-	public TextUI(IStrategoController sc) {
+	public TextUI(ISingelDeviceStrategoController sc) {
 		this.sc = sc;
 		sc.addObserver(this);
 	}
@@ -43,7 +43,7 @@ public class TextUI implements IObserver {
 			printHelp();
 			break;
 		case "f":
-			sc.changeStateNotify();
+			sc.finish();
 			break;
 		case "a":
 			sc.add(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]),

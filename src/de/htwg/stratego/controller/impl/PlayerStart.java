@@ -4,10 +4,10 @@ import de.htwg.stratego.model.IPlayer;
 
 public class PlayerStart implements GameState {
 
-	private StrategoController sc;
+	private AbstractStrategoController sc;
 	private IPlayer player;
 	
-	public PlayerStart(IPlayer player, StrategoController sc) {
+	public PlayerStart(IPlayer player, AbstractStrategoController sc) {
 		this.sc = sc;
 		this.player = player;
 	}
@@ -31,7 +31,12 @@ public class PlayerStart implements GameState {
 	public boolean isRemoveAllowed() {
 		return true;
 	}
-	
+
+	@Override
+	public boolean isFinishAllowed() {
+		return true;
+	}
+
 	@Override
 	public String toStringPlayerStatus() {
 		return "Set your characters, player " + player + "!";

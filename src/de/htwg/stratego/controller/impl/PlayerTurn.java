@@ -4,10 +4,10 @@ import de.htwg.stratego.model.IPlayer;
 
 public class PlayerTurn implements GameState {
 
-	private StrategoController sc;
+	private AbstractStrategoController sc;
 	private IPlayer player;
 	
-	public PlayerTurn(IPlayer player, StrategoController sc) {
+	public PlayerTurn(IPlayer player, AbstractStrategoController sc) {
 		this.sc = sc;
 		this.player = player;
 	}
@@ -31,7 +31,12 @@ public class PlayerTurn implements GameState {
 	public boolean isRemoveAllowed() {
 		return false;
 	}
-	
+
+	@Override
+	public boolean isFinishAllowed() {
+		return false;
+	}
+
 	@Override
 	public String toStringPlayerStatus() {
 		return "It's your turn, player " + player + "!";

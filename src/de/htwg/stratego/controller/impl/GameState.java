@@ -8,7 +8,8 @@ public interface GameState {
 	boolean isAddAllowed();
 	boolean isSwapAllowed();
 	boolean isRemoveAllowed();
-	
+	boolean isFinishAllowed();
+
 	String getName();
 	
 	String toStringPlayerStatus();

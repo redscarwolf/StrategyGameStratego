@@ -25,7 +25,12 @@ public class DefaultAddRule extends AbstractRule {
 			message = "Add is not allowed.";
 			return false;
 		}
-		
+
+		if (player.hasSetupFinished()) {
+			message = "Please wait the other Player isn't finished with setup.";
+			return false;
+		}
+
 		if (!player.hasCharacter(rank)) {
 			message = "All characters of type <" + rank + "> are on the field.";
 			return false;

@@ -10,11 +10,11 @@ import junit.framework.TestCase;
 
 public class AddCommandTest extends TestCase {
 
-	private StrategoController sc;
+	private SingleDeviceStrategoController sc;
 	
 	@Before
 	public void setUp() {
-		sc = new StrategoController(new Field(10, 10), new PlayerFactory());
+		sc = new SingleDeviceStrategoController(new Field(10, 10), new PlayerFactory());
 	}
 
 	@Test

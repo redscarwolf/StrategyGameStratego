@@ -23,6 +23,11 @@ public class DefaultRemoveRule extends AbstractRule {
 			message = "Remove is not allowed.";
 			return false;
 		}
+
+		if (player.hasSetupFinished()) {
+			message = "Please wait the other Player isn't finished with setup.";
+			return false;
+		}
 		
 		if (!cell.containsCharacter()) {
 			message = "There is no character to remove.";

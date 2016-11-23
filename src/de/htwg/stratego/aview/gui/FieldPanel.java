@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import de.htwg.stratego.controller.IStrategoController;
+import de.htwg.stratego.controller.ISingelDeviceStrategoController;
 
 public class FieldPanel extends JPanel implements MouseListener {
 
@@ -20,13 +20,13 @@ public class FieldPanel extends JPanel implements MouseListener {
 	
 	private static final int WIDTH_DEFAULT = 400;
 	private static final int HEIGHT_DEFAULT = 400;
-	private IStrategoController sc;
+	private ISingelDeviceStrategoController sc;
 	private SelectPanel selectPanel;
 	private boolean isFirstClick = true;
 	private int fromX;
 	private int fromY;
 	
-	public FieldPanel(IStrategoController sc, SelectPanel selectPanel) {
+	public FieldPanel(ISingelDeviceStrategoController sc, SelectPanel selectPanel) {
 		this.sc = sc;
 		this.selectPanel = selectPanel;
 		int rows = sc.getFieldWidth();
@@ -50,7 +50,7 @@ public class FieldPanel extends JPanel implements MouseListener {
 	private void transferPane(boolean moveSuccessful) {
 		JOptionPane.showMessageDialog(this, sc.getStatusString());
 		if (moveSuccessful) {
-			sc.changeStateNotify();
+			sc.finish();
 		}
 	}
 	

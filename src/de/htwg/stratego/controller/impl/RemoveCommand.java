@@ -10,10 +10,10 @@ public class RemoveCommand implements Command {
 	private ICell cell;
 	private IPlayer player;
 	private ICharacter character;
-	private StrategoController sc;
+	private AbstractStrategoController sc;
 	private GameState oldGameState;
 	
-	public RemoveCommand(ICell cell, StrategoController sc) {
+	public RemoveCommand(ICell cell, AbstractStrategoController sc) {
 		this.cell = cell;
 		this.character = cell.getCharacter();
 		this.player = character.getPlayer();

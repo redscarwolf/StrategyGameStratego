@@ -7,6 +7,7 @@ import com.google.inject.Injector;
 
 import de.htwg.stratego.aview.gui.StrategoFrame;
 import de.htwg.stratego.aview.tui.TextUI;
+import de.htwg.stratego.controller.ISingelDeviceStrategoController;
 import de.htwg.stratego.controller.IStrategoController;
 
 public final class StrategoApp {
@@ -15,16 +16,16 @@ public final class StrategoApp {
 	private static TextUI tui;
 	@SuppressWarnings("unused")
 	private static  StrategoFrame gui;
-	private static IStrategoController sc;
+	private static ISingelDeviceStrategoController sc;
 	private static StrategoApp instance = null;
 	
 	private StrategoApp() {
 		// Set up Google Guice Dependency Injector
 		Injector injector = Guice.createInjector(new StrategoModule());
-		sc = injector.getInstance(IStrategoController.class);
+		sc = injector.getInstance(ISingelDeviceStrategoController.class);
 	
 		tui = new TextUI(sc);
-		// gui = new StrategoFrame(sc);
+		gui = new StrategoFrame(sc);
 	}
 	
 	public static void main(String[] args) {
@@ -47,8 +48,8 @@ public final class StrategoApp {
 	public TextUI getTui() {
 		return tui;
 	}
-	
-	public IStrategoController getIStrategoController() {
+
+	public ISingelDeviceStrategoController getIStrategoController() {
 		return sc;
 	}
 }

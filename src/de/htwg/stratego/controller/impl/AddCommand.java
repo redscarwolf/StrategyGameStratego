@@ -10,10 +10,10 @@ public class AddCommand implements Command {
 	private ICell cell;
 	private IPlayer player;
 	private ICharacter character;
-	private StrategoController sc;
+	private AbstractStrategoController sc;
 	private GameState oldGameState;
 
-	public AddCommand(ICell cell, IPlayer player, ICharacter character, StrategoController sc) {
+	public AddCommand(ICell cell, IPlayer player, ICharacter character, AbstractStrategoController sc) {
 		this.cell = cell;
 		this.player = player;
 		this.character = character;

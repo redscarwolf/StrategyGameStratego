@@ -16,6 +16,7 @@ public class Player implements IPlayer {
 	private String symbol;
 	private Color color;
 	private String name;
+	private boolean setupFinished;
 	
 	public Player() {
 		this("noname", "?", Color.PINK);
@@ -96,4 +97,11 @@ public class Player implements IPlayer {
 		return getCharacter(rank) != null;
 	}
 
+	public boolean hasSetupFinished() {
+		return setupFinished;
+	}
+
+	public void setSetupFinished(boolean setupFinished) {
+		this.setupFinished = setupFinished;
+	}
 }
