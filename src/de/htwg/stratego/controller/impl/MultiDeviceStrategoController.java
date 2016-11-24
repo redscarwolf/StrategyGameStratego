@@ -41,4 +41,10 @@ public class MultiDeviceStrategoController extends AbstractStrategoController im
         }
         return false;
     }
+    
+    @Override
+    public String toJson(IPlayer player) {
+    	toggleVisibilityOfCharacters(player, true);
+    	return super.toJson(player);
+    }
 }

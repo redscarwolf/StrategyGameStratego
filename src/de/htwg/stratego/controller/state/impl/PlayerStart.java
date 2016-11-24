@@ -1,5 +1,7 @@
-package de.htwg.stratego.controller.impl;
+package de.htwg.stratego.controller.state.impl;
 
+import de.htwg.stratego.controller.impl.AbstractStrategoController;
+import de.htwg.stratego.controller.state.GameState;
 import de.htwg.stratego.model.IPlayer;
 
 public class PlayerStart implements GameState {
@@ -39,7 +41,7 @@ public class PlayerStart implements GameState {
 
 	@Override
 	public String toStringPlayerStatus() {
-		return "Set your characters, player " + player + "!";
+		return "Set your characters, player " + player.getName() + "!";
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package de.htwg.stratego.controller.rules;
 
-import de.htwg.stratego.controller.impl.GameState;
+import de.htwg.stratego.controller.state.GameState;
 import de.htwg.stratego.model.IPlayer;
 
 public interface IRuleSystem {

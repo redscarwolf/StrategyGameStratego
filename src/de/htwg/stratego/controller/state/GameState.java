@@ -1,4 +1,4 @@
-package de.htwg.stratego.controller.impl;
+package de.htwg.stratego.controller.state;
 
 public interface GameState {
 

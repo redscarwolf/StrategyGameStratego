@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.htwg.stratego.controller.rules.impl.DefaultMoveRule;
+import de.htwg.stratego.controller.state.impl.PlayerStart;
+import de.htwg.stratego.controller.state.impl.PlayerTurn;
 import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.PlayerFactory;
 //erstellt nur eine Klasse und verwendet diese weiter

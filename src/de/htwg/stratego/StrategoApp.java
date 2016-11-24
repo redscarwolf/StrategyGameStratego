@@ -8,7 +8,6 @@ import com.google.inject.Injector;
 import de.htwg.stratego.aview.gui.StrategoFrame;
 import de.htwg.stratego.aview.tui.TextUI;
 import de.htwg.stratego.controller.ISingelDeviceStrategoController;
-import de.htwg.stratego.controller.IStrategoController;
 
 public final class StrategoApp {
 

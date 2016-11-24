@@ -1,5 +1,7 @@
-package de.htwg.stratego.controller.impl;
+package de.htwg.stratego.controller.state.impl;
 
+import de.htwg.stratego.controller.impl.AbstractStrategoController;
+import de.htwg.stratego.controller.state.GameState;
 import de.htwg.stratego.model.IPlayer;
 
 public class PlayerTransfer implements GameState {
@@ -39,7 +41,7 @@ public class PlayerTransfer implements GameState {
 
 	@Override
 	public String toStringPlayerStatus() {
-		return player + " please press Button to continue.";
+		return player.getName() + " please press Button to continue.";
 	}
 
 	@Override

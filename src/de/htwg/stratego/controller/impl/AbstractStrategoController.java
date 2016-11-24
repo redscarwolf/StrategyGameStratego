@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.htwg.stratego.controller.IStrategoController;
 import de.htwg.stratego.controller.rules.IRuleSystem;
 import de.htwg.stratego.controller.rules.impl.DefaultRuleSystem;
+import de.htwg.stratego.controller.state.GameState;
+import de.htwg.stratego.controller.state.impl.PlayerStart;
+import de.htwg.stratego.controller.state.impl.PlayerWinner;
 import de.htwg.stratego.model.*;
 import de.htwg.stratego.model.impl.Rank;
 import de.htwg.stratego.model.impl.character.*;
@@ -357,7 +360,6 @@ public abstract class AbstractStrategoController extends Observable implements I
     }
 
     public String toJson(IPlayer player) {
-        toggleVisibilityOfCharacters(player, true);
         String result= "";
 
         HashMap<String, Object> selectJson = new HashMap<>();

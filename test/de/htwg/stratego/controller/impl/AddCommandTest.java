@@ -3,6 +3,7 @@ package de.htwg.stratego.controller.impl;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.htwg.stratego.controller.state.impl.PlayerStart;
 import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.PlayerFactory;
 import de.htwg.stratego.model.impl.Rank;

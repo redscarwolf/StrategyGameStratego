@@ -3,6 +3,9 @@ package de.htwg.stratego.controller.impl;
 import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese weiter
 import org.junit.Test;
 
+import de.htwg.stratego.controller.state.GameState;
+import de.htwg.stratego.controller.state.impl.PlayerStart;
+import de.htwg.stratego.controller.state.impl.PlayerTurn;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IField;

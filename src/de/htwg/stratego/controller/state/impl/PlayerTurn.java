@@ -1,5 +1,7 @@
-package de.htwg.stratego.controller.impl;
+package de.htwg.stratego.controller.state.impl;
 
+import de.htwg.stratego.controller.impl.AbstractStrategoController;
+import de.htwg.stratego.controller.state.GameState;
 import de.htwg.stratego.model.IPlayer;
 
 public class PlayerTurn implements GameState {
@@ -39,7 +41,7 @@ public class PlayerTurn implements GameState {
 
 	@Override
 	public String toStringPlayerStatus() {
-		return "It's your turn, player " + player + "!";
+		return "It's your turn, player " + player.getName() + "!";
 	}
 
 	@Override

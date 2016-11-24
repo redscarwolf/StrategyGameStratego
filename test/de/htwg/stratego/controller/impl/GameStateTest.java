@@ -3,6 +3,11 @@ package de.htwg.stratego.controller.impl;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.htwg.stratego.controller.state.GameState;
+import de.htwg.stratego.controller.state.impl.PlayerStart;
+import de.htwg.stratego.controller.state.impl.PlayerTransfer;
+import de.htwg.stratego.controller.state.impl.PlayerTurn;
+import de.htwg.stratego.controller.state.impl.PlayerWinner;
 import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.PlayerFactory;
 import junit.framework.TestCase;
@@ -52,10 +57,10 @@ public class GameStateTest extends TestCase {
 
 	@Test
 	public void testToStringPlayerStatus() {
-		assertEquals(playerStart.toStringPlayerStatus(), "Set your characters, player " + sc.getCurrentPlayer() + "!");
-		assertEquals(playerTransfer.toStringPlayerStatus(), sc.getCurrentPlayer() + " please press Button to continue.");
-		assertEquals(playerTurn.toStringPlayerStatus(), "It's your turn, player " + sc.getCurrentPlayer() + "!");
-		assertEquals(playerWinner.toStringPlayerStatus(), "Player " + sc.getCurrentPlayer() + " won!");
+		assertEquals(playerStart.toStringPlayerStatus(), "Set your characters, player " + sc.getCurrentPlayer().getName() + "!");
+		assertEquals(playerTransfer.toStringPlayerStatus(), sc.getCurrentPlayer().getName() + " please press Button to continue.");
+		assertEquals(playerTurn.toStringPlayerStatus(), "It's your turn, player " + sc.getCurrentPlayer().getName() + "!");
+		assertEquals(playerWinner.toStringPlayerStatus(), "Player " + sc.getCurrentPlayer().getName() + " won!");
 	}
 
 	@Test

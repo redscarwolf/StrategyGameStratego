@@ -1,5 +1,6 @@
 package de.htwg.stratego.controller.impl;
 
+import de.htwg.stratego.controller.state.impl.PlayerTurn;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.model.impl.Field;

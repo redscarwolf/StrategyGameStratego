@@ -1,5 +1,6 @@
 package de.htwg.stratego.controller.impl;
 
+import de.htwg.stratego.controller.state.GameState;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.impl.Rank;
