@@ -98,11 +98,6 @@ public class CharacterTest extends TestCase {
 	}
 	
 	@Test
-	public void testgetColor() {
-		assertEquals(playerOne.getColor(), flag.getColor());
-	}
-	
-	@Test
 	public void testgetImage() {
 		assertEquals(flag.getImage(), flag.getImage());
 	}

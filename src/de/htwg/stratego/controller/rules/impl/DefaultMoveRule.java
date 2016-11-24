@@ -36,31 +36,37 @@ public class DefaultMoveRule extends AbstractRule {
 		
 		// does selected cell contain a character
 		if (fromCharacter == null) {
+			message = "Selected cell contains no character.";
 			return false;
 		}
 
 		// is Char moveable
 		if (!fromCharacter.isMoveable()) {
+			message = "Selected character is not moveable.";
 			return false;
 		}
 
 		// is character a char of the player
 		if (!fromCharacter.belongsTo(player)) {
+			message = "Selected character does not belong to you.";
 			return false;
 		}
 
 		// isCell passable
 		if (!toCell.isPassable()) {
+			message = "Selected cell is not passable.";
 			return false;
 		}
 
 		// correct range of move
 		if (fromCharacter.getRank() == Rank.SCOUT) {
 			if (!correctScoutMove()) {
+				message = "Illegal move with scout.";
 				return false;
 			}
 		} else {
 			if (!correctNormalMove()) {
+				message = "Illegal move.";
 				return false;
 			}
 		}
@@ -70,6 +76,7 @@ public class DefaultMoveRule extends AbstractRule {
 		// fromCharacter.getPlayer()
 		if (toCharacter != null)
 			if (toCharacter.getPlayer() == fromCharacter.getPlayer()) {
+				message = "You can not fight with your own character.";
 				return false;
 			}
 		

@@ -30,14 +30,14 @@ public class MoveTest extends TestCase {
 	
 	@Test
 	public void testCharacterIsNotMoveable() {
-		sc.add(0, 0, Rank.FLAG);
+		sc.addWithoutRule(0, 0, Rank.FLAG);
 		assertFalse(new DefaultMoveRule(0, 0, 0, 1, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 	}
 	
 	@Test
 	public void testCharacterBelongsNotToCurrentPlayer() {
 		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
-		sc.add(0, 0, Rank.SCOUT);
+		sc.addWithoutRule(0, 0, Rank.SCOUT);
 		sc.setState(new PlayerTurn(sc.nextChangePlayer(), sc));
 		assertFalse(new DefaultMoveRule(0, 0, 0, 1, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 	}
@@ -45,7 +45,7 @@ public class MoveTest extends TestCase {
 	@Test
 	public void testCellIsNotPassable() {
 		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
-		sc.add(1, 4, Rank.SCOUT);
+		sc.addWithoutRule(1, 4, Rank.SCOUT);
 		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
 		assertFalse(new DefaultMoveRule(1, 4, 2, 4, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
 	}
@@ -53,10 +53,10 @@ public class MoveTest extends TestCase {
 	@Test
 	public void testCorrectScoutMove() {
 		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
-		sc.add(1, 4, Rank.SCOUT);
-		sc.add(2, 2, Rank.SCOUT);
-		sc.add(1, 6, Rank.MINER);
-		sc.add(4, 2, Rank.MINER);
+		sc.addWithoutRule(1, 4, Rank.SCOUT);
+		sc.addWithoutRule(2, 2, Rank.SCOUT);
+		sc.addWithoutRule(1, 6, Rank.MINER);
+		sc.addWithoutRule(4, 2, Rank.MINER);
 		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
 		
 		// illegal range of move
@@ -77,7 +77,7 @@ public class MoveTest extends TestCase {
 	@Test
 	public void testCorrectNormalMove() {
 		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
-		sc.add(1, 1, Rank.SERGEANT);
+		sc.addWithoutRule(1, 1, Rank.SERGEANT);
 		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
 		
 		// illegal range of move
@@ -93,8 +93,8 @@ public class MoveTest extends TestCase {
 	@Test
 	public void testToCharacterBelongsToCurrentPlayer() {
 		sc.setState(new PlayerStart(sc.getCurrentPlayer(), sc));
-		sc.add(1, 1, Rank.SERGEANT);
-		sc.add(2, 1, Rank.SERGEANT);
+		sc.addWithoutRule(1, 1, Rank.SERGEANT);
+		sc.addWithoutRule(2, 1, Rank.SERGEANT);
 		sc.setState(new PlayerTurn(sc.getCurrentPlayer(), sc));
 		
 		assertFalse(new DefaultMoveRule(1, 1, 2, 1, sc.getCurrentPlayer(), sc.getIField(), sc.getGameState()).verify());
@@ -102,9 +102,9 @@ public class MoveTest extends TestCase {
 	
 	@Test
 	public void testEqualFight() {
-		sc.add(1, 1, Rank.SERGEANT);
+		sc.addWithoutRule(1, 1, Rank.SERGEANT);
 		sc.changeState();
-		sc.add(2, 1, Rank.SERGEANT);
+		sc.addWithoutRule(2, 1, Rank.SERGEANT);
 		sc.changeState();
 		
 		new MoveCommand(1, 1, 2, 1, sc).doCommand();
@@ -114,9 +114,9 @@ public class MoveTest extends TestCase {
 
 	@Test
 	public void testWinFight() {
-		sc.add(1, 1, Rank.SERGEANT);
+		sc.addWithoutRule(1, 1, Rank.SERGEANT);
 		sc.changeState();
-		sc.add(2, 1, Rank.SPY);
+		sc.addWithoutRule(2, 1, Rank.SPY);
 		sc.changeState();
 		
 		new MoveCommand(1, 1, 2, 1, sc).doCommand();
@@ -125,9 +125,9 @@ public class MoveTest extends TestCase {
 	
 	@Test
 	public void testLooseFight() {
-		sc.add(1, 1, Rank.SPY);
+		sc.addWithoutRule(1, 1, Rank.SPY);
 		sc.changeState();
-		sc.add(2, 1, Rank.SERGEANT);
+		sc.addWithoutRule(2, 1, Rank.SERGEANT);
 		sc.changeState();
 		
 		new MoveCommand(1, 1, 2, 1, sc).doCommand();
@@ -136,9 +136,9 @@ public class MoveTest extends TestCase {
 
 	@Test
 	public void testMinerBombFight() {
-		sc.add(1, 1, Rank.MINER);
+		sc.addWithoutRule(1, 1, Rank.MINER);
 		sc.changeState();
-		sc.add(2, 1, Rank.BOMB);
+		sc.addWithoutRule(2, 1, Rank.BOMB);
 		sc.changeState();
 		
 		new MoveCommand(1, 1, 2, 1, sc).doCommand();
@@ -147,9 +147,9 @@ public class MoveTest extends TestCase {
 	
 	@Test
 	public void testSpyMarshalFight() {
-		sc.add(1, 1, Rank.SPY);
+		sc.addWithoutRule(1, 1, Rank.SPY);
 		sc.changeState();
-		sc.add(2, 1, Rank.MARSHAL);
+		sc.addWithoutRule(2, 1, Rank.MARSHAL);
 		sc.changeState();
 		
 		new MoveCommand(1, 1, 2, 1, sc).doCommand();
@@ -158,9 +158,9 @@ public class MoveTest extends TestCase {
 	
 	@Test
 	public void testUndoCommand() {
-		sc.add(1, 1, Rank.SERGEANT);
+		sc.addWithoutRule(1, 1, Rank.SERGEANT);
 		sc.changeState();
-		sc.add(2, 1, Rank.SPY);
+		sc.addWithoutRule(2, 1, Rank.SPY);
 		sc.changeState();
 		
 		MoveCommand move = new MoveCommand(1, 1, 2, 1, sc);

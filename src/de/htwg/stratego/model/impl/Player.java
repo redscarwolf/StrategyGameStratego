@@ -14,7 +14,6 @@ public class Player implements IPlayer {
 
 	private List<ICharacter> characterList;
 	private String symbol;
-	private Color color;
 	private String name;
 	private boolean setupFinished;
 	
@@ -25,7 +24,6 @@ public class Player implements IPlayer {
 	@Inject
 	public Player(String name, @Named("symbolPlayerOne") String symbol, Color color) {
 		characterList = new ArrayList<>();
-		this.color = color;
 		this.symbol = symbol;
 		this.name = name;
 	}
@@ -70,11 +68,6 @@ public class Player implements IPlayer {
 			sb.append(c.getRank() + "|");
 		}
 		return sb.toString();
-	}
-
-	@Override
-	public Color getColor() {
-		return color;
 	}
 
 	@Override

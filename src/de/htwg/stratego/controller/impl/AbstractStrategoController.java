@@ -249,10 +249,14 @@ public abstract class AbstractStrategoController extends Observable implements I
         return player.hasCharacter(Rank.FLAG);
     }
 
+    public void addWithoutRule(int x, int y, int rank) {
+    	new AddCommand(field.getCell(x, y), getCurrentPlayer(), getCurrentPlayer().getCharacter(rank), this).doCommand();
+    }
+    
     public boolean add(int x, int y, int rank, IPlayer player) {
         boolean result;
 
-        if (ruleSystem.verifyAdd(x, y, rank, player, getGameState())) {
+        if (ruleSystem.verifyAdd(x, y, rank, player, player == getPlayerOne(), getGameState())) {
             undoManager.doCommand(new AddCommand(field.getCell(x, y), player, player.getCharacter(rank), this));
             statusMessage = "Added character <" + nameOfCharacter(rank) + "> to " + x + "," + y + ".";
             result = true;

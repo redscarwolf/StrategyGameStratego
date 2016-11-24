@@ -28,7 +28,11 @@ public class CellPanel extends JPanel {
 			ICharacter character = sc.getCharacter(column, row);
 			
 			if (character.isVisible()) {
-				g.setColor(character.getColor());
+				if (character.belongsTo(sc.getPlayerOne())) {
+					g.setColor(Color.RED);
+				} else {
+					g.setColor(Color.BLUE);
+				}
 				g.fillRect(0, 0, 50, 50);
 				g.drawImage(character.getImage(), 8, 2, null);
 				g.setColor(Color.WHITE);

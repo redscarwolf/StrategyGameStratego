@@ -11,8 +11,8 @@ public class DefaultRuleSystem extends AbstractRuleSystem {
 	}
 
 	@Override
-	public boolean verifyAdd(int x, int y, int rank, IPlayer player, GameState gameState) {
-		return verify(new DefaultAddRule(x, y, rank, player, field, gameState));
+	public boolean verifyAdd(int x, int y, int rank, IPlayer player, boolean isPlayerOne, GameState gameState) {
+		return verify(new DefaultAddRule(x, y, rank, player, isPlayerOne, field, gameState));
 	}
 
 	@Override

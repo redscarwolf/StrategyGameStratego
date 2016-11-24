@@ -32,8 +32,8 @@ public class SingleDeviceStrategoControllerTest extends TestCase {
 		sc = new SingleDeviceStrategoController(new Field(10, 10), new PlayerFactory());
 		field = sc.getIField();
 
-		playerOne = sc.getPlayer()[0];
-		playerTwo = sc.getPlayer()[1];
+		playerOne = sc.getPlayerOne();
+		playerTwo = sc.getPlayerTwo();
 		
 		playerOneStart = new PlayerStart(playerOne, sc);
 		playerOneTurn = new PlayerTurn(playerOne, sc);
@@ -42,15 +42,15 @@ public class SingleDeviceStrategoControllerTest extends TestCase {
 
 		// add characters for player one
 		sc.setState(playerOneStart);
-		sc.add(5, 1, Rank.FLAG);
-		sc.add(1, 0, Rank.SERGEANT);
+		sc.addWithoutRule(5, 1, Rank.FLAG);
+		sc.addWithoutRule(1, 0, Rank.SERGEANT);
 
 		// add characters for player two
 		sc.setState(playerTwoStart);
 		sc.setCurrentPlayer(1);
-		sc.add(2, 1, Rank.FLAG);
-		sc.add(0, 2, Rank.SERGEANT);
-		sc.add(5, 2, Rank.SERGEANT);
+		sc.addWithoutRule(2, 1, Rank.FLAG);
+		sc.addWithoutRule(0, 2, Rank.SERGEANT);
+		sc.addWithoutRule(5, 2, Rank.SERGEANT);
 	}
 
 	@Test
@@ -77,8 +77,10 @@ public class SingleDeviceStrategoControllerTest extends TestCase {
 
 	@Test
 	public void testUndo() {
+		sc.setState(playerOneStart);
+		sc.add(9, 0, 2);
 		sc.undo();
-		assertFalse(sc.getIField().getCell(5, 2).containsCharacter());
+		assertFalse(sc.getIField().getCell(9, 0).containsCharacter());
 		assertEquals(sc.getStatusString(), "Undo.");
 	}
 	
@@ -125,21 +127,33 @@ public class SingleDeviceStrategoControllerTest extends TestCase {
 		assertFalse(sc.add(9, 9, Rank.BOMB));
 		assertFalse(sc.getIField().getCell(9, 9).containsCharacter());
 
-		// character not in player list
+		// add is not in proper zone
 		sc.setState(playerOneStart);
+		sc.setCurrentPlayer(0);
+		assertFalse(sc.add(4, 8, 2));
+		
+		sc.setState(playerTwoStart);
+		sc.setCurrentPlayer(1);
+		assertFalse(sc.add(4, 2, 2));
+		
+		// character not in player list
 		assertFalse(sc.add(9, 9, Rank.FLAG));
 		assertFalse(sc.getIField().getCell(9, 9).containsCharacter());
 
 		// cell contains already a character
-		assertFalse(sc.add(5, 1, Rank.BOMB));
-		assertEquals(sc.getIField().getCell(5, 1).getCharacter().getRank(),
-				Rank.FLAG);
-
+		sc.setState(playerOneStart);
+		sc.setCurrentPlayer(0);
+		assertFalse(sc.add(1, 0, Rank.BOMB));
+		assertEquals(sc.getIField().getCell(1, 0).getCharacter().getRank(),
+				Rank.SERGEANT);
+		
 		// cell not passable
 		assertFalse(sc.add(2, 4, Rank.BOMB));
 		assertFalse(sc.getIField().getCell(2, 4).containsCharacter());
 
 		// correct add
+		sc.setState(playerTwoStart);
+		sc.setCurrentPlayer(1);
 		assertTrue(sc.add(9, 9, Rank.BOMB));
 		assertEquals(sc.getIField().getCell(9, 9).getCharacter().getRank(),
 				Rank.BOMB);

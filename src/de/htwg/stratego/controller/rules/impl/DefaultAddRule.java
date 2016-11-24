@@ -10,13 +10,15 @@ public class DefaultAddRule extends AbstractRule {
 	private ICell cell;
 	private int rank;
 	private IPlayer player;
+	private boolean isPlayerOne;
 	private GameState gameState;
 	
-	public DefaultAddRule(int x, int y, int rank, IPlayer player, IField field, GameState gameState) {
+	public DefaultAddRule(int x, int y, int rank, IPlayer player, boolean isPlayerOne, IField field, GameState gameState) {
 		cell = field.getCell(x, y);
 		this.rank = rank;
 		this.player = player;
 		this.gameState = gameState;
+		this.isPlayerOne = isPlayerOne;
 	}
 	
 	@Override
@@ -31,6 +33,11 @@ public class DefaultAddRule extends AbstractRule {
 			return false;
 		}
 
+		if (!isAddInCorrectZone()) {
+			message = "You can only add characters in your zone.";
+			return false;
+		}
+		
 		if (!player.hasCharacter(rank)) {
 			message = "All characters of type <" + rank + "> are on the field.";
 			return false;
@@ -50,4 +57,18 @@ public class DefaultAddRule extends AbstractRule {
 		return true;
 	}
 
+	private boolean isAddInCorrectZone() {
+		if (isPlayerOne) {
+			if (!(cell.getY() < 4)) {
+				return false;
+			}
+		} else {
+			if (!(cell.getY() > 5)) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 }
