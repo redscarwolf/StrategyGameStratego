@@ -1,6 +1,5 @@
 package de.htwg.stratego.model;
 
-import java.awt.Color;
 import java.util.List;
 
 public interface IPlayer {

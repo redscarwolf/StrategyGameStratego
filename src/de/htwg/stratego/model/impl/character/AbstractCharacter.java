@@ -1,6 +1,5 @@
 package de.htwg.stratego.model.impl.character;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +26,7 @@ public abstract class AbstractCharacter implements ICharacter {
 			image = ImageIO.read(new File("graphics/" + imagePath));
 		} catch (IOException e) {
 			//TODO logging?
-			System.out.println("error loading graphic");
+			// System.out.println("error loading graphic");
 		}
 	}
 

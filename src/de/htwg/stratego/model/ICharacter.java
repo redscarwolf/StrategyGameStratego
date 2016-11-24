@@ -1,6 +1,5 @@
 package de.htwg.stratego.model;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 public interface ICharacter {
