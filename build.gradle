@@ -1,6 +1,6 @@
-plugins {
-  id "org.sonarqube" version "1.0"
-}
+//plugins {
+//  id "org.sonarqube" version "1.0"
+//}
 
 repositories {
     mavenCentral()
@@ -8,8 +8,8 @@ repositories {
 
 apply plugin: "java"
 apply plugin: "idea"
-apply plugin: "sonar-runner"
-apply plugin: "org.sonarqube"
+// apply plugin: "sonar-runner"
+// apply plugin: "org.sonarqube"
 apply plugin: "eclipse"
 apply plugin: "maven"
 apply plugin: "jacoco"
@@ -23,9 +23,12 @@ idea {
 }
 
 dependencies {
-    compile group: 'org.apache.logging.log4j', name: 'log4j-api',  version: '2.2'
-    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.2'
-    compile group: 'com.google.inject',        name: 'guice',      version: '3.0'
+    compile group: 'org.apache.logging.log4j',      name: 'log4j-api',              version: '2.2'
+    compile group: 'org.apache.logging.log4j',      name: 'log4j-core',             version: '2.2'
+    compile group: 'com.google.inject',             name: 'guice',                  version: '3.0'
+    compile group: 'com.fasterxml.jackson.core',    name: 'jackson-annotations',    version: '2.8.0'
+    compile group: 'com.fasterxml.jackson.core',    name: 'jackson-core',           version: '2.8.1'
+    compile group: 'com.fasterxml.jackson.core',    name: 'jackson-databind',       version: '2.8.1'
     testCompile "junit:junit:4.11"
 }
 
@@ -35,15 +38,19 @@ sourceSets {
 }
 
 jar {
-    manifest.attributes "Main-Class":"de.htwg.stratego.StrategoApp"
+    manifest {
+        attributes "Main-Class": "de.htwg.stratego.StrategoApp"
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from "src/log4j2.xml"
 }
     
-sonarqube {
-    properties {
-    property "sonar.projectName", "SE2015WS-06-Stratego"
-    property "sonar.projectKey", "de.htwg.stratego"
-    property "sonar.projectVersion", "2.0"
-    property "sonar.binaries", "build/classes"
-    property "sonar.java.coveragePlugin", "jacoco"
-  }
-}
+//sonarqube {
+//    properties {
+//    property "sonar.projectName", "SE2015WS-06-Stratego"
+//    property "sonar.projectKey", "de.htwg.stratego"
+//    property "sonar.projectVersion", "2.0"
+//    property "sonar.binaries", "build/classes"
+//    property "sonar.java.coveragePlugin", "jacoco"
+//  }
+//}
