@@ -256,7 +256,7 @@ public abstract class AbstractStrategoController extends Observable implements I
     public boolean add(int x, int y, int rank, IPlayer player) {
         boolean result;
 
-        if (ruleSystem.verifyAdd(x, y, rank, player, player == getPlayerOne(), getGameState())) {
+        if (ruleSystem.verifyAdd(x, y, rank, player, this)) {
             undoManager.doCommand(new AddCommand(field.getCell(x, y), player, player.getCharacter(rank), this));
             statusMessage = "Added character <" + nameOfCharacter(rank) + "> to " + x + "," + y + ".";
             result = true;
@@ -272,7 +272,7 @@ public abstract class AbstractStrategoController extends Observable implements I
     public boolean swap(int x1, int y1, int x2, int y2, IPlayer player) {
         boolean result;
 
-        if (ruleSystem.verifySwap(x1, y1, x2, y2, player, getGameState())) {
+        if (ruleSystem.verifySwap(x1, y1, x2, y2, player, this)) {
             undoManager.doCommand(new SwapCommand(field.getCell(x1, y1), field.getCell(x2, y2), this));
             statusMessage = "Swaped characters from " + x1 + "," + y1 + " to" + x2 + "," + y2 + ".";
             result = true;
@@ -299,6 +299,20 @@ public abstract class AbstractStrategoController extends Observable implements I
 
         notifyObservers();
         return result;
+    }
+
+    public boolean isInCorrectZone(int x, int y, IPlayer player) {
+        if (player == getPlayerOne()) {
+            if (!(y < 4)) {
+                return false;
+            }
+        } else {
+            if (!(y > 5)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void removeCharacterToPlayer(int x, int y) {

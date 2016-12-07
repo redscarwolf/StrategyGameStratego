@@ -1,5 +1,6 @@
 package de.htwg.stratego.controller.rules.impl;
 
+import de.htwg.stratego.controller.impl.AbstractStrategoController;
 import de.htwg.stratego.controller.state.GameState;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.IField;
@@ -11,12 +12,14 @@ public class DefaultSwapRule extends AbstractRule {
 	private ICell toCell;
 	private IPlayer player;
 	private GameState gameState;
-	
-	public DefaultSwapRule(int fromX, int fromY, int toX, int toY, IPlayer player, IField field, GameState gameState) {
-		fromCell = field.getCell(fromX, fromY);
-		toCell = field.getCell(toX, toY);
+	private AbstractStrategoController strategoController;
+
+	public DefaultSwapRule(int fromX, int fromY, int toX, int toY, IPlayer player, AbstractStrategoController strategoController) {
+		fromCell = strategoController.getIField().getCell(fromX, fromY);
+		toCell = strategoController.getIField().getCell(toX, toY);
 		this.player = player;
-		this.gameState = gameState;
+		this.gameState = strategoController.getGameState();
+		this.strategoController = strategoController;
 	}
 
 	@Override
@@ -30,7 +33,12 @@ public class DefaultSwapRule extends AbstractRule {
 			message = "Please wait the other Player isn't finished with setup.";
 			return false;
 		}
-		
+
+		if (!strategoController.isInCorrectZone(toCell.getX(), toCell.getY(), player)) {
+			message = "You can only swap characters in your zone.";
+			return false;
+		}
+
 		if (!(fromCell.containsCharacter())) {
 			message = "There is no character to swap.";
 			return false;

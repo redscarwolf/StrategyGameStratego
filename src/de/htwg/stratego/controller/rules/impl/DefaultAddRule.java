@@ -1,5 +1,6 @@
 package de.htwg.stratego.controller.rules.impl;
 
+import de.htwg.stratego.controller.impl.AbstractStrategoController;
 import de.htwg.stratego.controller.state.GameState;
 import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.IField;
@@ -10,15 +11,15 @@ public class DefaultAddRule extends AbstractRule {
 	private ICell cell;
 	private int rank;
 	private IPlayer player;
-	private boolean isPlayerOne;
 	private GameState gameState;
+	private AbstractStrategoController strategoController;
 	
-	public DefaultAddRule(int x, int y, int rank, IPlayer player, boolean isPlayerOne, IField field, GameState gameState) {
-		cell = field.getCell(x, y);
+	public DefaultAddRule(int x, int y, int rank, IPlayer player, AbstractStrategoController strategoController) {
+		cell = strategoController.getIField().getCell(x, y);
 		this.rank = rank;
 		this.player = player;
-		this.gameState = gameState;
-		this.isPlayerOne = isPlayerOne;
+		this.gameState = strategoController.getGameState();
+		this.strategoController = strategoController;
 	}
 	
 	@Override
@@ -33,7 +34,7 @@ public class DefaultAddRule extends AbstractRule {
 			return false;
 		}
 
-		if (!isAddInCorrectZone()) {
+		if (!strategoController.isInCorrectZone(cell.getX(), cell.getY(), player)) {
 			message = "You can only add characters in your zone.";
 			return false;
 		}
@@ -57,18 +58,4 @@ public class DefaultAddRule extends AbstractRule {
 		return true;
 	}
 
-	private boolean isAddInCorrectZone() {
-		if (isPlayerOne) {
-			if (!(cell.getY() < 4)) {
-				return false;
-			}
-		} else {
-			if (!(cell.getY() > 5)) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
 }

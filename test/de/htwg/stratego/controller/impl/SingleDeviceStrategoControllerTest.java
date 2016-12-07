@@ -166,7 +166,11 @@ public class SingleDeviceStrategoControllerTest extends TestCase {
 		// illegal state, swap not allowed
 		sc.setState(playerOneTurn);
 		assertFalse(sc.swap(5, 1, 1, 0));
-		
+
+		// swap not in proper zone
+		assertFalse(sc.swap(5, 1, 9, 9));
+		assertFalse(sc.containsCharacter(9, 9));
+
 		// cell contains no character
 		sc.setState(playerOneStart);
 		assertFalse(sc.swap(9, 9, 8, 8));
@@ -183,8 +187,8 @@ public class SingleDeviceStrategoControllerTest extends TestCase {
 		assertEquals(sc.getCharacter(5, 1).getRank(), Rank.SERGEANT);
 		assertEquals(sc.getCharacter(1, 0).getRank(), Rank.FLAG);
 		
-		assertTrue(sc.swap(5, 1, 9, 9));
-		assertEquals(sc.getCharacter(9, 9).getRank(), Rank.SERGEANT);
+		assertTrue(sc.swap(5, 1, 1, 1));
+		assertEquals(sc.getCharacter(1, 1).getRank(), Rank.SERGEANT);
 		assertFalse(sc.containsCharacter(5, 1));
 	}
 	

@@ -1,5 +1,6 @@
 package de.htwg.stratego.controller.rules.impl;
 
+import de.htwg.stratego.controller.impl.AbstractStrategoController;
 import de.htwg.stratego.controller.state.GameState;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayer;
@@ -11,13 +12,13 @@ public class DefaultRuleSystem extends AbstractRuleSystem {
 	}
 
 	@Override
-	public boolean verifyAdd(int x, int y, int rank, IPlayer player, boolean isPlayerOne, GameState gameState) {
-		return verify(new DefaultAddRule(x, y, rank, player, isPlayerOne, field, gameState));
+	public boolean verifyAdd(int x, int y, int rank, IPlayer player, AbstractStrategoController strategoController) {
+		return verify(new DefaultAddRule(x, y, rank, player, strategoController));
 	}
 
 	@Override
-	public boolean verifySwap(int fromX, int fromY, int toX, int toY, IPlayer player, GameState gameState) {
-		return verify(new DefaultSwapRule(fromX, fromY, toX, toY, player, field, gameState));
+	public boolean verifySwap(int fromX, int fromY, int toX, int toY, IPlayer player, AbstractStrategoController strategoController) {
+		return verify(new DefaultSwapRule(fromX, fromY, toX, toY, player, strategoController));
 	}
 
 	@Override
