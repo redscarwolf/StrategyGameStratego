@@ -22,12 +22,14 @@ public abstract class AbstractCharacter implements ICharacter {
 		this.moveable = moveable;
 		this.player = player;
 		visible = true;
-		try {
-			image = ImageIO.read(new File("graphics/" + imagePath));
-		} catch (IOException e) {
-			//TODO logging?
-			// System.out.println("error loading graphic");
-		}
+		// TODO: muss in die gui verschoben werden
+//		try {
+//			image = ImageIO.read(getClass().getResource("/graphics/" + imagePath));
+//		} catch (IOException e) {
+//			//TODO logging?
+//			System.out.println("error loading graphic");
+//			System.out.println(new File("/graphics/" + imagePath));
+//		}
 	}
 
 	@Override
