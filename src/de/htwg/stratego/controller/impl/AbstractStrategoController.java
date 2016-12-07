@@ -393,10 +393,10 @@ public abstract class AbstractStrategoController extends Observable implements I
         Map<String, Object> fieldJson = new HashMap<String,Object>();
 
         java.util.List<HashMap<String, Object>> innerField = new ArrayList<HashMap<String, Object>>();
-        for (int column = 0; column < field.getWidth(); column++) {
+        for (int row = 0; row < field.getWidth(); row++) {
             HashMap<String, Object> fieldRowJson = new HashMap<>();
             java.util.List<HashMap<String, Object>> cellsJson = new ArrayList<HashMap<String, Object>>();
-            for (int row = 0; row < field.getHeight(); row++) {
+            for (int column = 0; column < field.getHeight(); column++) {
                 cellsJson.add(getCellMap(column, row));
             }
             fieldRowJson.put("cells", cellsJson);
