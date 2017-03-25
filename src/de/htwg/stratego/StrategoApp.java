@@ -24,7 +24,7 @@ public final class StrategoApp {
 		sc = injector.getInstance(ISingelDeviceStrategoController.class);
 	
 		tui = new TextUI(sc);
-		// gui = new StrategoFrame(sc);
+		gui = new StrategoFrame(sc);
 	}
 	
 	public static void main(String[] args) {
