@@ -1,5 +1,17 @@
-/bin/
+
+#### IntelliJ ####
+
 /.idea
 /*.iml
 /target
 /META_INF/
+/out/
+
+
+#### Gradle #####
+
+/build/
+.gradle
+
+#### Java ####
+/bin/
