@@ -15,7 +15,7 @@ public class RemoveCommandTest extends TestCase {
 	
 	@Before
 	public void setUp() {
-		sc = new SingleDeviceStrategoController(new Field(10, 10), new PlayerFactory());
+		sc = new SingleDeviceStrategoController(new Field(10, 10), new PlayerFactory(), null);
 	}
 	
 	@Test

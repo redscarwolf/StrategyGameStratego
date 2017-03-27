@@ -20,7 +20,7 @@ public class MoveTest extends TestCase {
 	@Before
 	public void setUp() {
 		field = new Field(10, 10);
-		sc = new SingleDeviceStrategoController(field, new PlayerFactory());
+		sc = new SingleDeviceStrategoController(field, new PlayerFactory(), null);
 	}
 	
 	@Test
