@@ -8,6 +8,7 @@ import de.htwg.stratego.controller.state.GameState;
 import de.htwg.stratego.controller.state.impl.PlayerStart;
 import de.htwg.stratego.controller.state.impl.PlayerWinner;
 import de.htwg.stratego.model.*;
+import de.htwg.stratego.model.impl.Game;
 import de.htwg.stratego.model.impl.Rank;
 import de.htwg.stratego.model.impl.character.*;
 import de.htwg.stratego.persistence.IDao;
@@ -17,7 +18,7 @@ import de.htwg.stratego.util.observer.Observable;
 import java.awt.*;
 import java.util.*;
 
-public abstract class AbstractStrategoController extends Observable implements IStrategoController{
+public abstract class AbstractStrategoController extends Observable implements IStrategoController {
 
     private IDao dao;
     private IField field;
@@ -463,6 +464,28 @@ public abstract class AbstractStrategoController extends Observable implements I
             cellMap.put("character", characterMap);
         }
         return cellMap;
+    }
+
+    @Override
+    public void save() {
+        IGame game = new Game(currentPlayer, getPlayer(), getGameState(), getIField());
+        // TODO: zugriff auf DAO und game abspeichern
+        // dao.create(game); oder dao.updateGame(game); ???
+    }
+
+    @Override
+    public void load() {
+        // TODO: korrekter zugriff auf DAO und game einlesen
+        // IGame game = dao.readGame();
+        IGame game = new Game(0, null, null, null); // platzhalter
+        currentPlayer = game.getCurrentPlayer();
+        player = game.getPlayer();
+        gameState = game.getGameState();
+        field = game.getField();
+
+        statusMessage = "Game loaded.";
+        undoManager.clear();
+        notifyObservers();
     }
 
 }
