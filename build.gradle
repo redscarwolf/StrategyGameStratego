@@ -29,7 +29,7 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core',    name: 'jackson-annotations',    version: '2.8.0'
     compile group: 'com.fasterxml.jackson.core',    name: 'jackson-core',           version: '2.8.1'
     compile group: 'com.fasterxml.jackson.core',    name: 'jackson-databind',       version: '2.8.1'
-    compile group: 'com.db4o',                      name: 'db4o',                   version: '8.0.276.16149'
+    compile files('lib/db4o-8.0.276.16149-all-java5.jar')
     testCompile "junit:junit:4.11"
 }
 

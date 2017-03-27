@@ -20,7 +20,7 @@ public class MultiDeviceStrategoControllerTest extends TestCase {
 
     @BeforeClass
     public void setUp() {
-        sc = new MultiDeviceStrategoController(new Field(10, 10), new PlayerFactory());
+        sc = new MultiDeviceStrategoController(new Field(10, 10), new PlayerFactory(), null);
         field = sc.getIField();
 
         playerOne = sc.getPlayerOne();

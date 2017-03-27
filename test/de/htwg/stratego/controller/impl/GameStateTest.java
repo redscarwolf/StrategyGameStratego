@@ -23,7 +23,7 @@ public class GameStateTest extends TestCase {
 
 	@BeforeClass
 	public void setUp() {
-		sc = new SingleDeviceStrategoController(new Field(10, 10), new PlayerFactory());
+		sc = new SingleDeviceStrategoController(new Field(10, 10), new PlayerFactory(), null);
 
 		playerStart = new PlayerStart(sc.getCurrentPlayer(), sc);
 		playerTransfer = new PlayerTransfer(sc.getCurrentPlayer(), sc);

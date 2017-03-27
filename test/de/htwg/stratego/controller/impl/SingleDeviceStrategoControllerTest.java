@@ -29,7 +29,7 @@ public class SingleDeviceStrategoControllerTest extends TestCase {
 
 	@BeforeClass
 	public void setUp() {
-		sc = new SingleDeviceStrategoController(new Field(10, 10), new PlayerFactory());
+		sc = new SingleDeviceStrategoController(new Field(10, 10), new PlayerFactory(), null);
 		field = sc.getIField();
 
 		playerOne = sc.getPlayerOne();
