@@ -5,12 +5,13 @@ import de.htwg.stratego.controller.IMultiDeviceStrategoController;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.model.IPlayerFactory;
+import de.htwg.stratego.persistence.IDao;
 
 public class MultiDeviceStrategoController extends AbstractStrategoController implements IMultiDeviceStrategoController {
 
     @Inject
-    public MultiDeviceStrategoController(IField field, IPlayerFactory playerFactory) {
-        super(field, playerFactory);
+    public MultiDeviceStrategoController(IField field, IPlayerFactory playerFactory, IDao dao) {
+        super(field, playerFactory, dao);
     }
 
     @Override

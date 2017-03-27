@@ -7,6 +7,7 @@ import de.htwg.stratego.controller.IMultiDeviceStrategoController;
 import de.htwg.stratego.controller.ISingelDeviceStrategoController;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayerFactory;
+import de.htwg.stratego.persistence.IDao;
 
 public class StrategoModule extends AbstractModule {
 	private static final int WIDTH = 10;
@@ -35,6 +36,9 @@ public class StrategoModule extends AbstractModule {
 		// IPlayerFactory
 		bind(IPlayerFactory.class)
 		.to(de.htwg.stratego.model.impl.PlayerFactory.class);
+
+		bind(IDao.class)
+		.to(de.htwg.stratego.persistence.db4o.db4oDao.class);
 	}
 	
 }
