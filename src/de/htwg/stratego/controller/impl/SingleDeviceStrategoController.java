@@ -4,13 +4,14 @@ import com.google.inject.Inject;
 import de.htwg.stratego.controller.ISingelDeviceStrategoController;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayerFactory;
+import de.htwg.stratego.persistence.IDao;
 
 
 public class SingleDeviceStrategoController extends AbstractStrategoController implements ISingelDeviceStrategoController {
 
 	@Inject
-	public SingleDeviceStrategoController(IField field, IPlayerFactory playerFactory) {
-		super(field, playerFactory);
+	public SingleDeviceStrategoController(IField field, IPlayerFactory playerFactory, IDao dao) {
+		super(field, playerFactory, dao);
 	}
 
 	@Override

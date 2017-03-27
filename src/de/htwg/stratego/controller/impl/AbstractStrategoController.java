@@ -10,6 +10,7 @@ import de.htwg.stratego.controller.state.impl.PlayerWinner;
 import de.htwg.stratego.model.*;
 import de.htwg.stratego.model.impl.Rank;
 import de.htwg.stratego.model.impl.character.*;
+import de.htwg.stratego.persistence.IDao;
 import de.htwg.stratego.util.command.UndoManager;
 import de.htwg.stratego.util.observer.Observable;
 
@@ -18,6 +19,7 @@ import java.util.*;
 
 public abstract class AbstractStrategoController extends Observable implements IStrategoController{
 
+    private IDao dao;
     private IField field;
 
     private IPlayer[] player;
@@ -36,7 +38,8 @@ public abstract class AbstractStrategoController extends Observable implements I
 
     private static final int[] NUMBER_OF_CHARACTERS = {1, 1, 8, 5, 4, 4, 4, 3, 2, 1, 1, 6};
 
-    public AbstractStrategoController(IField field, IPlayerFactory playerFactory) {
+    public AbstractStrategoController(IField field, IPlayerFactory playerFactory, IDao dao) {
+        this.dao = dao;
         player = new IPlayer[2];
         player[0] = playerFactory.create("PlayerOne", "#", Color.BLUE);
         player[1] = playerFactory.create("PlayerTwo", "!", Color.RED);
