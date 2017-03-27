@@ -27,7 +27,7 @@ public class TextUI implements IObserver {
 	public boolean processInputLine(String input) {
 		boolean continu = true;
 
-		boolean correctInput = Pattern.matches("q|h|f|(a_\\d_\\d_\\d\\d?)|(r_\\d_\\d)|(m_\\d_\\d_\\d_\\d)", input);
+		boolean correctInput = Pattern.matches("q|h|f|(a_\\d_\\d_\\d\\d?)|(r_\\d_\\d)|(m_\\d_\\d_\\d_\\d)|l|s", input);
 		if (!correctInput) {
 			logger.info("Illegal command!");
 			return continu;
