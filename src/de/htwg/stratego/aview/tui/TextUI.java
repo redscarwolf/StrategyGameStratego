@@ -56,6 +56,13 @@ public class TextUI implements IObserver {
 			sc.move(Integer.valueOf(inputStrings[1]), Integer.valueOf(inputStrings[2]),
 					Integer.valueOf(inputStrings[3]), Integer.valueOf(inputStrings[4]));
 			break;
+        case "s":
+            sc.save();
+            break;
+        case "l":
+            sc.load();
+            break;
+
 		default:
 			logger.info("Illegal command!");
 		}
@@ -72,6 +79,8 @@ public class TextUI implements IObserver {
 		sb.append("r [x] [y] - Removes a character from the field\n");
 		sb.append("m [x1] [y1] [x2] [y2] - Moves a character from (x1,y1) to (x2,y2)\n");
 		sb.append("f - Finish your construction phase, or start next turn\n");
+		sb.append("s - Save game\n");
+		sb.append("l - Load game\n");
 		sb.append("q - Quit game\n");
 		logger.info(sb);
 		logger.info("Command (Type \"h\" for help): ");
