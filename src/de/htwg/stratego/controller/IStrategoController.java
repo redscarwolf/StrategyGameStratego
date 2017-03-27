@@ -35,4 +35,7 @@ public interface IStrategoController extends IObservable {
 	// only for Gui
 	int getFieldHeight();
 	int getFieldWidth();
+
+	void save();
+	void load();
 }
