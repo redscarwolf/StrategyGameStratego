@@ -2,6 +2,7 @@ package de.htwg.stratego.controller.state.impl;
 
 import de.htwg.stratego.controller.impl.AbstractStrategoController;
 import de.htwg.stratego.controller.state.GameState;
+import de.htwg.stratego.model.EGameState;
 import de.htwg.stratego.model.IPlayer;
 
 public class PlayerStart implements GameState {
@@ -59,6 +60,11 @@ public class PlayerStart implements GameState {
 	@Override
 	public String getName() {
 		return "start";
+	}
+
+	@Override
+	public EGameState getEGameState() {
+		return EGameState.PLAYER_START;
 	}
 
 }

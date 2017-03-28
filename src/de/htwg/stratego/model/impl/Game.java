@@ -1,6 +1,6 @@
 package de.htwg.stratego.model.impl;
 
-import de.htwg.stratego.controller.state.GameState;
+import de.htwg.stratego.model.EGameState;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IGame;
 import de.htwg.stratego.model.IPlayer;
@@ -9,10 +9,10 @@ public class Game implements IGame {
 
     private int currentPlayer;
     private IPlayer[] player;
-    private GameState gameState;
+    private EGameState gameState;
     private IField field;
 
-    public Game(int currentPlayer, IPlayer[] player, GameState gameState, IField field) {
+    public Game(int currentPlayer, IPlayer[] player, EGameState gameState, IField field) {
         this.currentPlayer = currentPlayer;
         this.player = player;
         this.gameState = gameState;
@@ -30,7 +30,7 @@ public class Game implements IGame {
     }
 
     @Override
-    public GameState getGameState() {
+    public EGameState getGameState() {
         return gameState;
     }
 

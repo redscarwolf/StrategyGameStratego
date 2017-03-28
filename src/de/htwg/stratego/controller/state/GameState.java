@@ -1,5 +1,7 @@
 package de.htwg.stratego.controller.state;
 
+import de.htwg.stratego.model.EGameState;
+
 public interface GameState {
 
 	void changeState();
@@ -11,6 +13,7 @@ public interface GameState {
 	boolean isFinishAllowed();
 
 	String getName();
+	EGameState getEGameState();
 	
 	String toStringPlayerStatus();
 
