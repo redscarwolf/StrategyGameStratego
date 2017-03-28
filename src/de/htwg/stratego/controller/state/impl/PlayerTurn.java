@@ -2,6 +2,7 @@ package de.htwg.stratego.controller.state.impl;
 
 import de.htwg.stratego.controller.impl.AbstractStrategoController;
 import de.htwg.stratego.controller.state.GameState;
+import de.htwg.stratego.model.EGameState;
 import de.htwg.stratego.model.IPlayer;
 
 public class PlayerTurn implements GameState {
@@ -54,5 +55,10 @@ public class PlayerTurn implements GameState {
 	public String getName() {
 		return "turn";
 	}
-	
+
+	@Override
+	public EGameState getEGameState() {
+		return EGameState.PLAYER_TURN;
+	}
+
 }

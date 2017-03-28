@@ -2,6 +2,7 @@ package de.htwg.stratego.controller.state.impl;
 
 import de.htwg.stratego.controller.impl.AbstractStrategoController;
 import de.htwg.stratego.controller.state.GameState;
+import de.htwg.stratego.model.EGameState;
 import de.htwg.stratego.model.IPlayer;
 
 public class PlayerTransfer implements GameState {
@@ -53,5 +54,10 @@ public class PlayerTransfer implements GameState {
 	@Override
 	public String getName() {
 		return "transfer";
+	}
+
+	@Override
+	public EGameState getEGameState() {
+		return EGameState.PLAYER_TRANSFER;
 	}
 }

@@ -6,6 +6,8 @@ import de.htwg.stratego.controller.rules.IRuleSystem;
 import de.htwg.stratego.controller.rules.impl.DefaultRuleSystem;
 import de.htwg.stratego.controller.state.GameState;
 import de.htwg.stratego.controller.state.impl.PlayerStart;
+import de.htwg.stratego.controller.state.impl.PlayerTransfer;
+import de.htwg.stratego.controller.state.impl.PlayerTurn;
 import de.htwg.stratego.controller.state.impl.PlayerWinner;
 import de.htwg.stratego.model.*;
 import de.htwg.stratego.model.impl.Game;
@@ -49,7 +51,7 @@ public abstract class AbstractStrategoController extends Observable implements I
         initPlayerCharecterList(getPlayerOne());
         initPlayerCharecterList(getPlayerTwo());
 
-        gameState = new PlayerStart(player[currentPlayer], this);
+        gameState = new PlayerStart(getCurrentPlayer(), this);
         this.ruleSystem = new DefaultRuleSystem(field);
 
         this.field = field;
@@ -468,7 +470,7 @@ public abstract class AbstractStrategoController extends Observable implements I
 
     @Override
     public void save() {
-        IGame game = new Game(currentPlayer, getPlayer(), getGameState(), getIField());
+        IGame game = new Game(currentPlayer, getPlayer(), gameState.getEGameState(), getIField());
         dao.updateGame(game);
     }
 
@@ -480,9 +482,25 @@ public abstract class AbstractStrategoController extends Observable implements I
             notifyObservers();
             return;
         }
+
         currentPlayer = game.getCurrentPlayer();
         player = game.getPlayer();
-        gameState = game.getGameState();
+
+        switch (game.getGameState()) {
+            case PLAYER_START:
+                gameState = new PlayerStart(getCurrentPlayer(), this);
+                break;
+            case PLAYER_TRANSFER:
+                gameState = new PlayerTransfer(getCurrentPlayer(), this);
+                break;
+            case PLAYER_TURN:
+                gameState = new PlayerTurn(getCurrentPlayer(), this);
+                break;
+            case PLAYER_WIN:
+                gameState = new PlayerWinner(getCurrentPlayer());
+                break;
+        }
+
         field = game.getField();
 
         statusMessage = "Game loaded.";

@@ -6,7 +6,7 @@ public interface IGame {
 
     int getCurrentPlayer();
     IPlayer[] getPlayer();
-    GameState getGameState();
+    EGameState getGameState();
     IField getField();
 
 }

@@ -1,6 +1,7 @@
 package de.htwg.stratego.controller.state.impl;
 
 import de.htwg.stratego.controller.state.GameState;
+import de.htwg.stratego.model.EGameState;
 import de.htwg.stratego.model.IPlayer;
 
 public class PlayerWinner implements GameState {
@@ -49,6 +50,11 @@ public class PlayerWinner implements GameState {
 	@Override
 	public String getName() {
 		return "winner";
+	}
+
+	@Override
+	public EGameState getEGameState() {
+		return EGameState.PLAYER_WIN;
 	}
 
 }

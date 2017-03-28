@@ -38,8 +38,7 @@ public class db4oDao implements IDao{
 
     @Override
     public void updateGame(IGame game) {
-        ObjectSet<IGame> iGameSet = db.queryByExample(game);
-        System.out.println(iGameSet);
+        ObjectSet<IGame> iGameSet = db.query(IGame.class);
         if (!iGameSet.isEmpty()) {
             deleteGame(iGameSet.next());
         }
