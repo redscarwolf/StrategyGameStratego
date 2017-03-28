@@ -22,12 +22,6 @@ public class db4oDaoTest extends TestCase{
         shutDownDbAndDelete();
     }
 
-    public void testReadGame() throws Exception {
-        IGame iGame = dao.readGame();
-        shutDownDbAndDelete();
-        assertEquals(game.getCurrentPlayer(), iGame.getCurrentPlayer());
-    }
-
     public void testUpdateGame_startWithEmptyDatabase_savesPassedGame() throws Exception {
         dao.updateGame(game);
         IGame iGame = dao.readGame();

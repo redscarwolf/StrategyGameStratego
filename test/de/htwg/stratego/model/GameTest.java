@@ -12,7 +12,7 @@ public class GameTest extends TestCase {
 
     private int currentPlayer;
     private IPlayer[] player;
-    private GameState gameState;
+    private EGameState gameState;
     private IField field;
 
     private IGame game;
@@ -21,7 +21,7 @@ public class GameTest extends TestCase {
     public void setUp() {
         currentPlayer = 1;
         player = new IPlayer[2];
-        gameState = new PlayerTurn(null, null);
+        gameState = EGameState.PLAYER_START;
         field = new Field(10, 10);
 
         game = new Game(currentPlayer, player, gameState, field);
