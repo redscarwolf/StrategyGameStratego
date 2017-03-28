@@ -2,9 +2,7 @@ package de.htwg.stratego.persistence.db4o;
 
 import de.htwg.stratego.model.IGame;
 import de.htwg.stratego.model.impl.Game;
-import de.htwg.stratego.persistence.IDao;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 import junit.framework.TestCase;
 
@@ -16,40 +14,47 @@ public class db4oDaoTest extends TestCase{
     public void setUp() throws Exception {
         super.setUp();
         this.dao = new db4oDao();
-        this.game = new Game(0,null,null,null);
+        this.game = new Game(1,null,null,null);
     }
 
     public void testCreateGame() throws Exception {
         // TODO
-        shutDownDb();
+        shutDownDbAndDelete();
     }
 
     public void testReadGame() throws Exception {
         IGame iGame = dao.readGame();
-        shutDownDb();
+        shutDownDbAndDelete();
         assertEquals(game.getCurrentPlayer(), iGame.getCurrentPlayer());
     }
 
-    public void testUpdateGame() throws Exception {
+    public void testUpdateGame_startWithEmptyDatabase_savesPassedGame() throws Exception {
         dao.updateGame(game);
-        shutDownDb();
-        // TODO
-    }
-
-    public void testDeleteGame() throws Exception {
         IGame iGame = dao.readGame();
-        if (iGame != null) {
-            dao.deleteGame(iGame);
-        }
-        shutDownDb();
-        // TODO
+        assertEquals(game.getCurrentPlayer(),iGame.getCurrentPlayer());
+        shutDownDbAndDelete();
     }
 
-    public void testCloseDb() throws Exception {
-        // TODO
+    public void testUpdateGame_startWithFilledDatabase_deleteOldAndSavePassedGame() throws Exception {
+        dao.createGame(new Game(2, null, null, null));
+        dao.updateGame(game);
+        IGame iGame = dao.readGame();
+        assertEquals(game.getCurrentPlayer(),iGame.getCurrentPlayer());
+        shutDownDbAndDelete();
     }
 
-    private void shutDownDb() {
+    public void testDeleteGame_haveOneGameInDatabase_deleteOldGame() throws Exception {
+        dao.createGame(game);
+        IGame iGame = dao.readGame();
+        dao.deleteGame(iGame);
+        shutDown();
+    }
+
+    private void shutDownDbAndDelete() {
+        dao.deleteGame(game);
+        shutDown();
+    }
+    private void shutDown() {
         dao.closeDb();
     }
 }
