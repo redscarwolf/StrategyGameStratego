@@ -52,6 +52,12 @@ public class StrategoFrame extends JFrame implements IObserver {
 
 		undoMenuItem = new JMenuItem("Undo");
 
+		loadMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_L, ActionEvent.CTRL_MASK));
+
+		saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+
 		undoMenuItem.setAccelerator(KeyStroke.getKeyStroke(
 		        KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
 		
