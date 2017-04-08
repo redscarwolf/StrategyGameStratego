@@ -8,6 +8,7 @@ import de.htwg.stratego.controller.ISingelDeviceStrategoController;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayerFactory;
 import de.htwg.stratego.persistence.IDao;
+import de.htwg.stratego.persistence.db4o.Db4oDao;
 
 public class StrategoModule extends AbstractModule {
 	private static final int WIDTH = 10;
@@ -38,7 +39,7 @@ public class StrategoModule extends AbstractModule {
 		.to(de.htwg.stratego.model.impl.PlayerFactory.class);
 
 		bind(IDao.class)
-		.to(de.htwg.stratego.persistence.db4o.db4oDao.class);
+		.to(Db4oDao.class);
 	}
 	
 }
