@@ -26,9 +26,14 @@ public class StrategoFrame extends JFrame implements IObserver {
 	private SelectPanel selectPanel;
 	
 	private JMenuBar menuBar;
+
 	private JMenu gameMenu;
+	private JMenu editMenu;
+
 	private JMenuItem newMenuItem;
 	private JMenuItem undoMenuItem;
+	private JMenuItem loadMenuItem;
+	private JMenuItem saveMenuItem;
 	private JMenuItem exitMenuItem;
 	
 	public StrategoFrame(final ISingelDeviceStrategoController sc) {
@@ -36,11 +41,23 @@ public class StrategoFrame extends JFrame implements IObserver {
 		sc.addObserver(this);
 		
 		menuBar = new JMenuBar();
+
 		gameMenu = new JMenu("Game");
+		editMenu = new JMenu("Edit");
+
 		newMenuItem = new JMenuItem("New");
-		undoMenuItem = new JMenuItem("Undo");
+		loadMenuItem = new JMenuItem("Load");
+		saveMenuItem = new JMenuItem("Save");
 		exitMenuItem = new JMenuItem("Exit");
-		
+
+		undoMenuItem = new JMenuItem("Undo");
+
+		loadMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_L, ActionEvent.CTRL_MASK));
+
+		saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+
 		undoMenuItem.setAccelerator(KeyStroke.getKeyStroke(
 		        KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
 		
@@ -51,10 +68,17 @@ public class StrategoFrame extends JFrame implements IObserver {
 			}
 		});
 
-		undoMenuItem.addActionListener(new ActionListener() {
+		loadMenuItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sc.undo();
+				sc.load();
+			}
+		});
+
+		saveMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sc.save();
 			}
 		});
 
@@ -64,12 +88,25 @@ public class StrategoFrame extends JFrame implements IObserver {
 				System.exit(0);
 			}
 		});
-		
+
+		undoMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sc.undo();
+			}
+		});
+
 		gameMenu.add(newMenuItem);
-		gameMenu.add(undoMenuItem);
+		gameMenu.addSeparator();
+		gameMenu.add(loadMenuItem);
+		gameMenu.add(saveMenuItem);
 		gameMenu.addSeparator();
 		gameMenu.add(exitMenuItem);
+
+		editMenu.add(undoMenuItem);
+
 		menuBar.add(gameMenu);
+		menuBar.add(editMenu);
 		
 		characterInfoPanel = new CharacterInfoPanel(sc);
 		statusPanel = new StatusPanel(sc);
