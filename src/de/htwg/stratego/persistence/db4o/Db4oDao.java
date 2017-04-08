@@ -12,12 +12,12 @@ import com.db4o.ObjectContainer;
 
 import java.util.List;
 
-public class db4oDao implements IDao{
+public class Db4oDao implements IDao{
 
     public static final String DATABASE_FILE_NAME = "gameDB";
     private ObjectContainer db;
 
-    public db4oDao() {
+    public Db4oDao() {
         this.db = Db4oEmbedded.openFile(Db4oEmbedded.newConfiguration(),
                 DATABASE_FILE_NAME);
     }
