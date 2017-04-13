@@ -1,11 +1,14 @@
 package de.htwg.stratego.persistence.hibernate;
 
+import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IGame;
+import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.persistence.IDao;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HibernateDao implements IDao {
@@ -92,5 +95,27 @@ public class HibernateDao implements IDao {
     @Override
     public void closeDb() {
 
+    }
+
+    private TransferPlayer copyPlayer (IPlayer player) {
+        TransferPlayer tPlayer = new TransferPlayer();
+        List<ICharacter> characterList = player.getCharacterList();
+        List<TransferCharacter> tCharacterList = createTCharacterList(characterList, tPlayer);
+
+        // TODO add tCharacterlist to tPlayer
+        return null;
+    }
+
+    private List<TransferCharacter> createTCharacterList(List<ICharacter> characterList, TransferPlayer tPlayer) {
+        List<TransferCharacter> tCharacterList = new ArrayList<>();
+        for (ICharacter oldCharacter:
+             characterList) {
+            addRefenceToTPlayerAndOldCharacterToTCharacterList(tCharacterList, tPlayer, oldCharacter);
+        }
+        return tCharacterList;
+    }
+
+    private void addRefenceToTPlayerAndOldCharacterToTCharacterList(List<TransferCharacter> tCharacterList, TransferPlayer tPlayer, ICharacter oldCharacter) {
+        tCharacterList.add(new TransferCharacter(oldCharacter, tPlayer));
     }
 }

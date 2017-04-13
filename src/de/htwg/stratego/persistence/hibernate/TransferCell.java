@@ -1,5 +1,7 @@
 package de.htwg.stratego.persistence.hibernate;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -7,22 +9,15 @@ import java.io.Serializable;
 @Table
 public class TransferCell implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Integer id;
-
-    @Column
+    private Integer id;
     private Integer x;
-
-    @Column
     private Integer y;
-
-    @Column
     private Boolean passable;
-
-    @Column
     private TransferCharacter character;
 
+    @Id
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     public Integer getId() {
         return id;
     }
@@ -55,6 +50,7 @@ public class TransferCell implements Serializable {
         this.passable = passable;
     }
 
+    @ManyToOne
     public TransferCharacter getCharacter() {
         return character;
     }

@@ -1,6 +1,8 @@
 package de.htwg.stratego.persistence.hibernate;
 
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -9,20 +11,14 @@ import java.util.List;
 @Table(name= "field")
 public class TransferField implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Integer id;
-
-    @Column
+    private Integer id;
     private Integer width;
-
-    @Column
     private Integer height;
-
-    @OneToMany(mappedBy = "field")
-    @Column(name= "cell")
     private List<TransferCell> cells;
 
+    @Id
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     public Integer getId() {
         return id;
     }
@@ -47,6 +43,8 @@ public class TransferField implements Serializable {
         this.height = height;
     }
 
+    @OneToMany(mappedBy = "field")
+    @Column(name= "cell")
     public List<TransferCell> getCells() {
         return cells;
     }

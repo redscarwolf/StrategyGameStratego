@@ -1,5 +1,6 @@
 package de.htwg.stratego.persistence.hibernate;
 
+import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IPlayer;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -22,6 +23,14 @@ public class TransferCharacter implements Serializable {
     public TransferCharacter(Integer rank, boolean movable) {
         this.rank = rank;
         this.moveable = movable;
+    }
+
+    public TransferCharacter(ICharacter character, TransferPlayer player) {
+        this.rank = character.getRank();
+        this.moveable = character.isMoveable();
+        this.visible = character.isVisible();
+
+        this.player = player;
     }
 
     @Id

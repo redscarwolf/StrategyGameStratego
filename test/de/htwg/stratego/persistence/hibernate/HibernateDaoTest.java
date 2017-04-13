@@ -23,10 +23,9 @@ public class HibernateDaoTest {
 
     @Before
     public void setUp() throws Exception {
-        this.dao = new HibernateDao();
-        this.daoImpl = new HibernateDao();
+        this.dao = new createTCharacterList();
+        this.daoImpl = new createTCharacterList();
         this.game = new Game(1,null,null,null);
-
     }
 
     @After
