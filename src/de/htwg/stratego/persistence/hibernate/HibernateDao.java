@@ -97,13 +97,12 @@ public class HibernateDao implements IDao {
 
     }
 
-    private TransferPlayer copyPlayer (IPlayer player) {
-        TransferPlayer tPlayer = new TransferPlayer();
+    public TransferPlayer copyPlayer (IPlayer player) {
+        TransferPlayer tPlayer = new TransferPlayer(player.getName(), player.toString(),player.getSetupFinished());
         List<ICharacter> characterList = player.getCharacterList();
         List<TransferCharacter> tCharacterList = createTCharacterList(characterList, tPlayer);
-
-        // TODO add tCharacterlist to tPlayer
-        return null;
+        tPlayer.setCharacterList(tCharacterList);
+        return tPlayer;
     }
 
     private List<TransferCharacter> createTCharacterList(List<ICharacter> characterList, TransferPlayer tPlayer) {

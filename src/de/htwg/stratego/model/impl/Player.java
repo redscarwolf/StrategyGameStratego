@@ -18,11 +18,11 @@ public class Player implements IPlayer {
 	private boolean setupFinished;
 	
 	public Player() {
-		this("noname", "?", Color.PINK);
+		this("noname", "?");
 	}
 
 	@Inject
-	public Player(String name, @Named("symbolPlayerOne") String symbol, Color color) {
+	public Player(String name, @Named("symbolPlayerOne") String symbol) {
 		characterList = new ArrayList<>();
 		this.symbol = symbol;
 		this.name = name;
@@ -96,5 +96,10 @@ public class Player implements IPlayer {
 
 	public void setSetupFinished(boolean setupFinished) {
 		this.setupFinished = setupFinished;
+	}
+
+	@Override
+	public boolean getSetupFinished() {
+		return setupFinished;
 	}
 }

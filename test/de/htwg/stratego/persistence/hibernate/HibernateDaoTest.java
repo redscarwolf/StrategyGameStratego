@@ -2,6 +2,7 @@ package de.htwg.stratego.persistence.hibernate;
 
 import de.htwg.stratego.model.IGame;
 import de.htwg.stratego.model.impl.Game;
+import de.htwg.stratego.model.impl.Player;
 import de.htwg.stratego.persistence.IDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,6 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +25,8 @@ public class HibernateDaoTest {
 
     @Before
     public void setUp() throws Exception {
-        this.dao = new createTCharacterList();
-        this.daoImpl = new createTCharacterList();
+        this.dao = new HibernateDao();
+        this.daoImpl = new HibernateDao();
         this.game = new Game(1,null,null,null);
     }
 
@@ -100,5 +102,17 @@ public class HibernateDaoTest {
 
         tx.commit();
         session.close();
+    }
+
+    @Test
+    public void copyPlayer() throws Exception {
+        Player player = new Player("Horst", "!!");
+        player.addCharacter();
+        TransferPlayer transferPlayer = daoImpl.copyPlayer();
+        System.out.println(transferPlayer.getName());
+        System.out.println(transferPlayer.getSymbol());
+        System.out.println(transferPlayer.getSetupFinished());
+        System.out.println(transferPlayer.getCharacterList());
+
     }
 }
