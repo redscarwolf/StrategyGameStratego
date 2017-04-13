@@ -6,14 +6,14 @@ import org.junit.BeforeClass;
 
 import junit.framework.TestCase;
 
-public class db4oDaoTest extends TestCase{
-    private db4oDao dao;
+public class db4ODaoTest extends TestCase{
+    private Db4oDao dao;
     private IGame game;
 
     @BeforeClass
     public void setUp() throws Exception {
         super.setUp();
-        this.dao = new db4oDao();
+        this.dao = new Db4oDao();
         this.game = new Game(1,null,null,null);
     }
 
