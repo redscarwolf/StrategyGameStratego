@@ -38,7 +38,7 @@ public class StrategoModule extends AbstractModule {
 		.to(de.htwg.stratego.model.impl.PlayerFactory.class);
 
 		bind(IDao.class)
-		.to(de.htwg.stratego.persistence.db4o.db4oDao.class);
+		.to(de.htwg.stratego.persistence.db4o.Db4oDao.class);
 	}
 	
 }
