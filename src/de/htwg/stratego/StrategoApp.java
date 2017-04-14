@@ -8,6 +8,7 @@ import com.google.inject.Injector;
 import de.htwg.stratego.aview.gui.StrategoFrame;
 import de.htwg.stratego.aview.tui.TextUI;
 import de.htwg.stratego.controller.ISingelDeviceStrategoController;
+import de.htwg.stratego.persistence.couchdb.CouchdbDao;
 
 public final class StrategoApp {
 
@@ -25,6 +26,8 @@ public final class StrategoApp {
 	
 		tui = new TextUI(sc);
 		gui = new StrategoFrame(sc);
+
+		new CouchdbDao();
 	}
 	
 	public static void main(String[] args) {

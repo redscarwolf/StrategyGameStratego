@@ -1,6 +1,8 @@
 package de.htwg.stratego.persistence.couchdb;
 
-public class PersistanceCell {
+import org.ektorp.support.CouchDbDocument;
+
+public class PersistanceCell extends CouchDbDocument {
 
 
 
