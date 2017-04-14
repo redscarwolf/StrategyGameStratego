@@ -4,6 +4,7 @@ import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.ICell;
 
 public class Cell implements ICell {
+
 	private int x;
 	private int y;
 	private boolean passable;

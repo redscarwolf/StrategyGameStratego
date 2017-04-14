@@ -39,7 +39,7 @@ public class StrategoModule extends AbstractModule {
 
 		// IDao
 		bind(IDao.class)
-		.to(de.htwg.stratego.persistence.db4o.Db4oDao.class);
+		.to(de.htwg.stratego.persistence.couchdb.CouchdbDao.class);
 	}
 	
 }

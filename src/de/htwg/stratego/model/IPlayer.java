@@ -15,6 +15,8 @@ public interface IPlayer {
 	
 	void setName(String name);
 	String getName();
+	void setSymbol(String symbol);
+	String getSymbol();
 	boolean hasSetupFinished();
 	void setSetupFinished(boolean setupFinished);
 }

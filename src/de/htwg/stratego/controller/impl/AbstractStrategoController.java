@@ -472,6 +472,8 @@ public abstract class AbstractStrategoController extends Observable implements I
     public void save() {
         IGame game = new Game(currentPlayer, getPlayer(), gameState.getEGameState(), getIField());
         dao.updateGame(game);
+        statusMessage = "Saved.";
+        notifyObservers();
     }
 
     @Override

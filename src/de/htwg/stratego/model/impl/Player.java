@@ -86,6 +86,16 @@ public class Player implements IPlayer {
 	}
 
 	@Override
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+
+	@Override
+	public String getSymbol() {
+		return symbol;
+	}
+
+	@Override
 	public boolean hasCharacter(int rank) {
 		return getCharacter(rank) != null;
 	}

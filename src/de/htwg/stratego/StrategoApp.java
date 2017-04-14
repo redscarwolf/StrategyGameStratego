@@ -26,8 +26,6 @@ public final class StrategoApp {
 	
 		tui = new TextUI(sc);
 		gui = new StrategoFrame(sc);
-
-		new CouchdbDao();
 	}
 	
 	public static void main(String[] args) {
