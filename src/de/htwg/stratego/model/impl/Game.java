@@ -5,6 +5,8 @@ import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IGame;
 import de.htwg.stratego.model.IPlayer;
 
+import java.util.Arrays;
+
 public class Game implements IGame {
 
     private int currentPlayer;
@@ -37,5 +39,15 @@ public class Game implements IGame {
     @Override
     public IField getField() {
         return field;
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "currentPlayer=" + currentPlayer +
+                ", player=" + Arrays.toString(player) +
+                ", gameState=" + gameState +
+                ", field=" + field +
+                '}';
     }
 }

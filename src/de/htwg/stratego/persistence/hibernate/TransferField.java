@@ -16,6 +16,14 @@ public class TransferField implements Serializable {
     private Integer height;
     private List<TransferCell> cells;
 
+    public TransferField() {
+    }
+
+    public TransferField(Integer width, Integer height) {
+        this.width = width;
+        this.height = height;
+    }
+
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
@@ -43,13 +51,22 @@ public class TransferField implements Serializable {
         this.height = height;
     }
 
-    @OneToMany(mappedBy = "field")
-    @Column(name= "cell")
+    @OneToMany
     public List<TransferCell> getCells() {
         return cells;
     }
 
     public void setCells(List<TransferCell> cells) {
         this.cells = cells;
+    }
+
+    @Override
+    public String toString() {
+        return "TransferField{" +
+                "id=" + id +
+                ", width=" + width +
+                ", height=" + height +
+                ", cells=" + cells +
+                '}';
     }
 }

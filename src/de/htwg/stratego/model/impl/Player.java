@@ -102,4 +102,14 @@ public class Player implements IPlayer {
 	public boolean getSetupFinished() {
 		return setupFinished;
 	}
+
+	@Override
+	public String toStringAll() {
+		return "Player{" +
+				"characterList=" + characterList +
+				", symbol='" + symbol + '\'' +
+				", name='" + name + '\'' +
+				", setupFinished=" + setupFinished +
+				'}';
+	}
 }

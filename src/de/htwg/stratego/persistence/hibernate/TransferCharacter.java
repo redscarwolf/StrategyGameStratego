@@ -77,4 +77,14 @@ public class TransferCharacter implements Serializable {
     public void setPlayer(TransferPlayer player) {
         this.player = player;
     }
+
+    @Override
+    public String toString() {
+        return "TransferCharacter{" +
+                "id=" + id +
+                ", rank=" + rank +
+                ", moveable=" + moveable +
+                ", visible=" + visible +
+                '}';
+    }
 }

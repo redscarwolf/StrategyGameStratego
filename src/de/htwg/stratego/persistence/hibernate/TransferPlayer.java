@@ -1,6 +1,7 @@
 package de.htwg.stratego.persistence.hibernate;
 
 
+import de.htwg.stratego.model.IPlayer;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -69,5 +70,16 @@ public class TransferPlayer implements Serializable {
 
     public void setSetupFinished(boolean setupFinished) {
         this.setupFinished = setupFinished;
+    }
+
+    @Override
+    public String toString() {
+        return "TransferPlayer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", characterList=" + characterList +
+                ", symbol='" + symbol + '\'' +
+                ", setupFinished=" + setupFinished +
+                '}';
     }
 }

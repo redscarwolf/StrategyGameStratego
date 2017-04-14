@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table
+@Table(name= "cell")
 public class TransferCell implements Serializable {
 
     private Integer id;
@@ -14,6 +14,15 @@ public class TransferCell implements Serializable {
     private Integer y;
     private Boolean passable;
     private TransferCharacter character;
+
+    public TransferCell() {
+    }
+
+    public TransferCell(Integer x, Integer y, Boolean passable) {
+        this.x = x;
+        this.y = y;
+        this.passable = passable;
+    }
 
     @Id
     @GeneratedValue(generator="increment")
@@ -50,12 +59,23 @@ public class TransferCell implements Serializable {
         this.passable = passable;
     }
 
-    @ManyToOne
+    @OneToOne
     public TransferCharacter getCharacter() {
         return character;
     }
 
     public void setCharacter(TransferCharacter character) {
         this.character = character;
+    }
+
+    @Override
+    public String toString() {
+        return "TransferCell{" +
+                "id=" + id +
+                ", x=" + x +
+                ", y=" + y +
+                ", passable=" + passable +
+                ", character=" + character +
+                '}';
     }
 }

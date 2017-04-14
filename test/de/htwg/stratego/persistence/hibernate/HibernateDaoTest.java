@@ -1,8 +1,16 @@
 package de.htwg.stratego.persistence.hibernate;
 
+import de.htwg.stratego.model.ICharacter;
+import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IGame;
+import de.htwg.stratego.model.IPlayer;
+import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.Game;
 import de.htwg.stratego.model.impl.Player;
+import de.htwg.stratego.model.impl.character.Bomb;
+import de.htwg.stratego.model.impl.character.Flag;
+import de.htwg.stratego.model.impl.character.Scout;
+import de.htwg.stratego.model.impl.character.Sergeant;
 import de.htwg.stratego.persistence.IDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,22 +20,40 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class HibernateDaoTest {
+
     private IDao dao;
     private HibernateDao daoImpl;
+
     private IGame game;
+    private IPlayer playerOne;
+    private IPlayer playerTwo;
 
     @Before
     public void setUp() throws Exception {
         this.dao = new HibernateDao();
         this.daoImpl = new HibernateDao();
-        this.game = new Game(1,null,null,null);
+        this.game = setUpGame();
+    }
+
+    private IGame setUpGame() {
+        IField field = new Field(3, 2);
+        playerOne = new Player("PlayerOne", "#");
+        playerTwo = new Player("PlayerTwo", "!");
+        IPlayer players[] = {playerOne, playerTwo};
+        ICharacter character1 = new Sergeant(playerOne);
+        ICharacter character2 = new Sergeant(playerTwo);
+
+        field.getCell(0, 0).setCharacter(character1);
+        field.getCell(1, 1).setCharacter(character2);
+
+        int currentPlayer = 0;
+        return new Game(currentPlayer, players, null, field);
     }
 
     @After
@@ -104,15 +130,31 @@ public class HibernateDaoTest {
         session.close();
     }
 
-    @Test
-    public void copyPlayer() throws Exception {
+    // TODO delete?
+    private Player preparePlayerWithCharackters() {
         Player player = new Player("Horst", "!!");
-        player.addCharacter();
-        TransferPlayer transferPlayer = daoImpl.copyPlayer();
-        System.out.println(transferPlayer.getName());
-        System.out.println(transferPlayer.getSymbol());
-        System.out.println(transferPlayer.getSetupFinished());
-        System.out.println(transferPlayer.getCharacterList());
+        Flag flag = new Flag(player);
+        Bomb bomb = new Bomb(player);
+        Scout scout = new Scout(player);
+        player.addCharacter(flag);
+        player.addCharacter(bomb);
+        player.addCharacter(scout);
+        return player;
+    }
+
+    @Test
+    public void copyGame() throws Exception {
+        TransferGame transferGame = daoImpl.copyGame(game);
+        assertEquals("TransferGame{id=null, gameState=null," +
+                " field=TransferField{id=null, width=3, height=2," +
+                " cells=[TransferCell{id=null, x=0, y=0, passable=true, character=TransferCharacter{id=null, rank=4, moveable=true, visible=true}}, TransferCell{id=null, x=1, y=1, passable=true, character=TransferCharacter{id=null, rank=4, moveable=true, visible=true}}]}, currentPlayer=0, player=[TransferPlayer{id=null, name='PlayerOne', characterList=[], symbol='#', setupFinished=false}, TransferPlayer{id=null, name='PlayerTwo', characterList=[], symbol='!', setupFinished=false}]}",
+                transferGame.toString());
+
+    }
+
+    @Test
+    public void createGame() throws Exception {
+        dao.createGame(game);
 
     }
 }

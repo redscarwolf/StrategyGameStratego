@@ -18,4 +18,6 @@ public interface IPlayer {
 	boolean hasSetupFinished();
 	void setSetupFinished(boolean setupFinished);
 	boolean getSetupFinished();
+
+	String toStringAll();
 }

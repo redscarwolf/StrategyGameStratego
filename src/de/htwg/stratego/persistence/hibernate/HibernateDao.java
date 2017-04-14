@@ -1,8 +1,6 @@
 package de.htwg.stratego.persistence.hibernate;
 
-import de.htwg.stratego.model.ICharacter;
-import de.htwg.stratego.model.IGame;
-import de.htwg.stratego.model.IPlayer;
+import de.htwg.stratego.model.*;
 import de.htwg.stratego.persistence.IDao;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -15,8 +13,46 @@ public class HibernateDao implements IDao {
 
     @Override
     public void createGame(IGame game) {
+        Transaction transaction = null;
+        Session session = null;
 
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+
+            transaction = session.beginTransaction();
+
+            TransferGame transferGame = copyGame(game);
+            session.save(transferGame);
+
+            transaction.commit();
+        } catch (HibernateException ex) {
+            if (transaction != null)
+                transaction.rollback();
+            throw new RuntimeException(ex.getMessage());
+        }
     }
+
+    @Override
+    public void updateGame(IGame game) {
+        Transaction transaction = null;
+        Session session = null;
+
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+
+            transaction = session.beginTransaction();
+
+            TransferGame transferGame = copyGame(game);
+            session.saveOrUpdate(transferGame);
+
+            transaction.commit();
+        } catch (HibernateException ex) {
+            if (transaction != null)
+                transaction.rollback();
+            throw new RuntimeException(ex.getMessage());
+        }
+    }
+
 
     @Override
     public IGame readGame() {
@@ -24,6 +60,26 @@ public class HibernateDao implements IDao {
         return null;
     }
 
+
+
+    @Override
+    public void deleteGame(IGame game) {
+
+    }
+
+    @Override
+    public void closeDb() {
+
+    }
+
+
+    @SuppressWarnings({ "unchecked" })
+    private List<TransferCharacter> queryTransferCharacter(Session session) {
+        List result = session.createQuery( "from TransferCharacter" ).list();
+        return (List<TransferCharacter>) result;
+    }
+
+    // TODO löschen? für was noch behalten?
     public List<TransferCharacter> getTransferCharacter() {
         Transaction transaction = null;
         Session session = null;
@@ -44,77 +100,49 @@ public class HibernateDao implements IDao {
         return transferCharacter;
     }
 
-
-
-    @SuppressWarnings({ "unchecked" })
-    private List<TransferCharacter> queryTransferCharacter(Session session) {
-        List result = session.createQuery( "from TransferCharacter" ).list();
-        return (List<TransferCharacter>) result;
+    // TODO private setzen
+    public TransferGame copyGame(IGame game) {
+        HibernateUtilTransferPlayerMap transferPlayerMap = new HibernateUtilTransferPlayerMap(game);
+        return new TransferGame(
+                null,
+                copyField(game.getField(),game.getPlayer(), transferPlayerMap),
+                game.getCurrentPlayer(),
+                transferPlayerMap.getAllTransferPlayer());
     }
 
+    private TransferField copyField (IField field, IPlayer[] player, HibernateUtilTransferPlayerMap transferPlayerMap) {
+        TransferField transferField = new TransferField(field.getWidth(), field.getHeight());
 
-    @Override
-    public void updateGame(IGame game) {
-        Transaction transaction = null;
-        Session session = null;
+        List<TransferCell> transferCellList = createTransferCells(field, player, transferPlayerMap);
+        transferField.setCells(transferCellList);
+        return transferField;
+    }
 
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+    private List<TransferCell> createTransferCells(IField field, IPlayer[] player, HibernateUtilTransferPlayerMap transferPlayerMap) {
+        List<TransferCell> transferCellList = new ArrayList<>();
 
-            transaction = session.beginTransaction();
+        for (IPlayer aPlayer : player) {
+            TransferPlayer transferPlayer = transferPlayerMap.getTransferPlayer(aPlayer);
+            transferCellList.addAll(copyCellsForPlayer(transferPlayer, field.getAllCellsFrom(aPlayer)));
 
-            TransferCharacter character = createCharacter();
-            // TODO
-            session.save(character);
-
-            transaction.commit();
-        } catch (HibernateException ex) {
-            if (transaction != null)
-                transaction.rollback();
-            throw new RuntimeException(ex.getMessage());
         }
+        return transferCellList;
     }
 
-    private TransferCharacter createCharacter() {
-        // TODO
-        return new TransferCharacter(12, true);
-    }
+    private List<TransferCell> copyCellsForPlayer(TransferPlayer transferPlayer, List<ICell> allCellsFromPlayer) {
+        List<TransferCell> tCellList = new ArrayList<>();
+        for (ICell oldCell :
+                allCellsFromPlayer) {
 
-    private TransferGame copyGame(IGame game) {
-        // TODO
-        TransferGame transferGame = new TransferGame();
+            TransferCharacter transferCharacter = new TransferCharacter(oldCell.getCharacter(), transferPlayer);
 
-        return transferGame;
-    }
+            // copyCell
+            TransferCell transferCell = new TransferCell(oldCell.getX(), oldCell.getY(), oldCell.isPassable());
+            transferCell.setCharacter(transferCharacter);
 
-    @Override
-    public void deleteGame(IGame game) {
 
-    }
-
-    @Override
-    public void closeDb() {
-
-    }
-
-    public TransferPlayer copyPlayer (IPlayer player) {
-        TransferPlayer tPlayer = new TransferPlayer(player.getName(), player.toString(),player.getSetupFinished());
-        List<ICharacter> characterList = player.getCharacterList();
-        List<TransferCharacter> tCharacterList = createTCharacterList(characterList, tPlayer);
-        tPlayer.setCharacterList(tCharacterList);
-        return tPlayer;
-    }
-
-    private List<TransferCharacter> createTCharacterList(List<ICharacter> characterList, TransferPlayer tPlayer) {
-        List<TransferCharacter> tCharacterList = new ArrayList<>();
-        for (ICharacter oldCharacter:
-             characterList) {
-            addRefenceToTPlayerAndOldCharacterToTCharacterList(tCharacterList, tPlayer, oldCharacter);
+            tCellList.add(transferCell);
         }
-        return tCharacterList;
-    }
-
-    private void addRefenceToTPlayerAndOldCharacterToTCharacterList(List<TransferCharacter> tCharacterList, TransferPlayer tPlayer, ICharacter oldCharacter) {
-        tCharacterList.add(new TransferCharacter(oldCharacter, tPlayer));
+        return tCellList;
     }
 }
