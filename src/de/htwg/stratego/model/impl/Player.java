@@ -1,14 +1,12 @@
 package de.htwg.stratego.model.impl;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IPlayer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player implements IPlayer {
 
@@ -18,11 +16,11 @@ public class Player implements IPlayer {
 	private boolean setupFinished;
 	
 	public Player() {
-		this("noname", "?", Color.PINK);
+		this("noname", "?");
 	}
 
 	@Inject
-	public Player(String name, @Named("symbolPlayerOne") String symbol, Color color) {
+	public Player(String name, @Named("symbolPlayerOne") String symbol) {
 		characterList = new ArrayList<>();
 		this.symbol = symbol;
 		this.name = name;
