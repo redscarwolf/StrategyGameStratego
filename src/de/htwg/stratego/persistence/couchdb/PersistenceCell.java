@@ -7,13 +7,17 @@ public class PersistenceCell extends CouchDbDocument {
     private int x;
     private int y;
     private boolean passable;
-    private PersistenceCharacter persistenceCharacter;
+    private PersistenceCharacter character;
 
-    public PersistenceCell(int x, int y, boolean passable, PersistenceCharacter persistenceCharacter) {
+    public PersistenceCell() {
+
+    }
+
+    public PersistenceCell(int x, int y, boolean passable, PersistenceCharacter character) {
         this.x = x;
         this.y = y;
         this.passable = passable;
-        this.persistenceCharacter = persistenceCharacter;
+        this.character = character;
     }
 
     public int getX() {
@@ -40,11 +44,11 @@ public class PersistenceCell extends CouchDbDocument {
         this.passable = passable;
     }
 
-    public PersistenceCharacter getPersistenceCharacter() {
-        return persistenceCharacter;
+    public PersistenceCharacter getCharacter() {
+        return character;
     }
 
-    public void setPersistenceCharacter(PersistenceCharacter persistenceCharacter) {
-        this.persistenceCharacter = persistenceCharacter;
+    public void setCharacter(PersistenceCharacter character) {
+        this.character = character;
     }
 }

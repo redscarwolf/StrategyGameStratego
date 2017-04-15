@@ -1,6 +1,5 @@
 package de.htwg.stratego.persistence.couchdb;
 
-import de.htwg.stratego.model.impl.Rank;
 import org.ektorp.support.CouchDbDocument;
 
 import java.util.List;
@@ -11,6 +10,10 @@ public class PersistencePlayer extends CouchDbDocument {
     private String symbol;
     private String name;
     private boolean setupFinished;
+
+    public PersistencePlayer() {
+
+    }
 
     public PersistencePlayer(List<Integer> characterList, String symbol, String name, boolean setupFinished) {
         this.characterList = characterList;

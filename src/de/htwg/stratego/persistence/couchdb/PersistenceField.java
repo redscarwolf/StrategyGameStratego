@@ -8,6 +8,10 @@ public class PersistenceField extends CouchDbDocument {
     private int height;
     private PersistenceCell[][] cells;
 
+    public PersistenceField() {
+
+    }
+
     public PersistenceField(int width, int height) {
         this.width = width;
         this.height = height;
@@ -38,11 +42,11 @@ public class PersistenceField extends CouchDbDocument {
         this.cells = cells;
     }
 
-    public PersistenceCell getPersistanceCell(int x, int y) {
+    public PersistenceCell getCell(int x, int y) {
         return cells[x][y];
     }
 
-    public void setPersistanceCell(int x, int y, PersistenceCell cell) {
+    public void setCell(int x, int y, PersistenceCell cell) {
         cells[x][y] = cell;
     }
 }

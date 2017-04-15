@@ -29,8 +29,8 @@ public class CharacterTest extends TestCase {
 
 	@BeforeClass
 	public void setUp() {
-		playerOne = new Player("PlayerOne", "#", Color.BLUE);
-		playerTwo = new Player("PlayerTwo", "!", Color.RED);
+		playerOne = new Player("PlayerOne", "#");
+		playerTwo = new Player("PlayerTwo", "!");
 		
 		flag = new Flag(playerOne);
 		sergeant = new Sergeant(playerTwo);

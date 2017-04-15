@@ -22,8 +22,8 @@ public class FieldTest extends TestCase {
 	@BeforeClass
 	public void setUp() {
 		field = new Field(3, 2);
-		playerOne = new Player("PlayerOne", "#", Color.BLUE);
-		playerTwo = new Player("PlayerTwo", "!", Color.RED);
+		playerOne = new Player("PlayerOne", "#");
+		playerTwo = new Player("PlayerTwo", "!");
 		character1 = new Sergeant(playerOne);
 		character2 = new Sergeant(playerTwo);
 		

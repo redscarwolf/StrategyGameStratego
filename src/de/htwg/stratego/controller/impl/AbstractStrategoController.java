@@ -44,8 +44,8 @@ public abstract class AbstractStrategoController extends Observable implements I
     public AbstractStrategoController(IField field, IPlayerFactory playerFactory, IDao dao) {
         this.dao = dao;
         player = new IPlayer[2];
-        player[0] = playerFactory.create("PlayerOne", "#", Color.BLUE);
-        player[1] = playerFactory.create("PlayerTwo", "!", Color.RED);
+        player[0] = playerFactory.create("PlayerOne", "#");
+        player[1] = playerFactory.create("PlayerTwo", "!");
         currentPlayer = 0;
 
         initPlayerCharecterList(getPlayerOne());
@@ -504,6 +504,7 @@ public abstract class AbstractStrategoController extends Observable implements I
         }
 
         field = game.getField();
+        ruleSystem = new DefaultRuleSystem(field);
 
         statusMessage = "Game loaded.";
         undoManager.clear();

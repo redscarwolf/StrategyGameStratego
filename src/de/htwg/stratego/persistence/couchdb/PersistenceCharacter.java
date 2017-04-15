@@ -9,6 +9,10 @@ public class PersistenceCharacter extends CouchDbDocument {
     protected boolean visible;
     protected PersistencePlayer player;
 
+    public PersistenceCharacter() {
+
+    }
+
     public PersistenceCharacter(int rank, boolean moveable, boolean visible, PersistencePlayer player) {
         this.rank = rank;
         this.moveable = moveable;

@@ -12,6 +12,10 @@ public class PersistenceGame extends CouchDbDocument {
     private EGameState gameState;
     private PersistenceField field;
 
+    public PersistenceGame() {
+
+    }
+
     public PersistenceGame(int currentPlayer, List<PersistencePlayer> player, EGameState gameState, PersistenceField field) {
         this.currentPlayer = currentPlayer;
         this.player = player;
