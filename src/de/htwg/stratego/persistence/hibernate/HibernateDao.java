@@ -265,31 +265,33 @@ public class HibernateDao implements IDao {
         return tCellList;
     }
 
+    public List<IGame> getAllGames(){
+        List<IGame> gameList = new ArrayList<>();
 
-    // TODO delete, für QueryTest gerschieben!
-//    public List<TransferCharacter> getTransferCharacter() {
-//        Transaction transaction = null;
-//        Session session = null;
-//        List<TransferCharacter> transferCharacter;
-//        try {
-//            session = HibernateUtil.getSessionFactory().openSession();
-//            transaction = session.beginTransaction();
-//
-//            transferCharacter = queryTransferCharacter(session);
-//
-//            transaction.commit();
-//        } catch (HibernateException ex) {
-//            if (transaction != null)
-//                transaction.rollback();
-//            throw new RuntimeException(ex.getMessage());
-//        }
-//
-//        return transferCharacter;
-//    }
-//
-//    @SuppressWarnings({ "unchecked" })
-//    private List<TransferCharacter> queryTransferCharacter(Session session) {
-//        List result = session.createQuery( "from TransferCharacter" ).list();
-//        return (List<TransferCharacter>) result;
-//    }
+        Transaction transaction = null;
+        Session session;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            List<TransferGame> transferGameList = queryTransferGame(session);
+            for (TransferGame transferGame :
+                    transferGameList) {
+                gameList.add(copyGameFromDB(transferGame));
+            }
+
+            transaction.commit();
+        } catch (HibernateException ex) {
+            if (transaction != null)
+                transaction.rollback();
+            throw new RuntimeException(ex.getMessage());
+        }
+
+        return gameList;
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    private List<TransferGame> queryTransferGame(Session session) {
+        return (List<TransferGame>) session.createQuery( "from TransferGame" ).list();
+    }
 }

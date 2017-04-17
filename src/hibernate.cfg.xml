@@ -26,11 +26,11 @@
 
       <!---->
       <!-- Names the annotated entity class -->
-      <!--<mapping class="de.htwg.stratego.persistence.hibernate.TransferCell" />-->
-      <!--<mapping class="de.htwg.stratego.persistence.hibernate.TransferField" />-->
+      <mapping class="de.htwg.stratego.persistence.hibernate.TransferCell" />
+      <mapping class="de.htwg.stratego.persistence.hibernate.TransferField" />
       <mapping class="de.htwg.stratego.persistence.hibernate.TransferCharacter" />
       <mapping class="de.htwg.stratego.persistence.hibernate.TransferPlayer" />
-      <!--<mapping class="de.htwg.stratego.persistence.hibernate.TransferGame" />-->
+      <mapping class="de.htwg.stratego.persistence.hibernate.TransferGame" />
 
    </session-factory>
 </hibernate-configuration>

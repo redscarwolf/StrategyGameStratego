@@ -18,6 +18,9 @@ import org.hibernate.cfg.Configuration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class HibernateDaoTest {
@@ -34,10 +37,10 @@ public class HibernateDaoTest {
     public void setUp() throws Exception {
         this.dao = new HibernateDao();
         this.daoImpl = new HibernateDao();
-        this.game = setUpGame();
+        this.game = setUpGame(GAME_ID);
     }
 
-    private IGame setUpGame() {
+    private IGame setUpGame(int gameId) {
         IField field = new Field(3, 2);
         playerOne = new Player("PlayerOne", "#");
         playerTwo = new Player("PlayerTwo", "!");
@@ -54,16 +57,20 @@ public class HibernateDaoTest {
         field.getCell(0, 1).setCharacter(character3);
 
         int currentPlayer = 0;
-        return new Game(GAME_ID, currentPlayer, players, null, field);
+        return new Game(gameId, currentPlayer, players, null, field);
     }
 
     @After
     public void afterEachTest() {
-        dao.deleteGame(game);
-        checkIfGameIsDeletedFromDB();
+        List<IGame> allGames = daoImpl.getAllGames();
+        for (IGame g :
+                allGames) {
+            dao.deleteGame(g);
+            checkIfGameIsDeletedFromDB(g);
+        }
     }
 
-    private void checkIfGameIsDeletedFromDB() {
+    private void checkIfGameIsDeletedFromDB(IGame game) {
         SessionFactory sessionFactory;
         sessionFactory = new Configuration()
                 .configure() // configures settings from hibernate.cfg.xml
@@ -82,11 +89,11 @@ public class HibernateDaoTest {
     @Test
     public void createGame_And_ReadGame() throws Exception {
         dao.createGame(game);
-        assertEqual_Game_With_GameFromDB();
+        assertEqual_Game_With_GameFromDB(game);
     }
 
-    private void assertEqual_Game_With_GameFromDB() {
-        IGame gameFromDB = dao.readGame(GAME_ID);
+    private void assertEqual_Game_With_GameFromDB(IGame game) {
+        IGame gameFromDB = dao.readGame(game.getId());
         assertEquals(game.getId(), gameFromDB.getId());
         assertEquals(game.getCurrentPlayer(), gameFromDB.getCurrentPlayer());
 
@@ -104,37 +111,34 @@ public class HibernateDaoTest {
         int height = 1;
         game.getField().getCell(width, height).setCharacter(new Bomb(playerOne));
         dao.updateGame(game);
-        assertEqual_Game_With_GameFromDB();
+        assertEqual_Game_With_GameFromDB(game);
     }
 
     @Test
     public void updateGame_NoGameInDB_isCreated() throws Exception {
         dao.updateGame(game);
-        assertEqual_Game_With_GameFromDB();
+        assertEqual_Game_With_GameFromDB(game);
     }
 
-    // TODO List<IGame> getGameList() method, hier ein bsp Code anhand von Transfercharacter
-//    @Test
-//    public void uebergangsTest_QueryList() throws Exception {
-//        SessionFactory sessionFactory;
-//        sessionFactory = new Configuration()
-//                .configure() // configures settings from hibernate.cfg.xml
-//                .buildSessionFactory();
-//        Session session = sessionFactory.openSession();
-//        Transaction tx = session.beginTransaction();
-//
-//        commandDatabaseQueryList(session);
-//
-//        tx.commit();
-//        session.close();
-//    }
-//
-//    @SuppressWarnings({ "unchecked" })
-//    private void commandDatabaseQueryList(Session session) {
-//        List result = session.createQuery( "from TransferCharacter" ).list();
-//        for ( TransferCharacter transChar : (List<TransferCharacter>) result ) {
-//            System.out.println( "Event (" + transChar.getId() +
-//                    ") : " + transChar.getRank() );
-//        }
-//    }
+    @Test
+    public void getAllGames() throws Exception {
+        int gameOne_ID = GAME_ID;
+        int gameTwo_ID = 1000;
+        int gameThree_ID = 1001;
+
+        // createGame
+        IGame gameOne = setUpGame(gameOne_ID);
+        IGame gameTwo = setUpGame(gameTwo_ID);
+        IGame gameThree = setUpGame(gameThree_ID);
+        dao.createGame(gameOne);
+        dao.createGame(gameTwo);
+        dao.createGame(gameThree);
+
+        // getAllGames
+        List<IGame> allGames = daoImpl.getAllGames();
+        for (IGame g :
+                allGames) {
+            assertEqual_Game_With_GameFromDB(g);
+        }
+    }
 }
