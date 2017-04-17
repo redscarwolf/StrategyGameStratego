@@ -1,4 +1,4 @@
-package de.htwg.stratego.persistence.hibernate;
+package de.htwg.stratego.persistence.hibernate.util;
 
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;

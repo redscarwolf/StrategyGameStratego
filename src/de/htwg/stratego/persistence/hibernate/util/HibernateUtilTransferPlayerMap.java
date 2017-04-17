@@ -1,8 +1,10 @@
-package de.htwg.stratego.persistence.hibernate;
+package de.htwg.stratego.persistence.hibernate.util;
 
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IGame;
 import de.htwg.stratego.model.IPlayer;
+import de.htwg.stratego.persistence.hibernate.TransferCharacter;
+import de.htwg.stratego.persistence.hibernate.TransferPlayer;
 
 import java.util.*;
 

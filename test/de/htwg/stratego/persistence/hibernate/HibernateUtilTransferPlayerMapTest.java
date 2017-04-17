@@ -8,6 +8,7 @@ import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.Game;
 import de.htwg.stratego.model.impl.Player;
 import de.htwg.stratego.model.impl.character.Sergeant;
+import de.htwg.stratego.persistence.hibernate.util.HibernateUtilTransferPlayerMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

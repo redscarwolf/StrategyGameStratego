@@ -4,6 +4,10 @@ import de.htwg.stratego.model.*;
 import de.htwg.stratego.model.impl.*;
 import de.htwg.stratego.model.impl.character.*;
 import de.htwg.stratego.persistence.IDao;
+import de.htwg.stratego.persistence.hibernate.util.TransactionNoReturn;
+import de.htwg.stratego.persistence.hibernate.util.HibernateUtil;
+import de.htwg.stratego.persistence.hibernate.util.HibernateUtilTransferPlayerMap;
+import de.htwg.stratego.persistence.hibernate.util.TransactionWithReturn;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -17,14 +21,51 @@ public class HibernateDao implements IDao {
 
     @Override
     public void createGame(IGame game) {
+        makeTransaction((session) -> {
+            TransferGame transferGame = copyGame(game);
+            saveEachTransferObjectInDB(session, transferGame);
+        });
+    }
+
+    @Override
+    public IGame readGame(int gameId) {
+        return makeTransaction((session) -> {
+            TransferGame transferGameFromDB = session.get(TransferGame.class, gameId);
+            return copyGameFromDB(transferGameFromDB);
+        });
+    }
+
+    @Override
+    public void updateGame(IGame game) {
+        makeTransaction((session) -> {
+            TransferGame transferGameFromDB = session.get(TransferGame.class, game.getId());
+            if (transferGameFromDB != null) {
+                deleteEachTransferObjectInDB(session, transferGameFromDB);
+            }
+
+            TransferGame transferGame = copyGame(game);
+            saveEachTransferObjectInDB(session, transferGame);
+        });
+    }
+
+    @Override
+    public void deleteGame(IGame game) {
+        makeTransaction((session) -> {
+            TransferGame transferGameFromDB = session.get(TransferGame.class, game.getId());
+            if (transferGameFromDB != null) {
+                deleteEachTransferObjectInDB(session, transferGameFromDB);
+            }
+        });
+    }
+
+    private void makeTransaction(TransactionNoReturn fiHib) {
         Transaction transaction = null;
         Session session;
-
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            TransferGame transferGame = copyGame(game);
-            saveEachTransferObjectInDB(session, transferGame);
+
+            fiHib.toTransact(session);
 
             transaction.commit();
         } catch (HibernateException ex) {
@@ -34,8 +75,7 @@ public class HibernateDao implements IDao {
         }
     }
 
-    @Override
-    public IGame readGame(int gameId) {
+    private IGame makeTransaction(TransactionWithReturn fiHib) {
         IGame game;
         Transaction transaction = null;
         Session session;
@@ -43,8 +83,7 @@ public class HibernateDao implements IDao {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
 
-            TransferGame transferGameFromDB = session.get(TransferGame.class, gameId);
-            game = copyGameFromDB(transferGameFromDB);
+            game = fiHib.toTransact(session);
 
             transaction.commit();
         } catch (HibernateException ex) {
@@ -53,51 +92,6 @@ public class HibernateDao implements IDao {
             throw new RuntimeException(ex.getMessage());
         }
         return game;
-    }
-
-    @Override
-    public void updateGame(IGame game) {
-        Transaction transaction = null;
-        Session session;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
-
-            TransferGame transferGameFromDB = session.get(TransferGame.class, game.getId());
-            if (transferGameFromDB != null) {
-                deleteEachTransferObjectInDB(session, transferGameFromDB);
-            }
-
-            TransferGame transferGame = copyGame(game);
-            saveEachTransferObjectInDB(session, transferGame);
-
-            transaction.commit();
-        } catch (HibernateException ex) {
-            if (transaction != null)
-                transaction.rollback();
-            throw new RuntimeException(ex.getMessage());
-        }
-    }
-
-    @Override
-    public void deleteGame(IGame game) {
-        Transaction transaction = null;
-        Session session;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            transaction = session.beginTransaction();
-
-            TransferGame transferGameFromDB = session.get(TransferGame.class, game.getId());
-            if (transferGameFromDB != null) {
-                deleteEachTransferObjectInDB(session, transferGameFromDB);
-            }
-
-            transaction.commit();
-        } catch (HibernateException ex) {
-            if (transaction != null)
-                transaction.rollback();
-            throw new RuntimeException(ex.getMessage());
-        }
     }
 
     private void saveEachTransferObjectInDB(Session session, TransferGame transferGame) {
