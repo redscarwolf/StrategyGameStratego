@@ -1,9 +1,6 @@
 package de.htwg.stratego.persistence.hibernate;
 
-import de.htwg.stratego.model.ICharacter;
-import de.htwg.stratego.model.IField;
-import de.htwg.stratego.model.IGame;
-import de.htwg.stratego.model.IPlayer;
+import de.htwg.stratego.model.*;
 import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.Game;
 import de.htwg.stratego.model.impl.Player;
@@ -57,7 +54,8 @@ public class HibernateDaoTest {
         field.getCell(0, 1).setCharacter(character3);
 
         int currentPlayer = 0;
-        return new Game(gameId, currentPlayer, players, null, field);
+
+        return new Game(gameId, currentPlayer, players, EGameState.PLAYER_START, field);
     }
 
     @After

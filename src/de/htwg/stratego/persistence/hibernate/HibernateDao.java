@@ -220,10 +220,9 @@ public class HibernateDao implements IDao {
 
     private TransferGame copyGame(IGame game) {
         HibernateUtilTransferPlayerMap transferPlayerMap = new HibernateUtilTransferPlayerMap(game);
-        // TODO transfer gameState
         return new TransferGame(
                 game.getId(),
-                null,
+                game.getGameState(),
                 copyField(game.getField(),game.getPlayer(), transferPlayerMap),
                 game.getCurrentPlayer(),
                 transferPlayerMap.getAllTransferPlayer());
