@@ -9,16 +9,23 @@ import java.util.Arrays;
 
 public class Game implements IGame {
 
+    private int id;
     private int currentPlayer;
     private IPlayer[] player;
     private EGameState gameState;
     private IField field;
 
-    public Game(int currentPlayer, IPlayer[] player, EGameState gameState, IField field) {
+    public Game(int id, int currentPlayer, IPlayer[] player, EGameState gameState, IField field) {
+        this.id = id;
         this.currentPlayer = currentPlayer;
         this.player = player;
         this.gameState = gameState;
         this.field = field;
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     @Override

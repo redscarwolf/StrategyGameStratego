@@ -122,4 +122,9 @@ public class Field implements IField {
 		return result;
 	}
 
+	@Override
+	public void setCell(Cell cell) {
+		cells[cell.getX()][cell.getY()] = cell;
+
+	}
 }

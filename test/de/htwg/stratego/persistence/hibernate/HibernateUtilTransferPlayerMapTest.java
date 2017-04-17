@@ -45,7 +45,7 @@ public class HibernateUtilTransferPlayerMapTest {
         field.getCell(1, 1).setCharacter(character2);
 
         int currentPlayer = 0;
-        return new Game(currentPlayer, players, null, field);
+        return new Game(0, currentPlayer, players, null, field);
     }
 
     @Test

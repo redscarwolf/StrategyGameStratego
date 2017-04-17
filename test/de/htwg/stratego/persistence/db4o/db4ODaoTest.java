@@ -14,7 +14,7 @@ public class db4ODaoTest extends TestCase{
     public void setUp() throws Exception {
         super.setUp();
         this.dao = new Db4oDao();
-        this.game = new Game(1,null,null,null);
+        this.game = new Game(0,1,null,null,null);
     }
 
     public void testCreateGame() throws Exception {
@@ -24,22 +24,22 @@ public class db4ODaoTest extends TestCase{
 
     public void testUpdateGame_startWithEmptyDatabase_savesPassedGame() throws Exception {
         dao.updateGame(game);
-        IGame iGame = dao.readGame();
+        IGame iGame = dao.readGame(1);
         assertEquals(game.getCurrentPlayer(),iGame.getCurrentPlayer());
         shutDownDbAndDelete();
     }
 
     public void testUpdateGame_startWithFilledDatabase_deleteOldAndSavePassedGame() throws Exception {
-        dao.createGame(new Game(2, null, null, null));
+        dao.createGame(new Game(0, 2, null, null, null));
         dao.updateGame(game);
-        IGame iGame = dao.readGame();
+        IGame iGame = dao.readGame(1);
         assertEquals(game.getCurrentPlayer(),iGame.getCurrentPlayer());
         shutDownDbAndDelete();
     }
 
     public void testDeleteGame_haveOneGameInDatabase_deleteOldGame() throws Exception {
         dao.createGame(game);
-        IGame iGame = dao.readGame();
+        IGame iGame = dao.readGame(1);
         dao.deleteGame(iGame);
         shutDown();
     }

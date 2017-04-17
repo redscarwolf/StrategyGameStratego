@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -68,5 +69,20 @@ public class TransferField implements Serializable {
                 ", height=" + height +
                 ", cells=" + cells +
                 '}';
+    }
+
+    public List<TransferCell>  getAllCellsFrom(TransferPlayer player) {
+        ArrayList<TransferCell> result = new ArrayList<>();
+        if (cells.isEmpty()) {
+            return null;
+        }
+        for (TransferCell cell : cells) {
+            TransferCharacter character = cell.getCharacter();
+            if (character != null)
+                if (character.getPlayer() == player){
+                    result.add(cell);
+                }
+        }
+        return result;
     }
 }

@@ -5,7 +5,7 @@ import de.htwg.stratego.model.IGame;
 public interface IDao {
 
     void createGame(IGame game);
-    IGame readGame();
+    IGame readGame(int gameId);
     void updateGame(IGame game);
     void deleteGame(IGame game);
 

@@ -9,6 +9,7 @@ import org.junit.Test;
 import de.htwg.stratego.model.impl.Cell;
 import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.Player;
+import de.htwg.stratego.model.impl.character.Flag;
 import de.htwg.stratego.model.impl.character.Sergeant;
 import junit.framework.TestCase;
 
@@ -86,5 +87,13 @@ public class FieldTest extends TestCase {
 		sb.append("1 |   |! 4|   |\n");
 		sb.append("  +---+---+---+\n");
 		assertEquals(sb.toString(), field.toString());
+	}
+
+	public void testSetCell() throws Exception {
+		Cell cell = new Cell(0,1);
+		cell.setCharacter(new Flag(playerOne));
+		field.setCell(cell);
+		List<ICell> cells = field.getCells();
+		assertEquals("[# 4,    ,    , # 0, ! 4,    ]", cells.toString());
 	}
 }

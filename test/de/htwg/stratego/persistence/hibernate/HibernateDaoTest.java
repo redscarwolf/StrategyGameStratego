@@ -9,7 +9,6 @@ import de.htwg.stratego.model.impl.Game;
 import de.htwg.stratego.model.impl.Player;
 import de.htwg.stratego.model.impl.character.Bomb;
 import de.htwg.stratego.model.impl.character.Flag;
-import de.htwg.stratego.model.impl.character.Scout;
 import de.htwg.stratego.model.impl.character.Sergeant;
 import de.htwg.stratego.persistence.IDao;
 import org.hibernate.Session;
@@ -19,14 +18,11 @@ import org.hibernate.cfg.Configuration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.*;
 
 public class HibernateDaoTest {
 
+    public static final int GAME_ID = 999;
     private IDao dao;
     private HibernateDao daoImpl;
 
@@ -48,64 +44,26 @@ public class HibernateDaoTest {
         IPlayer players[] = {playerOne, playerTwo};
         ICharacter character1 = new Sergeant(playerOne);
         ICharacter character2 = new Sergeant(playerTwo);
+        ICharacter character3 = new Flag(playerTwo);
+        ICharacter characterNotJetSet = new Flag(playerTwo);
+
+        playerOne.addCharacter(characterNotJetSet);
 
         field.getCell(0, 0).setCharacter(character1);
         field.getCell(1, 1).setCharacter(character2);
+        field.getCell(0, 1).setCharacter(character3);
 
         int currentPlayer = 0;
-        return new Game(currentPlayer, players, null, field);
+        return new Game(GAME_ID, currentPlayer, players, null, field);
     }
 
     @After
-    public void deleteGame() throws Exception {
-        // TODO irgenwas um nach test aufzuräumen, wird nach JEDEM test ausgeführt
+    public void afterEachTest() {
+        dao.deleteGame(game);
+        checkIfGameIsDeletedFromDB();
     }
 
-    @Test
-    public void updateGame_startWithEmptyDatabase_savesPassedGame() throws Exception {
-        dao.updateGame(game);
-        IGame iGame = dao.readGame();
-        assertEquals(game.getCurrentPlayer(),iGame.getCurrentPlayer());
-    }
-    
-    // TODO ubergangstest delete
-    @Test
-    public void getTransferCharacter() throws Exception {
-        List<TransferCharacter> transferCharacterList = daoImpl.getTransferCharacter();
-        for ( TransferCharacter transChar : transferCharacterList ) {
-            System.out.println( "TransferCharacter (" + transChar.getId() +
-                    ") : " + transChar.getRank() + " " + transChar.getMoveable() );
-        }
-    }
-
-    // TODO delete
-    @Test
-    public void uebergangsTest_QueryList() throws Exception {
-        SessionFactory sessionFactory;
-        sessionFactory = new Configuration()
-                .configure() // configures settings from hibernate.cfg.xml
-                .buildSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        
-        commandDatabaseQueryList(session);
-
-        tx.commit();
-        session.close();
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    private void commandDatabaseQueryList(Session session) {
-        List result = session.createQuery( "from TransferCharacter" ).list();
-        for ( TransferCharacter transChar : (List<TransferCharacter>) result ) {
-            System.out.println( "Event (" + transChar.getId() +
-                    ") : " + transChar.getRank() );
-        }
-    }
-
-    // TODO delete
-    @Test
-    public void uebergangstest_ManyToOne() throws Exception {
+    private void checkIfGameIsDeletedFromDB() {
         SessionFactory sessionFactory;
         sessionFactory = new Configuration()
                 .configure() // configures settings from hibernate.cfg.xml
@@ -113,48 +71,70 @@ public class HibernateDaoTest {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
 
-        TransferCharacter transferCharacter = new TransferCharacter(12, false);
-
-        List<TransferCharacter> transferCharacterList = new ArrayList<>();
-        transferCharacterList.add(transferCharacter);
-
-        TransferPlayer transferPlayer = new TransferPlayer("Hugo2", "!!", false);
-
-        transferCharacter.setPlayer(transferPlayer);
-        transferPlayer.setCharacterList(transferCharacterList);
-
-        session.save(transferPlayer);
-        session.save(transferCharacter);
-
+        TransferGame transferGameFromDB = session.get(TransferGame.class, game.getId());
+        assertNull(transferGameFromDB);
         tx.commit();
         session.close();
     }
 
-    // TODO delete?
-    private Player preparePlayerWithCharackters() {
-        Player player = new Player("Horst", "!!");
-        Flag flag = new Flag(player);
-        Bomb bomb = new Bomb(player);
-        Scout scout = new Scout(player);
-        player.addCharacter(flag);
-        player.addCharacter(bomb);
-        player.addCharacter(scout);
-        return player;
-    }
+    // Tests -----------------------------------------------------------------------------------------------------
 
     @Test
-    public void copyGame() throws Exception {
-        TransferGame transferGame = daoImpl.copyGame(game);
-        assertEquals("TransferGame{id=null, gameState=null," +
-                " field=TransferField{id=null, width=3, height=2," +
-                " cells=[TransferCell{id=null, x=0, y=0, passable=true, character=TransferCharacter{id=null, rank=4, moveable=true, visible=true}}, TransferCell{id=null, x=1, y=1, passable=true, character=TransferCharacter{id=null, rank=4, moveable=true, visible=true}}]}, currentPlayer=0, player=[TransferPlayer{id=null, name='PlayerOne', characterList=[], symbol='#', setupFinished=false}, TransferPlayer{id=null, name='PlayerTwo', characterList=[], symbol='!', setupFinished=false}]}",
-                transferGame.toString());
-
-    }
-
-    @Test
-    public void createGame() throws Exception {
+    public void createGame_And_ReadGame() throws Exception {
         dao.createGame(game);
-
+        assertEqual_Game_With_GameFromDB();
     }
+
+    private void assertEqual_Game_With_GameFromDB() {
+        IGame gameFromDB = dao.readGame(GAME_ID);
+        assertEquals(game.getId(), gameFromDB.getId());
+        assertEquals(game.getCurrentPlayer(), gameFromDB.getCurrentPlayer());
+
+        // TODO Array vs List falsche Reihenfolge in Array
+//        assertArrayEquals(game.getPlayer(), gameFromDB.getPlayer());
+
+        assertEquals(game.getGameState(), gameFromDB.getGameState());
+        assertEquals(game.getField().toString(), gameFromDB.getField().toString());
+    }
+
+    @Test
+    public void updateGame_gameAlreadyInDB_isUpdated() throws Exception {
+        dao.createGame(game);
+        int width = 2;
+        int height = 1;
+        game.getField().getCell(width, height).setCharacter(new Bomb(playerOne));
+        dao.updateGame(game);
+        assertEqual_Game_With_GameFromDB();
+    }
+
+    @Test
+    public void updateGame_NoGameInDB_isCreated() throws Exception {
+        dao.updateGame(game);
+        assertEqual_Game_With_GameFromDB();
+    }
+
+    // TODO List<IGame> getGameList() method, hier ein bsp Code anhand von Transfercharacter
+//    @Test
+//    public void uebergangsTest_QueryList() throws Exception {
+//        SessionFactory sessionFactory;
+//        sessionFactory = new Configuration()
+//                .configure() // configures settings from hibernate.cfg.xml
+//                .buildSessionFactory();
+//        Session session = sessionFactory.openSession();
+//        Transaction tx = session.beginTransaction();
+//
+//        commandDatabaseQueryList(session);
+//
+//        tx.commit();
+//        session.close();
+//    }
+//
+//    @SuppressWarnings({ "unchecked" })
+//    private void commandDatabaseQueryList(Session session) {
+//        List result = session.createQuery( "from TransferCharacter" ).list();
+//        for ( TransferCharacter transChar : (List<TransferCharacter>) result ) {
+//            System.out.println( "Event (" + transChar.getId() +
+//                    ") : " + transChar.getRank() );
+//        }
+//    }
 }

@@ -32,6 +32,13 @@ public abstract class AbstractCharacter implements ICharacter {
 //		}
 	}
 
+	public AbstractCharacter(boolean moveable, boolean visible, IPlayer player, BufferedImage image) {
+		this.moveable = moveable;
+		this.visible = visible;
+		this.player = player;
+		this.image = image;
+	}
+
 	@Override
 	public IPlayer getPlayer() {
 		return player;

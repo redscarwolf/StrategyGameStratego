@@ -1,12 +1,10 @@
 package de.htwg.stratego.persistence.hibernate;
 
 
-import de.htwg.stratego.model.IPlayer;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

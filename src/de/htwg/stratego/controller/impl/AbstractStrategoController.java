@@ -470,13 +470,15 @@ public abstract class AbstractStrategoController extends Observable implements I
 
     @Override
     public void save() {
-        IGame game = new Game(currentPlayer, getPlayer(), gameState.getEGameState(), getIField());
+        int defaultId = 1;
+        IGame game = new Game(defaultId, currentPlayer, getPlayer(), gameState.getEGameState(), getIField());
         dao.updateGame(game);
     }
 
     @Override
     public void load() {
-        IGame game = dao.readGame();
+        int notImplemented = 0;
+        IGame game = dao.readGame(notImplemented);
         if (game == null) {
             statusMessage = "Load failed.";
             notifyObservers();

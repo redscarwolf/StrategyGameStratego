@@ -19,7 +19,8 @@ public class TransferGame implements  Serializable{
     public TransferGame() {
     }
 
-    public TransferGame(EGameState gameState, TransferField field, Integer currentPlayer, TransferPlayer[] player) {
+    public TransferGame(Integer id, EGameState gameState, TransferField field, Integer currentPlayer, TransferPlayer[] player) {
+        this.id = id;
         this.gameState = gameState;
         this.field = field;
         this.currentPlayer = currentPlayer;
@@ -27,8 +28,6 @@ public class TransferGame implements  Serializable{
     }
 
     @Id
-    @GeneratedValue(generator="increment")
-    @GenericGenerator(name="increment", strategy = "increment")
     public Integer getId() {
         return id;
     }
