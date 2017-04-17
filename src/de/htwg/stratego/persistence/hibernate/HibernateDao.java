@@ -160,7 +160,7 @@ public class HibernateDao implements IDao {
         for (TransferPlayer transferPlayer: transferGame.getPlayer()) {
             for (TransferCell transferCell : transferField.getAllCellsFrom(transferPlayer)) {
                 ICharacter character = createCharacterByRank(transferCell.getCharacter(), playerMap.get(transferPlayer));
-                Cell cell = new Cell(transferCell.getX(), transferCell.getY(), transferCell.getPassable());
+                ICell cell = new Cell(transferCell.getX(), transferCell.getY(), transferCell.getPassable());
                 cell.setCharacter(character);
                 field.setCell(cell);
             }

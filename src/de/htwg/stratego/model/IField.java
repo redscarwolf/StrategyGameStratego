@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IField {
 
-	void setCell(Cell cell);
+	void setCell(ICell cell);
 
 	int getWidth();
 	int getHeight();

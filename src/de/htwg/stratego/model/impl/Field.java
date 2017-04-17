@@ -16,7 +16,7 @@ public class Field implements IField {
 	private int width;
 	private int height;
 
-	private Cell[][] cells;
+	private ICell[][] cells;
 	
 	@Inject
 	public Field(@Named("fieldWidth") int width,
@@ -47,7 +47,7 @@ public class Field implements IField {
 	}
 
 	@Override
-	public Cell getCell(int x, int y) {
+	public ICell getCell(int x, int y) {
 		return cells[x][y];
 	}
 	
@@ -123,7 +123,7 @@ public class Field implements IField {
 	}
 
 	@Override
-	public void setCell(Cell cell) {
+	public void setCell(ICell cell) {
 		cells[cell.getX()][cell.getY()] = cell;
 
 	}

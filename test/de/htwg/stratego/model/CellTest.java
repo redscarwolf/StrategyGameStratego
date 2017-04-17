@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 
 public class CellTest extends TestCase {
 
-	private Cell cell;
+	private ICell cell;
 	private ICharacter flag;
 	
 	@BeforeClass

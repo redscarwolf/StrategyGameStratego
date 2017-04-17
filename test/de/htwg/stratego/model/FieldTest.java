@@ -69,7 +69,7 @@ public class FieldTest extends TestCase {
 	public void testCells() {
 		for (int y = 0; y < field.getHeight(); y++) {
 			for (int x = 0; x < field.getWidth(); x++) {
-				Cell cell = field.getCell(x, y);
+				ICell cell = field.getCell(x, y);
 				assertNotNull(cell);
 				assertEquals(x, cell.getX());
 				assertEquals(y, cell.getY());
