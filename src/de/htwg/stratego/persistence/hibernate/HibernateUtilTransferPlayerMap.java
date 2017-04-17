@@ -7,27 +7,33 @@ import de.htwg.stratego.model.IPlayer;
 import java.util.*;
 
 public class HibernateUtilTransferPlayerMap {
-    private Map<IPlayer, TransferPlayer> transferPlayerMap = new HashMap<>();
-
+    public static final int PLAYER_SIZE = 2;
+    private TransferPlayer[] transferPlayerArray = new TransferPlayer[PLAYER_SIZE];
+    private IPlayer[] playerArray = new IPlayer[PLAYER_SIZE];
 
     public HibernateUtilTransferPlayerMap(IGame game) {
-        initTransferPlayerMap(game);
+        initTransferPlayerArray(game);
     }
 
-    private void initTransferPlayerMap(IGame game) {
-        for (IPlayer p :
-                game.getPlayer()) {
-            transferPlayerMap.put(p, copyPlayer(p));
+    private void initTransferPlayerArray(IGame game){
+        IPlayer[] player = game.getPlayer();
+        for (int i = 0; i < player.length; i++) {
+            playerArray[i] = player[i];
+            transferPlayerArray[i] = copyPlayer(player[i]);
         }
     }
 
     public TransferPlayer getTransferPlayer(IPlayer oldPlayer) {
-        return transferPlayerMap.get(oldPlayer);
+        for (int i = 0; i < playerArray.length; i++) {
+            if (playerArray[i] == oldPlayer) {
+               return transferPlayerArray[i];
+            }
+        }
+        return null;
     }
 
     public TransferPlayer[] getAllTransferPlayer() {
-        Collection<TransferPlayer> values = transferPlayerMap.values();
-        return values.toArray(new TransferPlayer[values.size()]);
+        return transferPlayerArray;
     }
 
     private TransferPlayer copyPlayer (IPlayer player) {

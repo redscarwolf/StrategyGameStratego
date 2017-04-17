@@ -8,6 +8,7 @@ import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.Game;
 import de.htwg.stratego.model.impl.Player;
 import de.htwg.stratego.model.impl.character.Sergeant;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,6 +29,11 @@ public class HibernateUtilTransferPlayerMapTest {
     public void setUp() throws Exception {
         this.game = setUpGame();
         tpm = new HibernateUtilTransferPlayerMap(game);
+    }
+
+    @After
+    public void afterEachTest() throws Exception {
+        tpm = null;
     }
 
     private IGame setUpGame() {

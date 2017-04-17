@@ -97,8 +97,13 @@ public class HibernateDaoTest {
         assertEquals(game.getId(), gameFromDB.getId());
         assertEquals(game.getCurrentPlayer(), gameFromDB.getCurrentPlayer());
 
-        // TODO Array vs List falsche Reihenfolge in Array
-//        assertArrayEquals(game.getPlayer(), gameFromDB.getPlayer());
+        IPlayer[] player = game.getPlayer();
+        IPlayer[] gameFromDBPlayer = gameFromDB.getPlayer();
+        assertEquals(player.length, gameFromDBPlayer.length);
+
+        for (int i = 0; i < player.length; i++) {
+            assertEquals(player[i].toString(), gameFromDBPlayer[i].toString());
+        }
 
         assertEquals(game.getGameState(), gameFromDB.getGameState());
         assertEquals(game.getField().toString(), gameFromDB.getField().toString());
