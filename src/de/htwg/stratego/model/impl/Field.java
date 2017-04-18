@@ -3,16 +3,20 @@ package de.htwg.stratego.model.impl;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
+import de.htwg.stratego.model.ICell;
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IField;
 import de.htwg.stratego.model.IPlayer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Field implements IField {
 
 	private int width;
 	private int height;
 
-	private Cell[][] cells;
+	private ICell[][] cells;
 	
 	@Inject
 	public Field(@Named("fieldWidth") int width,
@@ -43,7 +47,7 @@ public class Field implements IField {
 	}
 
 	@Override
-	public Cell getCell(int x, int y) {
+	public ICell getCell(int x, int y) {
 		return cells[x][y];
 	}
 	
@@ -89,4 +93,38 @@ public class Field implements IField {
 		return mainSb.toString();
 	}
 
+	@Override
+	public List<ICell> getCells() {
+		ArrayList<ICell> result = new ArrayList<>();
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				result.add(cells[x][y]);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<ICell>  getAllCellsFrom(IPlayer player) {
+		ArrayList<ICell> result = new ArrayList<>();
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				ICell cell = cells[x][y];
+				if (cell != null) {
+					if (cell.getCharacter() != null) {
+						if (cell.getCharacter().getPlayer() == player) {
+							result.add(cell);
+						}
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public void setCell(ICell cell) {
+		cells[cell.getX()][cell.getY()] = cell;
+
+	}
 }

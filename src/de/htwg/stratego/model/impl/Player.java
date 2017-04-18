@@ -105,4 +105,41 @@ public class Player implements IPlayer {
 	public void setSetupFinished(boolean setupFinished) {
 		this.setupFinished = setupFinished;
 	}
+
+	@Override
+	public boolean getSetupFinished() {
+		return setupFinished;
+	}
+
+	@Override
+	public String toStringAll() {
+		return "Player{" +
+				"characterList=" + characterList +
+				", symbol='" + symbol + '\'' +
+				", name='" + name + '\'' +
+				", setupFinished=" + setupFinished +
+				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Player)) return false;
+
+		Player player = (Player) o;
+
+		if (getSetupFinished() != player.getSetupFinished()) return false;
+		if (!getCharacterList().equals(player.getCharacterList())) return false;
+		if (!symbol.equals(player.symbol)) return false;
+		return getName().equals(player.getName());
+	}
+
+	@Override
+	public int hashCode() {
+		int result = getCharacterList().hashCode();
+		result = 31 * result + symbol.hashCode();
+		result = 31 * result + getName().hashCode();
+		result = 31 * result + (getSetupFinished() ? 1 : 0);
+		return result;
+	}
 }

@@ -28,7 +28,7 @@ public class Db4oDao implements IDao{
     }
 
     @Override
-    public IGame readGame() {
+    public IGame readGame(int gameId) {
         ObjectSet<IGame> query = db.query(IGame.class);
         if (query.isEmpty()) {
             return null;

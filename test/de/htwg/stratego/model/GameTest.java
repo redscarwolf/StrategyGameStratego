@@ -24,7 +24,7 @@ public class GameTest extends TestCase {
         gameState = EGameState.PLAYER_START;
         field = new Field(10, 10);
 
-        game = new Game(currentPlayer, player, gameState, field);
+        game = new Game(0, currentPlayer, player, gameState, field);
     }
 
     @Test

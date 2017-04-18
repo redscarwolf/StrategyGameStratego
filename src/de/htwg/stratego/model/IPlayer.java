@@ -19,4 +19,7 @@ public interface IPlayer {
 	String getSymbol();
 	boolean hasSetupFinished();
 	void setSetupFinished(boolean setupFinished);
+	boolean getSetupFinished();
+
+	String toStringAll();
 }
