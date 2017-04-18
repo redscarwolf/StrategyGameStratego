@@ -39,7 +39,7 @@ public class CouchdbDao implements IDao {
     }
 
     @Override
-    public IGame readGame() {
+    public IGame readGame(int gameId) {
         ViewQuery query = new ViewQuery().allDocs().includeDocs(true);
 
         List<PersistenceGame> games = db.queryView(query, PersistenceGame.class);
@@ -157,7 +157,9 @@ public class CouchdbDao implements IDao {
             }
         }
 
-        return new Game(persistenceGame.getCurrentPlayer(), players, persistenceGame.getGameState(), field);
+        // TODO implement ID for CouchDB
+        int notImplementedID = 1;
+        return new Game(notImplementedID,persistenceGame.getCurrentPlayer(), players, persistenceGame.getGameState(), field);
     }
 
     public IPlayer copyPlayer(PersistencePlayer persistencePlayer) {

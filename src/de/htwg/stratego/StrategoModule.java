@@ -39,7 +39,8 @@ public class StrategoModule extends AbstractModule {
 		.to(de.htwg.stratego.model.impl.PlayerFactory.class);
 
 		bind(IDao.class)
-		.to(de.htwg.stratego.persistence.couchdb.CouchdbDao.class);
+//		.to(de.htwg.stratego.persistence.couchdb.CouchdbDao.class);
+		.to(de.htwg.stratego.persistence.hibernate.HibernateDao.class);
 	}
 	
 }

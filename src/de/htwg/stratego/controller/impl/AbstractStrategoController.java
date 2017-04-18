@@ -479,7 +479,7 @@ public abstract class AbstractStrategoController extends Observable implements I
 
     @Override
     public void load() {
-        int notImplemented = 0;
+        int notImplemented = 1;
         IGame game = dao.readGame(notImplemented);
         if (game == null) {
             statusMessage = "Load failed.";
