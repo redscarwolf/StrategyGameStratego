@@ -2,7 +2,6 @@ package de.htwg.stratego.persistence.hibernate;
 
 import de.htwg.stratego.model.*;
 import de.htwg.stratego.model.impl.*;
-import de.htwg.stratego.model.impl.character.*;
 import de.htwg.stratego.persistence.IDao;
 import de.htwg.stratego.persistence.hibernate.util.TransactionNoReturn;
 import de.htwg.stratego.persistence.hibernate.util.HibernateUtil;
@@ -168,48 +167,7 @@ public class HibernateDao implements IDao {
     }
 
     private ICharacter createCharacterByRank(TransferCharacter transferCharacter, IPlayer player) {
-        ICharacter character;
-        switch (transferCharacter.getRank()) {
-            case Rank.FLAG :
-                character = new Flag(player);
-                break;
-            case Rank.SPY :
-                character = new Spy(player);
-                break;
-            case Rank.SCOUT :
-                character = new Scout(player);
-                break;
-            case Rank.MINER :
-                character = new Miner(player);
-                break;
-            case Rank.SERGEANT :
-                character = new Sergeant(player);
-                break;
-            case Rank.LIEUTENANT :
-                character = new Lieutenant(player);
-                break;
-            case Rank.CAPTAIN :
-                character = new Captain(player);
-                break;
-            case Rank.MAJOR :
-                character = new Major(player);
-                break;
-            case Rank.COLONEL :
-                character = new Colonel(player);
-                break;
-            case Rank.GENERAL :
-                character = new General(player);
-                break;
-            case Rank.MARSHAL :
-                character = new Marshal(player);
-                break;
-            case Rank.BOMB :
-                character = new Bomb(player);
-                break;
-            default:
-                throw new RuntimeException("Couldn't createCharacterByRank because Rank: " + transferCharacter.getRank().toString() + " ,is not captured.");
-        }
-        return character;
+        return CharacterFactory.create(transferCharacter.getRank(), player);
     }
 
     private TransferGame copyGame(IGame game) {

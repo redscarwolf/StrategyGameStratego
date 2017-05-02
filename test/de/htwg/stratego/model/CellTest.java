@@ -1,11 +1,12 @@
 package de.htwg.stratego.model;
 
+import de.htwg.stratego.model.impl.Rank;
+import de.htwg.stratego.model.impl.CharacterFactory;
 import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese weiter
 import org.junit.Test;
 
 import de.htwg.stratego.model.impl.Cell;
 import de.htwg.stratego.model.impl.Player;
-import de.htwg.stratego.model.impl.character.Flag;
 import junit.framework.TestCase;
 
 public class CellTest extends TestCase {
@@ -16,7 +17,7 @@ public class CellTest extends TestCase {
 	@BeforeClass
 	public void setUp() {
 		cell = new Cell(1, 2);
-		flag = new Flag(new Player());
+		flag = CharacterFactory.create(Rank.FLAG, new Player());
 	}
 
 	@Test

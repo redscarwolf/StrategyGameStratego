@@ -34,7 +34,6 @@ public class CellPanel extends JPanel {
 					g.setColor(Color.BLUE);
 				}
 				g.fillRect(0, 0, 50, 50);
-				g.drawImage(character.getImage(), 8, 2, null);
 				g.setColor(Color.WHITE);
 				g.fillRect(2, 25, 20, 12);
 				g.setColor(Color.BLACK);

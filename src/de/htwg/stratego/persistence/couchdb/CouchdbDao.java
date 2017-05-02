@@ -1,11 +1,7 @@
 package de.htwg.stratego.persistence.couchdb;
 
 import de.htwg.stratego.model.*;
-import de.htwg.stratego.model.impl.Field;
-import de.htwg.stratego.model.impl.Game;
-import de.htwg.stratego.model.impl.Player;
-import de.htwg.stratego.model.impl.Rank;
-import de.htwg.stratego.model.impl.character.*;
+import de.htwg.stratego.model.impl.*;
 import de.htwg.stratego.persistence.IDao;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
@@ -148,7 +144,7 @@ public class CouchdbDao implements IDao {
                         }
                     }
 
-                    ICharacter character = createCharacter(persistenceCharacter.getRank(), player);
+                    ICharacter character = CharacterFactory.create(persistenceCharacter.getRank(), player);
                     character.setVisible(persistenceCharacter.isVisible());
                     cell.setCharacter(character);
                 }
@@ -166,40 +162,10 @@ public class CouchdbDao implements IDao {
         IPlayer player = new Player(persistencePlayer.getName(), persistencePlayer.getSymbol());
 
         for (int rank : persistencePlayer.getCharacterList()) {
-            player.addCharacter(createCharacter(rank, player));
+            player.addCharacter(CharacterFactory.create(rank, player));
         }
 
         return player;
-    }
-
-    private ICharacter createCharacter(int rank, IPlayer player) {
-        switch (rank) {
-            case(Rank.FLAG):
-                return new Flag(player);
-            case(Rank.SPY):
-                return new Spy(player);
-            case(Rank.SCOUT):
-                return new Scout(player);
-            case(Rank.MINER):
-                return new Miner(player);
-            case(Rank.SERGEANT):
-                return new Sergeant(player);
-            case(Rank.LIEUTENANT):
-                return new Lieutenant(player);
-            case(Rank.CAPTAIN):
-                return new Captain(player);
-            case(Rank.MAJOR):
-                return new Major(player);
-            case(Rank.COLONEL):
-                return new Colonel(player);
-            case(Rank.GENERAL):
-                return new General(player);
-            case(Rank.MARSHAL):
-                return new Marshal(player);
-            case(Rank.BOMB):
-                return new Bomb(player);
-        }
-        return null;
     }
 
 }

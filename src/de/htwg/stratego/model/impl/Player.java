@@ -39,6 +39,13 @@ public class Player implements IPlayer {
 	}
 
 	@Override
+	public void addCharacters(int rank, int number) {
+		for (int i = 0; i < number; i++) {
+			addCharacter(CharacterFactory.create(rank, this));
+		}
+	}
+
+	@Override
 	public boolean removeCharacter(ICharacter c) {
 		return characterList.remove(c);
 	}

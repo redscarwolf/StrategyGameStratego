@@ -7,7 +7,8 @@ import de.htwg.stratego.model.IPlayer;
 import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.Game;
 import de.htwg.stratego.model.impl.Player;
-import de.htwg.stratego.model.impl.character.Sergeant;
+import de.htwg.stratego.model.impl.Rank;
+import de.htwg.stratego.model.impl.CharacterFactory;
 import de.htwg.stratego.persistence.hibernate.util.HibernateUtilTransferPlayerMap;
 import org.junit.After;
 import org.junit.Before;
@@ -42,8 +43,8 @@ public class HibernateUtilTransferPlayerMapTest {
         playerOne = new Player("PlayerOne", "#");
         playerTwo = new Player("PlayerTwo", "!");
         IPlayer players[] = {playerOne, playerTwo};
-        character1 = new Sergeant(playerOne);
-        character2 = new Sergeant(playerTwo);
+        character1 = CharacterFactory.create(Rank.SERGEANT, playerOne);
+        character2 = CharacterFactory.create(Rank.SERGEANT, playerTwo);
 
         playerOne.addCharacter(character1);
         playerTwo.addCharacter(character2);

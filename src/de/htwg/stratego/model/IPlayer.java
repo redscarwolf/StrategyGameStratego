@@ -8,6 +8,7 @@ public interface IPlayer {
 	String getCharacterListAsString();
 	
 	void addCharacter(ICharacter c);
+	void addCharacters(int rank, int number);
 	boolean removeCharacter(ICharacter c);
 	ICharacter removeCharacter(int index);
 	ICharacter getCharacter(int rank);

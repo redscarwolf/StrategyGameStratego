@@ -1,14 +1,11 @@
 package de.htwg.stratego.model;
 
+import de.htwg.stratego.model.impl.CharacterFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.htwg.stratego.model.impl.Player;
 import de.htwg.stratego.model.impl.Rank;
-import de.htwg.stratego.model.impl.character.Bomb;
-import de.htwg.stratego.model.impl.character.Flag;
-import de.htwg.stratego.model.impl.character.Scout;
-import de.htwg.stratego.model.impl.character.Sergeant;
 import junit.framework.TestCase;
 
 public class PlayerTest extends TestCase {
@@ -19,7 +16,7 @@ public class PlayerTest extends TestCase {
 	@BeforeClass
 	public void setUp() {
 		this.player = new Player();
-		character = new Sergeant(player);
+		character = CharacterFactory.create(Rank.SERGEANT, player);
 	}
 
 	@Test
@@ -50,8 +47,8 @@ public class PlayerTest extends TestCase {
 	
 	@Test
 	public void testContainsCharacter() {
-		player.addCharacter(new Bomb(player));
-		player.addCharacter(new Flag(player));
+		player.addCharacter(CharacterFactory.create(Rank.BOMB, player));
+		player.addCharacter(CharacterFactory.create(Rank.FLAG, player));
 		assertTrue(player.hasCharacter(Rank.BOMB));
 		player.removeCharacter(player.getCharacter(Rank.FLAG));
 		assertFalse(player.hasCharacter(Rank.FLAG));
@@ -59,10 +56,10 @@ public class PlayerTest extends TestCase {
 	
 	@Test
 	public void testGetCharacterListAsString() {
-		Bomb.buildSeveral(6, player);
-		Scout.buildSeveral(4, player);
-		Flag.buildSeveral(1, player);
-		
+		player.addCharacters(Rank.BOMB, 6);
+		player.addCharacters(Rank.SCOUT, 4);
+		player.addCharacters(Rank.FLAG, 1);
+
 		String listStr = "|11|11|11|11|11|11|2|2|2|2|0|";
 		assertEquals(listStr, player.getCharacterListAsString());
 	}

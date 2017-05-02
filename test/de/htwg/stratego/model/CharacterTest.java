@@ -1,23 +1,9 @@
 package de.htwg.stratego.model;
 
-import java.awt.Color;
-
 import org.junit.BeforeClass; //erstellt nur eine Klasse und verwendet diese weiter
 import org.junit.Test;
 
 import de.htwg.stratego.model.impl.*;
-import de.htwg.stratego.model.impl.character.Bomb;
-import de.htwg.stratego.model.impl.character.Captain;
-import de.htwg.stratego.model.impl.character.Colonel;
-import de.htwg.stratego.model.impl.character.Flag;
-import de.htwg.stratego.model.impl.character.General;
-import de.htwg.stratego.model.impl.character.Lieutenant;
-import de.htwg.stratego.model.impl.character.Major;
-import de.htwg.stratego.model.impl.character.Marshal;
-import de.htwg.stratego.model.impl.character.Miner;
-import de.htwg.stratego.model.impl.character.Scout;
-import de.htwg.stratego.model.impl.character.Sergeant;
-import de.htwg.stratego.model.impl.character.Spy;
 import junit.framework.TestCase;
 
 public class CharacterTest extends TestCase {
@@ -32,19 +18,8 @@ public class CharacterTest extends TestCase {
 		playerOne = new Player("PlayerOne", "#");
 		playerTwo = new Player("PlayerTwo", "!");
 		
-		flag = new Flag(playerOne);
-		sergeant = new Sergeant(playerTwo);
-		
-		new Spy(playerOne);
-		new Scout(playerOne);
-		new Miner(playerOne);
-		new Lieutenant(playerOne);
-		new Captain(playerOne);
-		new Major(playerOne);
-		new Colonel(playerOne);
-		new General(playerOne);
-		new Marshal(playerOne);
-		new Bomb(playerOne);
+		flag = CharacterFactory.create(Rank.FLAG, playerOne);
+		sergeant = CharacterFactory.create(Rank.SERGEANT, playerTwo);
 	}
 	
 	@Test
@@ -97,9 +72,4 @@ public class CharacterTest extends TestCase {
 		assertFalse(sergeant.belongsTo(playerOne));
 	}
 	
-	@Test
-	public void testgetImage() {
-		assertEquals(flag.getImage(), flag.getImage());
-	}
-
 }

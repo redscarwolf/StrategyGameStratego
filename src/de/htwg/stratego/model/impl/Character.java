@@ -1,4 +1,4 @@
-package de.htwg.stratego.model.impl.character;
+package de.htwg.stratego.model.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -9,34 +9,22 @@ import javax.imageio.ImageIO;
 import de.htwg.stratego.model.ICharacter;
 import de.htwg.stratego.model.IPlayer;
 
-public abstract class AbstractCharacter implements ICharacter {
+public class Character implements ICharacter {
 
 	protected int rank;
 	protected boolean moveable;
 	protected boolean visible;
 	protected IPlayer player;
-	protected BufferedImage image = null;
 
-	public AbstractCharacter(int rank, boolean moveable, IPlayer player, String imagePath) {
+	public Character(int rank, boolean moveable, boolean visible, IPlayer player) {
 		this.rank = rank;
-		this.moveable = moveable;
-		this.player = player;
-		visible = true;
-		// TODO: muss in die gui verschoben werden
-//		try {
-//			image = ImageIO.read(getClass().getResource("/graphics/" + imagePath));
-//		} catch (IOException e) {
-//			//TODO logging?
-//			System.out.println("error loading graphic");
-//			System.out.println(new File("/graphics/" + imagePath));
-//		}
-	}
-
-	public AbstractCharacter(boolean moveable, boolean visible, IPlayer player, BufferedImage image) {
 		this.moveable = moveable;
 		this.visible = visible;
 		this.player = player;
-		this.image = image;
+	}
+
+	public Character(int rank, boolean moveable, IPlayer player) {
+		this(rank, moveable, true, player);
 	}
 
 	@Override
@@ -75,11 +63,6 @@ public abstract class AbstractCharacter implements ICharacter {
 			return String.format("%s%2s", player, Integer.toString(rank));
 		}
 		return " X ";
-	}
-	
-	@Override
-	public BufferedImage getImage() {
-		return image;
 	}
 	
 }

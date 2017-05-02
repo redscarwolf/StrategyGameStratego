@@ -1,16 +1,15 @@
 package de.htwg.stratego.model;
 
-import java.awt.Color;
 import java.util.List;
 
+import de.htwg.stratego.model.impl.Rank;
+import de.htwg.stratego.model.impl.CharacterFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.htwg.stratego.model.impl.Cell;
 import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.Player;
-import de.htwg.stratego.model.impl.character.Flag;
-import de.htwg.stratego.model.impl.character.Sergeant;
 import junit.framework.TestCase;
 
 public class FieldTest extends TestCase {
@@ -26,8 +25,8 @@ public class FieldTest extends TestCase {
 		field = new Field(3, 2);
 		playerOne = new Player("PlayerOne", "#");
 		playerTwo = new Player("PlayerTwo", "!");
-		character1 = new Sergeant(playerOne);
-		character2 = new Sergeant(playerTwo);
+		character1 = CharacterFactory.create(Rank.SERGEANT, playerOne);
+		character2 = CharacterFactory.create(Rank.SERGEANT, playerTwo);
 
 		field.getCell(0, 0).setCharacter(character1);
 		field.getCell(1, 1).setCharacter(character2);
@@ -36,7 +35,7 @@ public class FieldTest extends TestCase {
     @Test
     public void testGetAllCellsFrom_fieldHasTwoDifferentCharWithDiffPlayersAndNullCases_showOnlyPlayerOneCells() throws Exception {
         int firstCharacterInList = 0;
-        field.getCell(2, 0).setCharacter(new Sergeant(null));
+        field.getCell(2, 0).setCharacter(CharacterFactory.create(Rank.SERGEANT, null));
         List<ICell> allCellsFromPlayerOne = field.getAllCellsFrom(playerOne);
         assertEquals("[# 4]", allCellsFromPlayerOne.toString());
         // check if playerRef is the same
@@ -91,7 +90,7 @@ public class FieldTest extends TestCase {
 
 	public void testSetCell() throws Exception {
 		Cell cell = new Cell(0,1);
-		cell.setCharacter(new Flag(playerOne));
+		cell.setCharacter(CharacterFactory.create(Rank.FLAG, playerOne));
 		field.setCell(cell);
 		List<ICell> cells = field.getCells();
 		assertEquals("[# 4,    ,    , # 0, ! 4,    ]", cells.toString());

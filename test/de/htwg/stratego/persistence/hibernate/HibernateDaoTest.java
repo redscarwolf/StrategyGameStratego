@@ -4,9 +4,8 @@ import de.htwg.stratego.model.*;
 import de.htwg.stratego.model.impl.Field;
 import de.htwg.stratego.model.impl.Game;
 import de.htwg.stratego.model.impl.Player;
-import de.htwg.stratego.model.impl.character.Bomb;
-import de.htwg.stratego.model.impl.character.Flag;
-import de.htwg.stratego.model.impl.character.Sergeant;
+import de.htwg.stratego.model.impl.Rank;
+import de.htwg.stratego.model.impl.CharacterFactory;
 import de.htwg.stratego.persistence.IDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -42,10 +41,10 @@ public class HibernateDaoTest {
         playerOne = new Player("PlayerOne", "#");
         playerTwo = new Player("PlayerTwo", "!");
         IPlayer players[] = {playerOne, playerTwo};
-        ICharacter character1 = new Sergeant(playerOne);
-        ICharacter character2 = new Sergeant(playerTwo);
-        ICharacter character3 = new Flag(playerTwo);
-        ICharacter characterNotJetSet = new Flag(playerTwo);
+        ICharacter character1 = CharacterFactory.create(Rank.SERGEANT, playerOne);
+        ICharacter character2 = CharacterFactory.create(Rank.SERGEANT, playerTwo);
+        ICharacter character3 = CharacterFactory.create(Rank.FLAG, playerTwo);
+        ICharacter characterNotJetSet = CharacterFactory.create(Rank.FLAG, playerTwo);
 
         playerOne.addCharacter(characterNotJetSet);
 
@@ -112,7 +111,7 @@ public class HibernateDaoTest {
         dao.createGame(game);
         int width = 2;
         int height = 1;
-        game.getField().getCell(width, height).setCharacter(new Bomb(playerOne));
+        game.getField().getCell(width, height).setCharacter(CharacterFactory.create(Rank.BOMB, playerOne));
         dao.updateGame(game);
         assertEqual_Game_With_GameFromDB(game);
     }

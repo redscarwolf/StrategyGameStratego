@@ -38,9 +38,11 @@ public class StrategoModule extends AbstractModule {
 		bind(IPlayerFactory.class)
 		.to(de.htwg.stratego.model.impl.PlayerFactory.class);
 
+		// IDao
 		bind(IDao.class)
+		.to(de.htwg.stratego.persistence.db4o.Db4oDao.class);
+//		.to(de.htwg.stratego.persistence.hibernate.HibernateDao.class);
 //		.to(de.htwg.stratego.persistence.couchdb.CouchdbDao.class);
-		.to(de.htwg.stratego.persistence.hibernate.HibernateDao.class);
 	}
 	
 }

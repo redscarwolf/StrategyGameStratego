@@ -12,12 +12,10 @@ import de.htwg.stratego.controller.state.impl.PlayerWinner;
 import de.htwg.stratego.model.*;
 import de.htwg.stratego.model.impl.Game;
 import de.htwg.stratego.model.impl.Rank;
-import de.htwg.stratego.model.impl.character.*;
 import de.htwg.stratego.persistence.IDao;
 import de.htwg.stratego.util.command.UndoManager;
 import de.htwg.stratego.util.observer.Observable;
 
-import java.awt.*;
 import java.util.*;
 
 public abstract class AbstractStrategoController extends Observable implements IStrategoController {
@@ -163,18 +161,9 @@ public abstract class AbstractStrategoController extends Observable implements I
     }
 
     private void initPlayerCharecterList(IPlayer player) {
-        Bomb.buildSeveral(NUMBER_OF_CHARACTERS[Rank.BOMB], player);
-        Marshal.buildSeveral(NUMBER_OF_CHARACTERS[Rank.MARSHAL], player);
-        General.buildSeveral(NUMBER_OF_CHARACTERS[Rank.GENERAL], player);
-        Colonel.buildSeveral(NUMBER_OF_CHARACTERS[Rank.COLONEL], player);
-        Major.buildSeveral(NUMBER_OF_CHARACTERS[Rank.MAJOR], player);
-        Captain.buildSeveral(NUMBER_OF_CHARACTERS[Rank.CAPTAIN], player);
-        Lieutenant.buildSeveral(NUMBER_OF_CHARACTERS[Rank.LIEUTENANT], player);
-        Sergeant.buildSeveral(NUMBER_OF_CHARACTERS[Rank.SERGEANT], player);
-        Miner.buildSeveral(NUMBER_OF_CHARACTERS[Rank.MINER], player);
-        Scout.buildSeveral(NUMBER_OF_CHARACTERS[Rank.SCOUT], player);
-        Spy.buildSeveral(NUMBER_OF_CHARACTERS[Rank.SPY], player);
-        Flag.buildSeveral(NUMBER_OF_CHARACTERS[Rank.FLAG], player);
+        for (int rank = 0; rank < NUMBER_OF_CHARACTERS.length; rank++) {
+            player.addCharacters(rank, NUMBER_OF_CHARACTERS[rank]);
+        }
     }
 
     @Override
