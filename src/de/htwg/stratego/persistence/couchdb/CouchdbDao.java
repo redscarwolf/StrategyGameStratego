@@ -50,12 +50,10 @@ public class CouchdbDao implements IDao {
         ViewQuery query = new ViewQuery().allDocs().includeDocs(true);
 
         List<PersistenceGame> games = db.queryView(query, PersistenceGame.class);
-        if (games.isEmpty()) {
-            createGame(game);
-        } else {
+        if (!games.isEmpty()) {
             db.delete(games.get(0));
-            createGame(game);
         }
+        createGame(game);
     }
 
     @Override
