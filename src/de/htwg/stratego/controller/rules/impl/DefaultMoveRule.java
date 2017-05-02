@@ -40,15 +40,15 @@ public class DefaultMoveRule extends AbstractRule {
 			return false;
 		}
 
-		// is Char moveable
-		if (!fromCharacter.isMoveable()) {
-			message = "Selected character is not moveable.";
-			return false;
-		}
-
 		// is character a char of the player
 		if (!fromCharacter.belongsTo(player)) {
 			message = "Selected character does not belong to you.";
+			return false;
+		}
+
+		// is Char moveable
+		if (!fromCharacter.isMoveable()) {
+			message = "Selected character is not moveable.";
 			return false;
 		}
 
