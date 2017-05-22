@@ -32,6 +32,9 @@ dependencies {
     compile group: 'org.ektorp',                    name: 'org.ektorp',             version: '1.4.4'
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
     compile 'org.hibernate:hibernate-core:5.2.9.Final'
+    compile 'com.typesafe.akka:akka-actor_2.11:2.5.1'
+    compile 'com.typesafe.akka:akka-stream_2.11:2.5.1'
+    compile 'com.typesafe.akka:akka-http-core_2.11:10.0.6'
     compile files('lib/db4o-8.0.276.16149-all-java5.jar')
     testCompile "junit:junit:4.11"
 }

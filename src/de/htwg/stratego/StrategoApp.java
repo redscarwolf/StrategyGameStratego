@@ -5,6 +5,7 @@ import java.util.Scanner;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import de.htwg.stratego.aview.StrategoService;
 import de.htwg.stratego.aview.gui.StrategoFrame;
 import de.htwg.stratego.aview.tui.TextUI;
 import de.htwg.stratego.controller.ISingelDeviceStrategoController;
@@ -15,7 +16,8 @@ public final class StrategoApp {
 	private static Scanner scanner;
 	private static TextUI tui;
 	@SuppressWarnings("unused")
-	private static  StrategoFrame gui;
+	private static StrategoFrame gui;
+	private static StrategoService strategoService;
 	private static ISingelDeviceStrategoController sc;
 	private static StrategoApp instance = null;
 	
@@ -26,6 +28,9 @@ public final class StrategoApp {
 	
 		tui = new TextUI(sc);
 		gui = new StrategoFrame(sc);
+		if (sc instanceof ISingelDeviceStrategoController) {
+			strategoService = new StrategoService(sc);
+		}
 	}
 	
 	public static void main(String[] args) {
